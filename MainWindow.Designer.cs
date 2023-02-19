@@ -31,8 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.gameScreen = new System.Windows.Forms.Panel();
-            this.player = new System.Windows.Forms.PictureBox();
             this.lbDeveloperStats = new System.Windows.Forms.Label();
+            this.player = new System.Windows.Forms.PictureBox();
             this.blockBorderLeft = new System.Windows.Forms.PictureBox();
             this.menuStartContainer = new System.Windows.Forms.Panel();
             this.startTableLP = new System.Windows.Forms.TableLayoutPanel();
@@ -100,18 +100,6 @@
             this.gameScreen.Visible = false;
             this.gameScreen.Paint += new System.Windows.Forms.PaintEventHandler(this.gameScreen_Paint);
             // 
-            // player
-            // 
-            this.player.BackColor = System.Drawing.Color.Transparent;
-            this.player.BackgroundImage = global::Celeste_Forms_Edition.Properties.Resources.mario_;
-            this.player.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.player.Location = new System.Drawing.Point(9, 788);
-            this.player.Margin = new System.Windows.Forms.Padding(0);
-            this.player.Name = "player";
-            this.player.Size = new System.Drawing.Size(51, 67);
-            this.player.TabIndex = 0;
-            this.player.TabStop = false;
-            // 
             // lbDeveloperStats
             // 
             this.lbDeveloperStats.AutoSize = true;
@@ -125,6 +113,18 @@
             this.lbDeveloperStats.Size = new System.Drawing.Size(102, 32);
             this.lbDeveloperStats.TabIndex = 0;
             this.lbDeveloperStats.Text = "F3 STATS";
+            // 
+            // player
+            // 
+            this.player.BackColor = System.Drawing.Color.Transparent;
+            this.player.BackgroundImage = global::Celeste_Forms_Edition.Properties.Resources.mario_;
+            this.player.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.player.Location = new System.Drawing.Point(9, 788);
+            this.player.Margin = new System.Windows.Forms.Padding(0);
+            this.player.Name = "player";
+            this.player.Size = new System.Drawing.Size(51, 67);
+            this.player.TabIndex = 0;
+            this.player.TabStop = false;
             // 
             // blockBorderLeft
             // 

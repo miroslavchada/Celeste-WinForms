@@ -6,7 +6,7 @@ namespace mirekGOTY;
 public partial class MainWindow : Form
 {
     // Globální promìnné
-    /// Movement
+    /// Hráè
     bool inputEnabled = false;
 
     bool left, right;
