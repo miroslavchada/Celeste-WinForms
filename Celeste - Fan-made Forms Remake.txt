@@ -1,0 +1,3 @@
+Hra Celeste je působivá a intenzivní plošinovka, která se zaměřuje na příběh mladé dívky Madeline, která se snaží překonat své vnitřní démony a zdolat nekonečnou hru Celeste. Pokusil jsem se tento titul, resp. 1. epizodu předělat ve Windows Forms. Děkuji tvůrcům a vývojářům Celeste za skvělou hru, kterou jsem mohl použít pro obohacení mých zkušeností s programováním. Tento projekt vzniknul dle zadání ročníkové práce na Střední průmyslové škole v Ostrově.
+
+Ke stažení: Instalátor hry, celý projekt (pro MS Visual Studio)
