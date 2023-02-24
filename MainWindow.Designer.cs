@@ -1,4 +1,4 @@
-﻿namespace mirekGOTY
+﻿namespace Celeste_Forms_Edition
 {
     partial class MainWindow
     {

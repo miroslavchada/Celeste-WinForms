@@ -1,7 +1,7 @@
 using Celeste_Forms_Edition.Properties;
 using System.Numerics;
 
-namespace mirekGOTY;
+namespace Celeste_Forms_Edition;
 
 public partial class MainWindow : Form
 {
@@ -728,27 +728,5 @@ public partial class MainWindow : Form
                 grabbedOn = false;
                 break;
         }
-    }
-}
-
-class Terrain
-{
-    public PictureBox pb;
-
-    public Terrain(int posX, int posY, int width, int height, string tag, Color color, bool hasTexture, Image texture, Panel panel)
-    {
-        pb = new PictureBox
-        {
-            Left = posX,
-            Top = posY,
-            Width = width,
-            Height = height,
-            Tag = tag,
-            BackColor = color,
-            BackgroundImage = hasTexture ? texture : null,
-            BackgroundImageLayout = ImageLayout.Stretch
-        };
-        panel.Controls.Add(pb);
-        pb.BringToFront();
     }
 }
