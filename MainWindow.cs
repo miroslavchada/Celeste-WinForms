@@ -48,6 +48,9 @@ public partial class MainWindow : Form
 
     Terrain[] terrainArray;
 
+    /// Zvuky
+    bool grabbedOn = false;
+
     /// Tagy <summary>
     /// "collision" - na objekt se vztahují kolize
     /// "jump" - jump block
@@ -194,6 +197,7 @@ public partial class MainWindow : Form
         {
             jump = true;
             force = 15;
+            playSound("jumped");
 
             if (onBlockLeft || onBlockRight)
             {
@@ -325,6 +329,8 @@ public partial class MainWindow : Form
         // Funkce Grab
         if (grab && !grabAfterJumpCooldown && Math.Abs(movementSpeed) < movementSpeedMax)
         {
+            playSound("grabbedOn");
+
             if (!(leftInput || rightInput || upInput || downInput))
                 facing = onBlockLeft ? "Left" : onBlockRight ? "Right" : lastStraightFacing;
 
@@ -533,10 +539,8 @@ public partial class MainWindow : Form
 
             if (e.KeyCode == Keys.F3) // Developer stats
             {
-                if (lbDeveloperStats.Visible)
-                    lbDeveloperStats.Visible = false;
-                else
-                    lbDeveloperStats.Visible = true;
+                lbDeveloperStats.Visible = !lbDeveloperStats.Visible;
+                lbDeveloperSounds.Visible = !lbDeveloperSounds.Visible;
             }
 
             if (e.KeyCode == Keys.NumPad0)
@@ -586,7 +590,10 @@ public partial class MainWindow : Form
             ctrlReleased = true;
 
         if (e.KeyCode == Keys.ShiftKey)
+        {
             grabInput = false;
+            playSound("grabbedOff");
+        }
     }
 
     private void timerDashedNonVertical_Tick(object sender, EventArgs e)
@@ -682,7 +689,6 @@ public partial class MainWindow : Form
         Terrain pictureBox1 = new(0, 768, 836, 96, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank , gameScreen);
 
         terrainArray = new Terrain[] { pictureBox6, pictureBox5, pictureBox4, pictureBox3, pictureBox2, pictureBox1 };
-
     }
 
     private void Level2()
@@ -696,6 +702,32 @@ public partial class MainWindow : Form
         Graphics canvas = e.Graphics;
 
         // canvas.DrawImage(Resources.bg_mario_h540, new Rectangle(0, 0, gameScreen.Width, gameScreen.Height));
+    }
+
+    private void playSound(string sound)
+    {
+        switch (sound)
+        {
+            case "jumped":
+                lbDeveloperSounds.Text = $"{sound}\r\n" + lbDeveloperSounds.Text;
+                break;
+
+            case "grabbedOn":
+                if (!grabbedOn)
+                {
+                    lbDeveloperSounds.Text = $"{sound}\r\n" + lbDeveloperSounds.Text;
+                }
+                grabbedOn = true;
+                break;
+
+            case "grabbedOff":
+                if (grabbedOn)
+                {
+                    lbDeveloperSounds.Text = $"{sound}\r\n" + lbDeveloperSounds.Text;
+                }
+                grabbedOn = false;
+                break;
+        }
     }
 }
 
