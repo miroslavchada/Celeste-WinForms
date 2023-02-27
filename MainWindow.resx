@@ -61,16 +61,16 @@
     <value>17, 17</value>
   </metadata>
   <metadata name="timerJumpHeadBumpCooldown.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>478, 20</value>
+    <value>367, 18</value>
   </metadata>
   <metadata name="timerGrabAfterJumpCooldown.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>917, 17</value>
+    <value>685, 22</value>
   </metadata>
   <metadata name="timerJumpCooldown.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>154, 16</value>
+    <value>135, 17</value>
   </metadata>
   <metadata name="timerDashedNonVertical.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1228, 17</value>
+    <value>986, 24</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>77</value>

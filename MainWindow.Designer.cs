@@ -98,7 +98,6 @@
             this.gameScreen.Size = new System.Drawing.Size(1536, 864);
             this.gameScreen.TabIndex = 0;
             this.gameScreen.Visible = false;
-            this.gameScreen.Paint += new System.Windows.Forms.PaintEventHandler(this.gameScreen_Paint);
             // 
             // player
             // 
