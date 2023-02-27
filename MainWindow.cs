@@ -400,7 +400,7 @@ public partial class MainWindow : Form
                 playerLeftOffset < block.Right &&
                 playerRightOffset - 1 > block.Left)
             {
-                force = 50;
+                force = 30;
                 jump = true;
 
                 playSound("spring");
@@ -757,7 +757,7 @@ public partial class MainWindow : Form
         Terrain pictureBox2 = new(337, 1530, 77, 51, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
         Terrain pictureBox3 = new(869, 9, 222, 1572, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
         Terrain pictureBox4 = new(67, 1408, 66, 113, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
-        Terrain pictureBox5 = new(241, 1046, 66, 113, "collision spring", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
+        Terrain pictureBox5 = new(241, 1046, 66, 113, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
         Terrain pictureBox6 = new(355, 1510, 51, 20, "collision spring", Color.FromArgb(154, 205, 50), false, Resources.blank, gameScreen);
         Terrain pictureBox7 = new(67, 549, 66, 113, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
         Terrain pictureBox8 = new(135, 149, 66, 113, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
