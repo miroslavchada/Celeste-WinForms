@@ -51,8 +51,6 @@ public partial class MainWindow : Form
 
     /// Kamera
     int cameraMovementSpeed, cameraMovementSpeedTarget;
-    bool closeToBorderTop, closeToBorderBottom;
-    int closeToBorderTopDist, closeToBorderBottomDist;
     int playerCenterY;
 
     /// Tagy <summary>
@@ -402,7 +400,7 @@ public partial class MainWindow : Form
                 playerLeftOffset < block.Right &&
                 playerRightOffset - 1 > block.Left)
             {
-                force = 30;
+                force = 50;
                 jump = true;
 
                 playSound("spring");
@@ -493,7 +491,9 @@ public partial class MainWindow : Form
             $"\r\nLastGrabbedOn: {lastGrabbedOn}" +
             $"\r\nDashInput: {dashInput}" +
             $"\r\nDashed: {dashed}" +
-            $"\r\nGameScreen.Top: {gameScreen.Top}";
+            $"\r\nGameScreen.Top: {gameScreen.Top}" +
+            $"\r\nCameraMovementSpeed: {cameraMovementSpeed}" +
+            $"\r\nCameraMovementSpeedTarget: {cameraMovementSpeedTarget}";
 
 
         if (movementSpeedMax != movementSpeedMaxTarget)
@@ -525,7 +525,6 @@ public partial class MainWindow : Form
         {
             cameraMovementSpeedTarget = 0;
             cameraMovementSpeed = 0;
-            gameScreen.Top = 864 - gameScreen.Height;
         }
 
         if (cameraMovementSpeed != cameraMovementSpeedTarget)
@@ -539,7 +538,20 @@ public partial class MainWindow : Form
                 cameraMovementSpeed -= cameraMovementSpeed - cameraMovementSpeedTarget / 10 + (force < -10 ? (-force - 10) : 0);
             }
         }
-        gameScreen.Top += cameraMovementSpeed;
+
+        /// Fix na hranì obrazovky proti viditelnému zaseknutí
+        if (cameraMovementSpeedTarget > 0 && gameScreen.Top >= 0 - cameraMovementSpeed && playerCenterY < 432)
+        {
+            gameScreen.Top = 0;
+        }
+        else if (cameraMovementSpeedTarget < 0 && gameScreen.Bottom <= 864 - cameraMovementSpeed && gameScreen.Height - playerCenterY < 432)
+        {
+            gameScreen.Top = 864 - gameScreen.Height;
+        }
+        else
+        {
+            gameScreen.Top += cameraMovementSpeed;
+        }
     }
 
     // Pokud se bouchne hlavou o spodek bloku
@@ -745,7 +757,7 @@ public partial class MainWindow : Form
         Terrain pictureBox2 = new(337, 1530, 77, 51, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
         Terrain pictureBox3 = new(869, 9, 222, 1572, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
         Terrain pictureBox4 = new(67, 1408, 66, 113, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
-        Terrain pictureBox5 = new(241, 1046, 66, 113, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
+        Terrain pictureBox5 = new(241, 1046, 66, 113, "collision spring", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
         Terrain pictureBox6 = new(355, 1510, 51, 20, "collision spring", Color.FromArgb(154, 205, 50), false, Resources.blank, gameScreen);
         Terrain pictureBox7 = new(67, 549, 66, 113, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
         Terrain pictureBox8 = new(135, 149, 66, 113, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
@@ -758,8 +770,8 @@ public partial class MainWindow : Form
 
     private void Level2()
     {
-
     }
+
 
     // Pozadí
     private void gameScreen_Paint(object sender, PaintEventArgs e)

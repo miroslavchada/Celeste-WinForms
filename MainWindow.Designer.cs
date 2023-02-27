@@ -653,6 +653,7 @@
             this.Controls.Add(this.menuStartContainer);
             this.Controls.Add(this.menuControlsContainer);
             this.Controls.Add(this.menuEscapeContainer);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
