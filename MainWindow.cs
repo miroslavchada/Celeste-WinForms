@@ -612,15 +612,6 @@ public partial class MainWindow : Form
                 lbDeveloperStats.Visible = !lbDeveloperStats.Visible;
                 lbDeveloperSounds.Visible = !lbDeveloperSounds.Visible;
             }
-
-            if (e.KeyCode == Keys.NumPad0)
-            {
-                foreach (Terrain terrain in terrainArray)
-                {
-                    DestroyAll(terrain.pb, gameScreen);
-                }
-                Level2();
-            }
         }
 
         if (e.KeyCode == Keys.Escape && !menuStartContainer.Enabled)
@@ -767,11 +758,6 @@ public partial class MainWindow : Form
         player.Left = 171;
         player.Top = 1514;
     }
-
-    private void Level2()
-    {
-    }
-
 
     // Pozadí
     private void gameScreen_Paint(object sender, PaintEventArgs e)
