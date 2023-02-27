@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celeste Forms Edition", "Celeste Forms Edition.csproj", "{766B1E87-816A-47E2-9302-3882A4FC422D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celeste WinForms", "Celeste WinForms.csproj", "{766B1E87-816A-47E2-9302-3882A4FC422D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

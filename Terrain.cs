@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Celeste_Forms_Edition
+namespace Celeste_WinForms
 {
     class Terrain
     {
@@ -20,8 +20,8 @@ namespace Celeste_Forms_Edition
                 Height = height,
                 Tag = tag,
                 BackColor = color,
-                BackgroundImage = hasTexture ? texture : null,
-                BackgroundImageLayout = ImageLayout.Stretch
+                Image = hasTexture ? texture : null,
+                SizeMode = PictureBoxSizeMode.StretchImage
             };
             panel.Controls.Add(pb);
             pb.BringToFront();

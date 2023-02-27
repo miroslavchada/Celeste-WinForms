@@ -1,7 +1,6 @@
-using Celeste_Forms_Edition.Properties;
-using System.Numerics;
+using Celeste_WinForms.Properties;
 
-namespace Celeste_Forms_Edition;
+namespace Celeste_WinForms;
 
 public partial class MainWindow : Form
 {
@@ -41,8 +40,6 @@ public partial class MainWindow : Form
 
     int playerLeftOffset, playerRightOffset;
 
-    int playerAnimation = 0;
-
     /// Level
     int currentLevel = 1;
 
@@ -50,10 +47,17 @@ public partial class MainWindow : Form
 
     /// Zvuky
     bool grabbedOn = false;
+    bool touchedGround = true;
+
+    /// Kamera
+    int cameraMovementSpeed, cameraMovementSpeedTarget;
+    bool closeToBorderTop, closeToBorderBottom;
+    int closeToBorderTopDist, closeToBorderBottomDist;
+    int playerCenterY;
 
     /// Tagy <summary>
     /// "collision" - na objekt se vztahují kolize
-    /// "jump" - jump block
+    /// "spring" - pružina
     /// </summary>
 
     public MainWindow()
@@ -74,6 +78,7 @@ public partial class MainWindow : Form
         // Základní hodnoty
         playerLeftOffset = player.Left + 0;
         playerRightOffset = player.Right - 0;
+        playerCenterY = player.Top + player.Height / 2;
         facing = "";
         movementSpeedTarget = 0;
         midAir = true;
@@ -86,6 +91,8 @@ public partial class MainWindow : Form
 
         // Kurzor
         Point cursor = this.PointToClient(Cursor.Position);
+
+        updateCamera();
 
         // Pohyb
         /// Inputy
@@ -323,13 +330,14 @@ public partial class MainWindow : Form
             if (Math.Abs(movementSpeed) > movementSpeedMaxTarget)
                 movementSpeedMax = Math.Abs(movementSpeed);
 
+            playSound("dash");
             dashed = true;
         }
 
         // Funkce Grab
         if (grab && !grabAfterJumpCooldown && Math.Abs(movementSpeed) < movementSpeedMax)
         {
-            playSound("grabbedOn");
+            playSound("grabOn");
 
             if (!(leftInput || rightInput || upInput || downInput))
                 facing = onBlockLeft ? "Left" : onBlockRight ? "Right" : lastStraightFacing;
@@ -366,12 +374,23 @@ public partial class MainWindow : Form
 
                     onBlockDown = true;
                     dashed = false;
+
+                    if (!block.Tag.ToString().Contains("spring"))
+                    {
+                        if (!touchedGround)
+                            playSound("landed");
+                        touchedGround = true;
+                    }
                 }
 
                 // Spodní kolize
                 if (player.Top < block.Bottom && player.Bottom > block.Bottom) /// Zespodu
                 {
-                    force *= -1;
+                    if (force > 3)
+                        force = -3;
+                    else
+                        force *= -1;
+
                     player.Top = block.Bottom;
 
                     jumpCooldown = true;
@@ -379,12 +398,14 @@ public partial class MainWindow : Form
                 }
             }
 
-            if (block.Tag.ToString().Contains("jump") && player.Bounds.IntersectsWith(block.Bounds) &&
+            if (block.Tag.ToString().Contains("spring") && player.Bounds.IntersectsWith(block.Bounds) &&
                 playerLeftOffset < block.Right &&
                 playerRightOffset - 1 > block.Left)
             {
                 force = 30;
                 jump = true;
+
+                playSound("spring");
             }
         }
 
@@ -449,8 +470,10 @@ public partial class MainWindow : Form
         }
         player.Left += movementSpeed;
 
+
         // Vývojáøské statistiky [F3]
-        lbDeveloperStats.Text = $"Cursor: [{cursor.X}; {cursor.Y}]" +
+        lbDeveloperStats.Text =
+            $"Cursor: [{cursor.X}; {cursor.Y}]" +
             $"\r\nPlayer: [{player.Left}; {player.Bottom}]" +
             $"\r\nMovementSpeed: {movementSpeed}" +
             $"\r\nMovementSpeedTarget: {movementSpeedTarget}" +
@@ -469,7 +492,8 @@ public partial class MainWindow : Form
             $"\r\nGrabAfterJumpCooldown: {grabAfterJumpCooldown}" +
             $"\r\nLastGrabbedOn: {lastGrabbedOn}" +
             $"\r\nDashInput: {dashInput}" +
-            $"\r\nDashed: {dashed}";
+            $"\r\nDashed: {dashed}" +
+            $"\r\nGameScreen.Top: {gameScreen.Top}";
 
 
         if (movementSpeedMax != movementSpeedMaxTarget)
@@ -482,6 +506,40 @@ public partial class MainWindow : Form
 
         jumpInput = false;
         dashInput = false;
+
+        if (!onBlockDown)
+            touchedGround = false;
+    }
+
+    private void updateCamera()
+    {
+        // Kamera
+        cameraMovementSpeedTarget = (432 - playerCenterY) - (gameScreen.Top);
+
+        if (gameScreen.Top >= 0 && playerCenterY < 432)
+        {
+            cameraMovementSpeedTarget = 0;
+            cameraMovementSpeed = 0;
+        }
+        else if (gameScreen.Bottom <= 864 && gameScreen.Height - playerCenterY < 432)
+        {
+            cameraMovementSpeedTarget = 0;
+            cameraMovementSpeed = 0;
+            gameScreen.Top = 864 - gameScreen.Height;
+        }
+
+        if (cameraMovementSpeed != cameraMovementSpeedTarget)
+        {
+            if (cameraMovementSpeed < cameraMovementSpeedTarget)
+            {
+                cameraMovementSpeed += cameraMovementSpeedTarget / 10 + (force > 10 ? (force - 10) : 0) - cameraMovementSpeed;
+            }
+            else if (cameraMovementSpeed > cameraMovementSpeedTarget)
+            {
+                cameraMovementSpeed -= cameraMovementSpeed - cameraMovementSpeedTarget / 10 + (force < -10 ? (-force - 10) : 0);
+            }
+        }
+        gameScreen.Top += cameraMovementSpeed;
     }
 
     // Pokud se bouchne hlavou o spodek bloku
@@ -592,7 +650,7 @@ public partial class MainWindow : Form
         if (e.KeyCode == Keys.ShiftKey)
         {
             grabInput = false;
-            playSound("grabbedOff");
+            playSound("grabOff");
         }
     }
 
@@ -681,14 +739,21 @@ public partial class MainWindow : Form
 
     private void Level1()
     {
-        Terrain pictureBox6 = new(697, 635, 51, 20, "collision jump", Color.FromArgb(154, 205, 50), false, Resources.blank, gameScreen);
-        Terrain pictureBox5 = new(133, 542, 146, 113, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
-        Terrain pictureBox4 = new(67, 595, 66, 113, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
-        Terrain pictureBox3 = new(549, 655, 222, 113, "collision", Color.FromArgb(28, 28, 28), true, Resources.bg_mario_h540, gameScreen);
-        Terrain pictureBox2 = new(337, 717, 77, 51, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
-        Terrain pictureBox1 = new(0, 768, 836, 96, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank , gameScreen);
+        gameScreen.Height = 1677;
 
-        terrainArray = new Terrain[] { pictureBox6, pictureBox5, pictureBox4, pictureBox3, pictureBox2, pictureBox1 };
+        Terrain pictureBox1 = new(0, 1581, 1382, 96, "collision", Color.FromArgb(28, 28, 28), true, Resources.bg_mario_h540, gameScreen);
+        Terrain pictureBox2 = new(337, 1530, 77, 51, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
+        Terrain pictureBox3 = new(869, 9, 222, 1572, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
+        Terrain pictureBox4 = new(67, 1408, 66, 113, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
+        Terrain pictureBox5 = new(241, 1046, 66, 113, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
+        Terrain pictureBox6 = new(355, 1510, 51, 20, "collision spring", Color.FromArgb(154, 205, 50), false, Resources.blank, gameScreen);
+        Terrain pictureBox7 = new(67, 549, 66, 113, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
+        Terrain pictureBox8 = new(135, 149, 66, 113, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
+
+        terrainArray = new Terrain[] { pictureBox1, pictureBox2, pictureBox3, pictureBox4, pictureBox5, pictureBox6, pictureBox7, pictureBox8, };
+
+        player.Left = 171;
+        player.Top = 1514;
     }
 
     private void Level2()
@@ -712,7 +777,15 @@ public partial class MainWindow : Form
                 lbDeveloperSounds.Text = $"{sound}\r\n" + lbDeveloperSounds.Text;
                 break;
 
-            case "grabbedOn":
+            case "landed":
+                lbDeveloperSounds.Text = $"{sound}\r\n" + lbDeveloperSounds.Text;
+                break;
+
+            case "spring":
+                lbDeveloperSounds.Text = $"{sound}\r\n" + lbDeveloperSounds.Text;
+                break;
+
+            case "grabOn":
                 if (!grabbedOn)
                 {
                     lbDeveloperSounds.Text = $"{sound}\r\n" + lbDeveloperSounds.Text;
@@ -720,12 +793,16 @@ public partial class MainWindow : Form
                 grabbedOn = true;
                 break;
 
-            case "grabbedOff":
+            case "grabOff":
                 if (grabbedOn)
                 {
                     lbDeveloperSounds.Text = $"{sound}\r\n" + lbDeveloperSounds.Text;
                 }
                 grabbedOn = false;
+                break;
+
+            case "dash":
+                lbDeveloperSounds.Text = $"{sound}\r\n" + lbDeveloperSounds.Text;
                 break;
         }
     }

@@ -1,4 +1,4 @@
-namespace Celeste_Forms_Edition
+namespace Celeste_WinForms
 {
     internal static class Program
     {
