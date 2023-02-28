@@ -509,10 +509,12 @@ public partial class MainWindow : Form
             touchedGround = false;
     }
 
+
+    // Kamera
+
     private void updateCamera()
     {
-        // Kamera
-        cameraMovementSpeedTarget = (432 - playerCenterY) - (gameScreen.Top);
+        cameraMovementSpeedTarget = (432 - playerCenterY) - gameScreen.Top;
 
         if (gameScreen.Top >= 0 && playerCenterY < 432)
         {
@@ -537,7 +539,7 @@ public partial class MainWindow : Form
             }
         }
 
-        /// Fix na hranì obrazovky proti viditelnému zaseknutí
+        //// Fix na hranì obrazovky proti viditelnému zaseknutí
         if (cameraMovementSpeedTarget > 0 && gameScreen.Top >= 0 - cameraMovementSpeed && playerCenterY < 432)
         {
             gameScreen.Top = 0;
@@ -552,29 +554,50 @@ public partial class MainWindow : Form
         }
     }
 
-    private void cameraUp()
+    //// Zamìøí kameru nahoru
+    private void CameraFocus(string focus)
     {
-        gameScreen.Top = 0;
+        switch (focus)
+        {
+            case "Player": gameScreen.Top = 432 - player.Top - player.Height / 2; break;
+            case "Top": gameScreen.Top = 0; break;
+            case "Bottom": gameScreen.Top = 864 - gameScreen.Height; break;
+        }
     }
 
-    private void cameraDown()
+    // Cooldowny
+
+    //// Cooldown 30ms na výskok po výskoku
+    private void timerJumpCooldown_Tick(object sender, EventArgs e)
     {
-        gameScreen.Top = 864 - gameScreen.Height;
+        jumpInput = false;
+        jumpCooldown = false;
+        timerJumpCooldown.Enabled = false;
     }
 
-    // Pokud se bouchne hlavou o spodek bloku
-    private void timerJumpHeadBumpCooldown_Tick(object sender, EventArgs e) /// 300ms
+    //// Cooldown 300ms na skok pokud se bouchne hlavou o spodek bloku
+    private void timerJumpHeadBumpCooldown_Tick(object sender, EventArgs e)
     {
         jumpCooldown = false;
         timerJumpHeadBumpCooldown.Enabled = false;
     }
 
-    // Cooldown na Grab po výskoku z Grabu
+    //// Cooldown 280ms na Grab po výskoku z Grabu
     private void timerGrabCooldown_Tick(object sender, EventArgs e)
     {
         grabAfterJumpCooldown = false;
         timerGrabAfterJumpCooldown.Enabled = false;
     }
+
+    //// Vypnutí gravitace na 100ms po Dashi (pokud nedashnul vertikálnì)
+    private void timerDashedNonVertical_Tick(object sender, EventArgs e)
+    {
+        dashedNonVertical = false;
+        timerDashedNonVertical.Enabled = false;
+    }
+
+
+    // Vstupy
 
     private void MainWindow_KeyDown(object sender, KeyEventArgs e)
     {
@@ -618,7 +641,7 @@ public partial class MainWindow : Form
         {
             if (menuEscapeContainer.Enabled || menuControlsContainer.Enabled)
             {
-                menuEscapeContinue();
+                menuEscapeContinue(false);
             }
             else
             {
@@ -657,90 +680,75 @@ public partial class MainWindow : Form
         }
     }
 
-    private void timerDashedNonVertical_Tick(object sender, EventArgs e)
+    private void buttonClicked(object sender, EventArgs e)
     {
-        dashedNonVertical = false;
-        timerDashedNonVertical.Enabled = false;
+        Button clickedButton = sender as Button;
+
+        switch (clickedButton.Name)
+        {
+            case "startBtPlay":    // Zapnutí hry ze Start menu
+                movementSpeed = 0; force = 0;
+                spawnLevel(1);
+
+                menuStartContainer.Enabled = false;
+                menuStartContainer.Visible = false;
+                gameScreen.Enabled = true;
+                gameScreen.Visible = true;
+                timer1.Enabled = true;
+                inputEnabled = true;
+                break;
+
+            case "startBtClose":    // Vypnutí hry ze Start menu
+                Close();
+                break;
+
+            case "menuEscapeBtContinue":    // Pokraèování ve høe z Escape menu
+                menuEscapeContinue(false);
+                break;
+
+            case "menuEscapeBtResetScreen":    // Reset obrazovky z Escape menu
+                menuEscapeContinue(true);
+                break;
+
+            case "menuEscapeBtControls":    // Zobrazení ovládání v Escape menu
+                menuEscapeContainer.Enabled = false; menuEscapeContainer.Visible = false;
+                menuControlsContainer.Enabled = true; menuControlsContainer.Visible = true;
+                break;
+
+            case "menuControlsBtEscapeMenu":    // Odchod do Escape menu ze zobrazení ovládání
+                menuControlsContainer.Enabled = false; menuControlsContainer.Visible = false;
+                menuEscapeContainer.Enabled = true; menuEscapeContainer.Visible = true;
+                break;
+
+            case "menuEscapeBtStartMenu":    // Odchod do Start menu z Escape menu
+                menuControlsContainer.Enabled = false; menuControlsContainer.Visible = false;
+                menuEscapeContainer.Enabled = false; menuEscapeContainer.Visible = false;
+
+                timer1.Enabled = false;
+                inputEnabled = false;
+
+                gameScreen.Enabled = false; gameScreen.Visible = false;
+                menuStartContainer.Enabled = true;
+                menuStartContainer.Visible = true;
+                break;
+        }
+
+        Focus();
     }
 
-    private void timerJumpCooldown_Tick(object sender, EventArgs e)
+    private void menuEscapeContinue(bool restart)
     {
-        jumpInput = false;
-        jumpCooldown = false;
-        timerJumpCooldown.Enabled = false;
-    }
+        if (restart)
+        {
+            movementSpeed = 0; force = 0;
+            spawnLevel(currentLevel);
+        }
 
-    // Reset obrazovky
-    private void menuEscapeBtResetScreen_Click(object sender, EventArgs e)
-    {
-        movementSpeed = 0; force = 0;
-        spawnLevel(currentLevel);
-
-        menuEscapeContinue();
-    }
-
-    private void menuEscapeContinue()
-    {
         menuControlsContainer.Enabled = false; menuControlsContainer.Visible = false;
         menuEscapeContainer.Enabled = false; menuEscapeContainer.Visible = false;
         gameScreen.Enabled = true; gameScreen.Visible = true;
         timer1.Enabled = true;
         inputEnabled = true;
-        Focus();
-    }
-
-    private void menuStartBtPlay_Click(object sender, EventArgs e)
-    {
-        movementSpeed = 0; force = 0;
-        spawnLevel(currentLevel);
-
-        menuStartContainer.Enabled = false;
-        menuStartContainer.Visible = false;
-        gameScreen.Enabled = true;
-        gameScreen.Visible = true;
-        timer1.Enabled = true;
-        inputEnabled = true;
-        Focus();
-    }
-
-    private void menuStartBtClose_Click(object sender, EventArgs e)
-    {
-        Close();
-    }
-
-    private void menuEscapeBtContinue_Click(object sender, EventArgs e)
-    {
-        menuEscapeContinue();
-    }
-
-    private void menuEscapeBtControls_Click(object sender, EventArgs e)
-    {
-        menuEscapeContainer.Enabled = false; menuEscapeContainer.Visible = false;
-        menuControlsContainer.Enabled = true; menuControlsContainer.Visible = true;
-        Focus();
-    }
-
-    private void menuEscapeBtStartMenu_Click(object sender, EventArgs e)
-    {
-        menuControlsContainer.Enabled = false; menuControlsContainer.Visible = false;
-        menuEscapeContainer.Enabled = false; menuEscapeContainer.Visible = false;
-
-        timer1.Enabled = false;
-        inputEnabled = false;
-
-        gameScreen.Enabled = false; gameScreen.Visible = false;
-        menuStartContainer.Enabled = true;
-        menuStartContainer.Visible = true;
-
-        Focus();
-    }
-
-    private void menuEscapeControlsBtEscapeMenu_Click(object sender, EventArgs e)
-    {
-        menuControlsContainer.Enabled = false; menuControlsContainer.Visible = false;
-        menuEscapeContainer.Enabled = true; menuEscapeContainer.Visible = true;
-
-        Focus();
     }
 
     private void DestroyAll(PictureBox pb, Panel panel)
@@ -749,6 +757,7 @@ public partial class MainWindow : Form
         panel.Controls.Remove(pb);
         pb.Dispose();
     }
+
 
     // Level design
 
@@ -767,10 +776,10 @@ public partial class MainWindow : Form
 
         terrainArray = new Terrain[] { pictureBox1, pictureBox2, pictureBox3, pictureBox4, pictureBox5, pictureBox6, pictureBox7, pictureBox8, };
 
-        player.Left = 171;
+        player.Left = 186;
         player.Top = 1514;
 
-        cameraDown();
+        CameraFocus("Bottom");
     }
 
     private void spawnLevel(int level)
@@ -787,6 +796,9 @@ public partial class MainWindow : Form
 
         currentLevel = level;
     }
+
+
+    // Sound design
 
     private void playSound(string sound)
     {

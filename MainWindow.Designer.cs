@@ -220,7 +220,7 @@
             this.startBtPlay.TabIndex = 1;
             this.startBtPlay.Text = "HRÁT";
             this.startBtPlay.UseVisualStyleBackColor = false;
-            this.startBtPlay.Click += new System.EventHandler(this.menuStartBtPlay_Click);
+            this.startBtPlay.Click += new System.EventHandler(this.buttonClicked);
             // 
             // startBtSettings
             // 
@@ -245,7 +245,7 @@
             this.startBtClose.TabIndex = 3;
             this.startBtClose.Text = "ZAVŘÍT";
             this.startBtClose.UseVisualStyleBackColor = false;
-            this.startBtClose.Click += new System.EventHandler(this.menuStartBtClose_Click);
+            this.startBtClose.Click += new System.EventHandler(this.buttonClicked);
             // 
             // menuEscapeContainer
             // 
@@ -304,7 +304,7 @@
             this.menuEscapeBtContinue.TabIndex = 1;
             this.menuEscapeBtContinue.Text = "POKRAČOVAT";
             this.menuEscapeBtContinue.UseVisualStyleBackColor = false;
-            this.menuEscapeBtContinue.Click += new System.EventHandler(this.menuEscapeBtContinue_Click);
+            this.menuEscapeBtContinue.Click += new System.EventHandler(this.buttonClicked);
             // 
             // menuEscapeBtResetScreen
             // 
@@ -317,7 +317,7 @@
             this.menuEscapeBtResetScreen.TabIndex = 5;
             this.menuEscapeBtResetScreen.Text = "RESET OBRAZOVKY";
             this.menuEscapeBtResetScreen.UseVisualStyleBackColor = false;
-            this.menuEscapeBtResetScreen.Click += new System.EventHandler(this.menuEscapeBtResetScreen_Click);
+            this.menuEscapeBtResetScreen.Click += new System.EventHandler(this.buttonClicked);
             // 
             // menuEscapeBtControls
             // 
@@ -330,7 +330,7 @@
             this.menuEscapeBtControls.TabIndex = 4;
             this.menuEscapeBtControls.Text = "OVLÁDÁNÍ";
             this.menuEscapeBtControls.UseVisualStyleBackColor = false;
-            this.menuEscapeBtControls.Click += new System.EventHandler(this.menuEscapeBtControls_Click);
+            this.menuEscapeBtControls.Click += new System.EventHandler(this.buttonClicked);
             // 
             // menuEscapeBtStartMenu
             // 
@@ -344,7 +344,7 @@
             this.menuEscapeBtStartMenu.TabIndex = 3;
             this.menuEscapeBtStartMenu.Text = "HLAVNÍ NABÍDKA";
             this.menuEscapeBtStartMenu.UseVisualStyleBackColor = false;
-            this.menuEscapeBtStartMenu.Click += new System.EventHandler(this.menuEscapeBtStartMenu_Click);
+            this.menuEscapeBtStartMenu.Click += new System.EventHandler(this.buttonClicked);
             // 
             // menuControlsContainer
             // 
@@ -397,7 +397,7 @@
             this.menuControlsBtEscapeMenu.TabIndex = 5;
             this.menuControlsBtEscapeMenu.Text = "ZPĚT";
             this.menuControlsBtEscapeMenu.UseVisualStyleBackColor = false;
-            this.menuControlsBtEscapeMenu.Click += new System.EventHandler(this.menuEscapeControlsBtEscapeMenu_Click);
+            this.menuControlsBtEscapeMenu.Click += new System.EventHandler(this.buttonClicked);
             // 
             // menuControlsTableLPControls
             // 
