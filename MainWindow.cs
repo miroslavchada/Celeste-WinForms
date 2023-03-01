@@ -509,8 +509,7 @@ public partial class MainWindow : Form
             touchedGround = false;
     }
 
-
-    // Kamera
+    #region Kamera
 
     private void updateCamera()
     {
@@ -539,7 +538,7 @@ public partial class MainWindow : Form
             }
         }
 
-        //// Fix na hranì obrazovky proti viditelnému zaseknutí
+        // Fix na hranì obrazovky proti viditelnému zaseknutí
         if (cameraMovementSpeedTarget > 0 && gameScreen.Top >= 0 - cameraMovementSpeed && playerCenterY < 432)
         {
             gameScreen.Top = 0;
@@ -554,7 +553,7 @@ public partial class MainWindow : Form
         }
     }
 
-    //// Zamìøí kameru nahoru
+    // Zamìøí kameru nahoru
     private void CameraFocus(string focus)
     {
         switch (focus)
@@ -565,7 +564,9 @@ public partial class MainWindow : Form
         }
     }
 
-    // Cooldowny
+    #endregion Kamera
+
+    #region Cooldowny
 
     //// Cooldown 30ms na výskok po výskoku
     private void timerJumpCooldown_Tick(object sender, EventArgs e)
@@ -596,8 +597,9 @@ public partial class MainWindow : Form
         timerDashedNonVertical.Enabled = false;
     }
 
+    #endregion Cooldowny
 
-    // Vstupy
+    #region Vstupy
 
     private void MainWindow_KeyDown(object sender, KeyEventArgs e)
     {
@@ -650,6 +652,15 @@ public partial class MainWindow : Form
                 timer1.Enabled = false;
                 inputEnabled = false;
             }
+        }
+
+        if (e.KeyCode == Keys.NumPad1)
+        {
+            spawnLevel(1);
+        }
+        if (e.KeyCode == Keys.NumPad2)
+        {
+            spawnLevel(2);
         }
     }
 
@@ -751,35 +762,64 @@ public partial class MainWindow : Form
         inputEnabled = true;
     }
 
-    private void DestroyAll(PictureBox pb, Panel panel)
-    {
-        pb.Bounds = Rectangle.Empty;
-        panel.Controls.Remove(pb);
-        pb.Dispose();
-    }
+    #endregion Vstupy
 
-
-    // Level design
+    #region Level design
 
     private void Level1()
     {
-        gameScreen.Height = 1677;
+        gameScreen.Height = 864;
 
-        Terrain pictureBox1 = new(0, 1581, 1382, 96, "collision", Color.FromArgb(28, 28, 28), true, Resources.bg_mario_h540, gameScreen);
-        Terrain pictureBox2 = new(337, 1530, 77, 51, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
-        Terrain pictureBox3 = new(869, 9, 222, 1572, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
-        Terrain pictureBox4 = new(67, 1408, 66, 113, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
-        Terrain pictureBox5 = new(241, 1046, 66, 113, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
-        Terrain pictureBox6 = new(355, 1510, 51, 20, "collision spring", Color.FromArgb(154, 205, 50), false, Resources.blank, gameScreen);
-        Terrain pictureBox7 = new(67, 549, 66, 113, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
-        Terrain pictureBox8 = new(135, 149, 66, 113, "collision", Color.FromArgb(28, 28, 28), false, Resources.blank, gameScreen);
+        Terrain pictureBox1 = new(0, 768, 1339, 96, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox2 = new(337, 717, 77, 51, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox3 = new(645, 684, 222, 84, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox4 = new(942, 609, 190, 84, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox5 = new(281, 314, 66, 113, "collision", Color.FromArgb(115, 149, 218), false, Resources.blank, gameScreen);
+        Terrain pictureBox6 = new(355, 697, 51, 20, "collision spring", Color.FromArgb(154, 205, 50), false, Resources.blank, gameScreen);
+        Terrain pictureBox7 = new(67, 549, 66, 113, "collision", Color.FromArgb(115, 149, 218), false, Resources.blank, gameScreen);
+        Terrain pictureBox8 = new(77, 133, 66, 113, "collision", Color.FromArgb(115, 149, 218), false, Resources.blank, gameScreen);
+        Terrain pictureBox9 = new(507, 423, 222, 62, "collision", Color.FromArgb(115, 149, 218), false, Resources.blank, gameScreen);
+        Terrain pictureBox10 = new(1256, 549, 259, 56, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox11 = new(942, 279, 222, 84, "collision", Color.FromArgb(115, 149, 218), false, Resources.blank, gameScreen);
+        Terrain pictureBox12 = new(470, 111, 397, 55, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
 
-        terrainArray = new Terrain[] { pictureBox1, pictureBox2, pictureBox3, pictureBox4, pictureBox5, pictureBox6, pictureBox7, pictureBox8, };
+        terrainArray = new Terrain[] { pictureBox1, pictureBox2, pictureBox3, pictureBox4, pictureBox5, pictureBox6, pictureBox7, pictureBox8, pictureBox9, pictureBox10, pictureBox11, pictureBox12, };
 
         player.Left = 186;
-        player.Top = 1514;
+        player.Top = 701;
 
         CameraFocus("Bottom");
+    }
+
+    private void Level2()
+    {
+        gameScreen.Height = 1686;
+
+        Terrain pictureBox1 = new(0, 1590, 1339, 96, "collision", Color.FromArgb(95, 68, 35), false, Resources.blank, gameScreen);
+        Terrain pictureBox2 = new(219, 1547, 235, 43, "collision", Color.FromArgb(95, 68, 35), false, Resources.blank, gameScreen);
+        Terrain pictureBox3 = new(645, 1506, 222, 84, "collision", Color.FromArgb(95, 68, 35), false, Resources.blank, gameScreen);
+        Terrain pictureBox4 = new(942, 1431, 190, 84, "collision", Color.FromArgb(95, 68, 35), false, Resources.blank, gameScreen);
+        Terrain pictureBox5 = new(271, 1245, 66, 113, "collision", Color.FromArgb(115, 149, 218), false, Resources.blank, gameScreen);
+        Terrain pictureBox6 = new(1230, 1570, 51, 20, "collision spring", Color.FromArgb(154, 205, 50), false, Resources.blank, gameScreen);
+        Terrain pictureBox7 = new(31, 1164, 66, 426, "collision", Color.FromArgb(115, 149, 218), false, Resources.blank, gameScreen);
+        Terrain pictureBox8 = new(305, 461, 66, 540, "collision", Color.FromArgb(115, 149, 218), false, Resources.blank, gameScreen);
+        Terrain pictureBox9 = new(507, 1245, 222, 62, "collision", Color.FromArgb(115, 149, 218), false, Resources.blank, gameScreen);
+        Terrain pictureBox10 = new(1330, 169, 149, 790, "collision", Color.FromArgb(95, 68, 35), false, Resources.blank, gameScreen);
+        Terrain pictureBox11 = new(942, 1101, 222, 84, "collision", Color.FromArgb(115, 149, 218), false, Resources.blank, gameScreen);
+        Terrain pictureBox12 = new(470, 933, 397, 55, "collision", Color.FromArgb(95, 68, 35), false, Resources.blank, gameScreen);
+        Terrain pictureBox13 = new(793, 913, 51, 20, "collision spring", Color.FromArgb(154, 205, 50), false, Resources.blank, gameScreen);
+        Terrain pictureBox14 = new(1016, 790, 190, 48, "collision", Color.FromArgb(95, 68, 35), false, Resources.blank, gameScreen);
+        Terrain pictureBox15 = new(371, 726, 180, 30, "collision jump-through", Color.FromArgb(65, 50, 31), false, Resources.blank, gameScreen);
+        Terrain pictureBox16 = new(31, 31, 200, 336, "collision", Color.FromArgb(115, 149, 218), false, Resources.blank, gameScreen);
+        Terrain pictureBox17 = new(470, 240, 228, 48, "collision", Color.FromArgb(95, 68, 35), false, Resources.blank, gameScreen);
+        Terrain pictureBox18 = new(1104, 269, 226, 30, "collision jump-through", Color.FromArgb(65, 50, 31), false, Resources.blank, gameScreen);
+
+        terrainArray = new Terrain[] { pictureBox1, pictureBox2, pictureBox3, pictureBox4, pictureBox5, pictureBox6, pictureBox7, pictureBox8, pictureBox9, pictureBox10, pictureBox11, pictureBox12, pictureBox13, pictureBox14, pictureBox15, pictureBox16, pictureBox17, pictureBox18, };
+
+        player.Left = 647;
+        player.Top = 866;
+
+        CameraFocus("Player");
     }
 
     private void spawnLevel(int level)
@@ -792,13 +832,22 @@ public partial class MainWindow : Form
         switch (level)
         {
             case 1: Level1(); break;
+            case 2: Level2(); break;
         }
 
         currentLevel = level;
     }
 
+    private void DestroyAll(PictureBox pb, Panel panel)
+    {
+        pb.Bounds = Rectangle.Empty;
+        panel.Controls.Remove(pb);
+        pb.Dispose();
+    }
 
-    // Sound design
+    #endregion Level design
+
+    #region Sound design
 
     private void playSound(string sound)
     {
@@ -837,4 +886,6 @@ public partial class MainWindow : Form
                 break;
         }
     }
+
+    #endregion Sound design
 }

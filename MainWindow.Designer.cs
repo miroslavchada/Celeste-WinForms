@@ -87,7 +87,7 @@
             // 
             // gameScreen
             // 
-            this.gameScreen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(73)))), ((int)(((byte)(137)))), ((int)(((byte)(158)))));
+            this.gameScreen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(21)))), ((int)(((byte)(39)))));
             this.gameScreen.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.gameScreen.Controls.Add(this.player);
             this.gameScreen.Controls.Add(this.blockBorderLeft);
@@ -135,6 +135,7 @@
             this.lbDeveloperStats.Size = new System.Drawing.Size(102, 32);
             this.lbDeveloperStats.TabIndex = 0;
             this.lbDeveloperStats.Text = "F3 STATS";
+            this.lbDeveloperStats.Visible = false;
             // 
             // lbDeveloperSounds
             // 
@@ -149,6 +150,7 @@
             this.lbDeveloperSounds.Size = new System.Drawing.Size(113, 32);
             this.lbDeveloperSounds.TabIndex = 8;
             this.lbDeveloperSounds.Text = "F3 SOUNDS";
+            this.lbDeveloperSounds.Visible = false;
             // 
             // menuStartContainer
             // 
@@ -644,7 +646,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(73)))), ((int)(((byte)(137)))), ((int)(((byte)(158)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(21)))), ((int)(((byte)(39)))));
             this.ClientSize = new System.Drawing.Size(1536, 864);
             this.Controls.Add(this.lbDeveloperSounds);
             this.Controls.Add(this.lbDeveloperStats);
