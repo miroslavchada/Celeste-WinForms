@@ -53,6 +53,9 @@ public partial class MainWindow : Form
     int cameraMovementSpeed, cameraMovementSpeedTarget;
     int playerCenterY;
 
+
+    bool developerKeys;   // NumPad0 stisknuta
+
     /// Tagy <summary>
     /// "collision" - na objekt se vztahují kolize
     /// "spring" - pružina
@@ -121,77 +124,80 @@ public partial class MainWindow : Form
         // Interakce s bloky
         foreach (PictureBox block in gameScreen.Controls.OfType<PictureBox>().Where(block => block.Tag != null))
         {
-            // Postranní kolize
-            if (block.Tag.ToString().Contains("collision") && player.Bounds.IntersectsWith(block.Bounds))
+            if (!block.Tag.ToString().Contains("jump-through"))
             {
-                if (playerLeftOffset < block.Right && player.Right > block.Left + player.Width / 2 &&
-                    player.Bottom > block.Top + 1 && player.Top < block.Bottom)
+                // Postranní kolize
+                if (block.Tag.ToString().Contains("collision") && player.Bounds.IntersectsWith(block.Bounds))
                 {
-                    left = false;
-                }
-
-                if (playerRightOffset > block.Left && player.Left < block.Right - player.Width / 2 &&
-                    player.Bottom > block.Top + 1 && player.Top < block.Bottom)
-                {
-                    right = false;
-                }
-            }
-
-            // Pokud je hráè blízko k bloku, pøiblíží se pouze o rozdíl mezi hranou hráèe a bloku (proti bugùm)
-            if (block.Tag.ToString().Contains("collision"))
-            {
-                if (playerLeftOffset - block.Right < movementSpeedMax && playerLeftOffset - block.Right >= 0 &&
-                    player.Bottom > block.Top + 1 && player.Top < block.Bottom)
-                {
-                    closeToBlockLeft = true;
-                    closeToBlockLeftDist = playerLeftOffset - block.Right;
-
-                    if (playerLeftOffset - block.Right == 0 &&
-                        player.Top + player.Height / 2 < block.Bottom)
+                    if (playerLeftOffset < block.Right && player.Right > block.Left + player.Width / 2 &&
+                        player.Bottom > block.Top + 1 && player.Top < block.Bottom)
                     {
-                        onBlockLeft = true;
-                        midAir = false;
-                        playerBlockHeightDiff = player.Bottom - block.Top;
+                        left = false;
+                    }
+
+                    if (playerRightOffset > block.Left && player.Left < block.Right - player.Width / 2 &&
+                        player.Bottom > block.Top + 1 && player.Top < block.Bottom)
+                    {
+                        right = false;
                     }
                 }
 
-                if (block.Left - playerRightOffset < movementSpeedMax && block.Left - playerRightOffset >= 0 &&
-                    player.Bottom > block.Top + 1 && player.Top < block.Bottom)
+                // Pokud je hráè blízko k bloku, pøiblíží se pouze o rozdíl mezi hranou hráèe a bloku (proti bugùm)
+                if (block.Tag.ToString().Contains("collision"))
                 {
-                    closeToBlockRight = true;
-                    closeToBlockRightDist = block.Left - playerRightOffset;
-
-                    if (block.Left - playerRightOffset == 0 &&
-                        player.Top + player.Height / 2 < block.Bottom)
+                    if (playerLeftOffset - block.Right < movementSpeedMax && playerLeftOffset - block.Right >= 0 &&
+                        player.Bottom > block.Top + 1 && player.Top < block.Bottom)
                     {
-                        onBlockRight = true;
+                        closeToBlockLeft = true;
+                        closeToBlockLeftDist = playerLeftOffset - block.Right;
+
+                        if (playerLeftOffset - block.Right == 0 &&
+                            player.Top + player.Height / 2 < block.Bottom)
+                        {
+                            onBlockLeft = true;
+                            midAir = false;
+                            playerBlockHeightDiff = player.Bottom - block.Top;
+                        }
+                    }
+
+                    if (block.Left - playerRightOffset < movementSpeedMax && block.Left - playerRightOffset >= 0 &&
+                        player.Bottom > block.Top + 1 && player.Top < block.Bottom)
+                    {
+                        closeToBlockRight = true;
+                        closeToBlockRightDist = block.Left - playerRightOffset;
+
+                        if (block.Left - playerRightOffset == 0 &&
+                            player.Top + player.Height / 2 < block.Bottom)
+                        {
+                            onBlockRight = true;
+                            midAir = false;
+                            playerBlockHeightDiff = player.Bottom - block.Top;
+                        }
+                    }
+
+                    // midAir
+                    if (block.Top - player.Bottom == -1 &&
+                        playerLeftOffset < block.Right && playerRightOffset > block.Left)
+                    {
                         midAir = false;
-                        playerBlockHeightDiff = player.Bottom - block.Top;
                     }
                 }
 
-                // midAir
-                if (block.Top - player.Bottom == -1 &&
-                    playerLeftOffset < block.Right && playerRightOffset > block.Left)
+                // Slide aktivace
+                if (((onBlockLeft && leftInput) || (onBlockRight && rightInput)) && force < 0)
                 {
+                    slide = true;
                     midAir = false;
                 }
-            }
 
-            // Slide aktivace
-            if (((onBlockLeft && leftInput) || (onBlockRight && rightInput)) && force < 0)
-            {
-                slide = true;
-                midAir = false;
-            }
+                // Grab aktivace
+                if (grabInput && (onBlockLeft || onBlockRight))
+                {
+                    grab = true;
+                    midAir = false;
 
-            // Grab aktivace
-            if (grabInput && (onBlockLeft || onBlockRight))
-            {
-                grab = true;
-                midAir = false;
-
-                lastGrabbedOn = onBlockLeft ? "Left" : onBlockRight ? "Right" : "";
+                    lastGrabbedOn = onBlockLeft ? "Left" : onBlockRight ? "Right" : "";
+                }
             }
         }
 
@@ -362,9 +368,17 @@ public partial class MainWindow : Form
                 playerRightOffset > block.Left)
             {
                 // Vrchní kolize
-                if (player.Bottom >= block.Top && player.Top < block.Top) /// Zeshora
+                if ((player.Bottom >= block.Top && player.Top < block.Top)) /// Zeshora
                 {
-                    player.Top = block.Top - player.Height + 1;
+                    if (!block.Tag.ToString().Contains("jump-through"))
+                    {
+                        player.Top = block.Top - player.Height + 1;
+                    }
+                    else if (player.Bottom == block.Top)
+                    {
+                        player.Top = block.Top - player.Height + 1;
+                    }
+
                     force = 0;
                     jump = false;
 
@@ -380,7 +394,7 @@ public partial class MainWindow : Form
                 }
 
                 // Spodní kolize
-                if (player.Top < block.Bottom && player.Bottom > block.Bottom) /// Zespodu
+                if ((player.Top < block.Bottom && player.Bottom > block.Bottom) && !block.Tag.ToString().Contains("jump-through")) /// Zespodu
                 {
                     if (force > 3)
                         force = -3;
@@ -605,89 +619,131 @@ public partial class MainWindow : Form
     {
         if (inputEnabled)
         {
-            if (e.KeyCode == Keys.A)
-                leftInput = true;
-
-            if (e.KeyCode == Keys.D)
-                rightInput = true;
-
-            if (e.KeyCode == Keys.W)
-                upInput = true;
-
-            if (e.KeyCode == Keys.S)
-                downInput = true;
-
-            if (e.KeyCode == Keys.Space && spaceReleased)
+            switch (e.KeyCode)
             {
-                jumpInput = true;
-                spaceReleased = false;
-            }
+                case Keys.W:
+                    upInput = true;
+                    break;
 
-            if (e.KeyCode == Keys.ControlKey && ctrlReleased)
-            {
-                dashInput = true;
-                ctrlReleased = false;
-            }
+                case Keys.S:
+                    downInput = true;
+                    break;
 
-            if (e.KeyCode == Keys.ShiftKey)
-                grabInput = true;
+                case Keys.A:
+                    leftInput = true;
+                    break;
 
-            if (e.KeyCode == Keys.F3) // Developer stats
-            {
-                lbDeveloperStats.Visible = !lbDeveloperStats.Visible;
-                lbDeveloperSounds.Visible = !lbDeveloperSounds.Visible;
-            }
-        }
+                case Keys.D:
+                    rightInput = true;
+                    break;
 
-        if (e.KeyCode == Keys.Escape && !menuStartContainer.Enabled)
-        {
-            if (menuEscapeContainer.Enabled || menuControlsContainer.Enabled)
-            {
-                menuEscapeContinue(false);
-            }
-            else
-            {
-                menuEscapeContainer.Enabled = true; menuEscapeContainer.Visible = true;
-                gameScreen.Enabled = false; gameScreen.Visible = false;
-                timer1.Enabled = false;
-                inputEnabled = false;
+                case Keys.Space:
+                    if (spaceReleased)
+                    {
+                        jumpInput = true;
+                        spaceReleased = false;
+                    }
+                    break;
+
+                case Keys.ControlKey:
+                    if (ctrlReleased)
+                    {
+                        dashInput = true;
+                        ctrlReleased = false;
+                    }
+                    break;
+
+                case Keys.ShiftKey:
+                    grabInput = true;
+                    break;
             }
         }
 
-        if (e.KeyCode == Keys.NumPad1)
+        switch (e.KeyCode)
         {
-            spawnLevel(1);
+            case Keys.Escape:
+                if (!menuStartContainer.Enabled)
+                {
+                    if (menuEscapeContainer.Enabled)   // Pokud je na obrazovce pauza
+                    {
+                        menuEscapeBtContinue.PerformClick();
+                    }
+                    else if (menuControlsContainer.Enabled)   // Pokud je na obrazovce ovládání
+                    {
+                        menuControlsBtEscapeMenu.PerformClick();
+                    }
+                    else   // Pokud je ve høe
+                    {
+                        menuEscapeContainer.Enabled = true; menuEscapeContainer.Visible = true;
+                        gameScreen.Enabled = false; gameScreen.Visible = false;
+                        timer1.Enabled = false;
+                        inputEnabled = false;
+                    }
+                }
+                break;
+
+            case Keys.NumPad0:
+                developerKeys = true;
+                break;
         }
-        if (e.KeyCode == Keys.NumPad2)
+
+        // Funkce pro testování
+        if (developerKeys)
         {
-            spawnLevel(2);
+            switch (e.KeyCode)
+            {
+                case Keys.F3:   // Developer stats
+                    lbDeveloperStats.Visible = !lbDeveloperStats.Visible;
+                    lbDeveloperSounds.Visible = !lbDeveloperSounds.Visible;
+                    break;
+
+                case Keys.NumPad1:
+                    spawnLevel(1);
+                    break;
+
+                case Keys.NumPad2:
+                    spawnLevel(2);
+                    break;
+            }
         }
     }
 
     private void MainWindow_KeyUp(object sender, KeyEventArgs e)
     {
-        if (e.KeyCode == Keys.A)
-            leftInput = false;
-
-        if (e.KeyCode == Keys.D)
-            rightInput = false;
-
-        if (e.KeyCode == Keys.W)
-            upInput = false;
-
-        if (e.KeyCode == Keys.S)
-            downInput = false;
-
-        if (e.KeyCode == Keys.Space)
-            spaceReleased = true;
-
-        if (e.KeyCode == Keys.ControlKey)
-            ctrlReleased = true;
-
-        if (e.KeyCode == Keys.ShiftKey)
+        switch (e.KeyCode)
         {
-            grabInput = false;
-            playSound("grabOff");
+            case Keys.W:
+                upInput = false;
+                break;
+
+            case Keys.S:
+                downInput = false;
+                break;
+
+            case Keys.A:
+                leftInput = false;
+                break;
+
+            case Keys.D:
+                rightInput = false;
+                break;
+
+            case Keys.Space:
+                spaceReleased = true;
+                break;
+
+            case Keys.ControlKey:
+                ctrlReleased = true;
+                break;
+
+            case Keys.ShiftKey:
+                grabInput = false;
+                playSound("grabOff");
+                break;
+
+            case Keys.NumPad0:
+                developerKeys = false;
+                break;
         }
     }
 
