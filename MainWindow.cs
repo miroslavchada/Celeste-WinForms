@@ -1,4 +1,8 @@
 using Celeste_WinForms.Properties;
+using System;
+using System.IO;
+using System.Reflection;
+using NAudio.Wave;
 
 namespace Celeste_WinForms;
 
@@ -64,6 +68,7 @@ public partial class MainWindow : Form
     public MainWindow()
     {
         InitializeComponent();
+        LoadSounds();
 
         Level1();
 
@@ -206,7 +211,7 @@ public partial class MainWindow : Form
         {
             jump = true;
             force = 15;
-            playSound("jumped");
+            PlaySound("jumped");
 
             if (onBlockLeft || onBlockRight)
             {
@@ -332,14 +337,14 @@ public partial class MainWindow : Form
             if (Math.Abs(movementSpeed) > movementSpeedMaxTarget)
                 movementSpeedMax = Math.Abs(movementSpeed);
 
-            playSound("dash");
+            PlaySound("dash");
             dashed = true;
         }
 
         // Funkce Grab
         if (grab && !grabAfterJumpCooldown && Math.Abs(movementSpeed) < movementSpeedMax)
         {
-            playSound("grabOn");
+            PlaySound("grabOn");
 
             if (!(leftInput || rightInput || upInput || downInput))
                 facing = onBlockLeft ? "Left" : onBlockRight ? "Right" : lastStraightFacing;
@@ -388,7 +393,7 @@ public partial class MainWindow : Form
                     if (!block.Tag.ToString().Contains("spring"))
                     {
                         if (!touchedGround)
-                            playSound("landed");
+                            PlaySound("landed");
                         touchedGround = true;
                     }
                 }
@@ -415,7 +420,7 @@ public partial class MainWindow : Form
                 force = 30;
                 jump = true;
 
-                playSound("spring");
+                PlaySound("spring");
             }
         }
 
@@ -738,7 +743,7 @@ public partial class MainWindow : Form
 
             case Keys.ShiftKey:
                 grabInput = false;
-                playSound("grabOff");
+                PlaySound("grabOff");
                 break;
 
             case Keys.NumPad0:
@@ -905,7 +910,61 @@ public partial class MainWindow : Form
 
     #region Sound design
 
-    private void playSound(string sound)
+    private WaveOutEvent waveOutSpring;
+    private WaveOutEvent waveOutGrabOn;
+
+    private void LoadSounds()
+    {
+        // Naètení audio souborù ze souborù hry
+        AudioFileReader audioFileSpring = new AudioFileReader("resources/sounds/spring.wav");
+        AudioFileReader audioFileGrabOn = new AudioFileReader("resources/sounds/wow_so_secret.wav");
+
+        // Nové instance AudioFileReaderù a WaveOutEventù pro každý zvuk
+        waveOutSpring = new WaveOutEvent();
+        waveOutGrabOn = new WaveOutEvent();
+
+        // Pøidání AudioFileReaderù do výstupu
+        waveOutSpring.Init(audioFileSpring);
+        waveOutGrabOn.Init(audioFileGrabOn);
+    }
+
+    private void ResetSounds(string sound)
+    {
+        switch (sound)
+        {
+            case "jumped":
+                break;
+
+            case "landed":
+                break;
+
+            case "spring":
+                waveOutSpring.Stop();
+                waveOutSpring.Dispose();
+
+                AudioFileReader audioFileSpring = new AudioFileReader("resources/sounds/spring.wav");
+                waveOutSpring = new WaveOutEvent();
+                waveOutSpring.Init(audioFileSpring);
+                break;
+
+            case "grabOn":
+                waveOutGrabOn.Stop();
+                waveOutGrabOn.Dispose();
+
+                AudioFileReader audioFileGrabOn = new AudioFileReader("resources/sounds/wow_so_secret.wav");
+                waveOutGrabOn = new WaveOutEvent();
+                waveOutGrabOn.Init(audioFileGrabOn);
+                break;
+
+            case "grabOff":
+                break;
+
+            case "dash":
+                break;
+        }
+    }
+
+    private void PlaySound(string sound)
     {
         switch (sound)
         {
@@ -919,12 +978,19 @@ public partial class MainWindow : Form
 
             case "spring":
                 lbDeveloperSounds.Text = $"{sound}\r\n" + lbDeveloperSounds.Text;
+
+                ResetSounds(sound);
+
+                waveOutSpring.Play();
                 break;
 
             case "grabOn":
                 if (!grabbedOn)
                 {
                     lbDeveloperSounds.Text = $"{sound}\r\n" + lbDeveloperSounds.Text;
+
+                    ResetSounds(sound);
+                    waveOutGrabOn.Play();
                 }
                 grabbedOn = true;
                 break;
