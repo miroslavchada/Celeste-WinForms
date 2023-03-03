@@ -129,41 +129,5 @@ namespace Celeste_WinForms.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
-        /// <summary>
-        ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream spring {
-            get {
-                return ResourceManager.GetStream("spring", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream strawberry_red_get_1000 {
-            get {
-                return ResourceManager.GetStream("strawberry_red_get_1000", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream strawberry_touch {
-            get {
-                return ResourceManager.GetStream("strawberry_touch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream wow_so_secret {
-            get {
-                return ResourceManager.GetStream("wow_so_secret", resourceCulture);
-            }
-        }
     }
 }

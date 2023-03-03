@@ -68,7 +68,7 @@ public partial class MainWindow : Form
     public MainWindow()
     {
         InitializeComponent();
-        LoadSounds();
+        PlaySound("start");
 
         Level1();
 
@@ -699,7 +699,6 @@ public partial class MainWindow : Form
             {
                 case Keys.F3:   // Developer stats
                     lbDeveloperStats.Visible = !lbDeveloperStats.Visible;
-                    lbDeveloperSounds.Visible = !lbDeveloperSounds.Visible;
                     break;
 
                 case Keys.NumPad1:
@@ -910,102 +909,98 @@ public partial class MainWindow : Form
 
     #region Sound design
 
+    // Cesty souborù - !!! PØED PUBLIKACÍ ODSTRANIT '../../../'
+    string filePathSpring = "../../../sounds/spring.wav";
+    string filePathGrabOn = "../../../sounds/wow_so_secret.wav";
+    string filePathGrabOff = "../../../sounds/spring.wav";
+
     private WaveOutEvent waveOutSpring;
     private WaveOutEvent waveOutGrabOn;
-
-    private void LoadSounds()
-    {
-        // Naètení audio souborù ze souborù hry
-        AudioFileReader audioFileSpring = new AudioFileReader("resources/sounds/spring.wav");
-        AudioFileReader audioFileGrabOn = new AudioFileReader("resources/sounds/wow_so_secret.wav");
-
-        // Nové instance AudioFileReaderù a WaveOutEventù pro každý zvuk
-        waveOutSpring = new WaveOutEvent();
-        waveOutGrabOn = new WaveOutEvent();
-
-        // Pøidání AudioFileReaderù do výstupu
-        waveOutSpring.Init(audioFileSpring);
-        waveOutGrabOn.Init(audioFileGrabOn);
-    }
-
-    private void ResetSounds(string sound)
-    {
-        switch (sound)
-        {
-            case "jumped":
-                break;
-
-            case "landed":
-                break;
-
-            case "spring":
-                waveOutSpring.Stop();
-                waveOutSpring.Dispose();
-
-                AudioFileReader audioFileSpring = new AudioFileReader("resources/sounds/spring.wav");
-                waveOutSpring = new WaveOutEvent();
-                waveOutSpring.Init(audioFileSpring);
-                break;
-
-            case "grabOn":
-                waveOutGrabOn.Stop();
-                waveOutGrabOn.Dispose();
-
-                AudioFileReader audioFileGrabOn = new AudioFileReader("resources/sounds/wow_so_secret.wav");
-                waveOutGrabOn = new WaveOutEvent();
-                waveOutGrabOn.Init(audioFileGrabOn);
-                break;
-
-            case "grabOff":
-                break;
-
-            case "dash":
-                break;
-        }
-    }
+    private WaveOutEvent waveOutGrabOff;
 
     private void PlaySound(string sound)
     {
-        switch (sound)
+        // Jumped
+        if (sound == "jumped" || sound == "start")
         {
-            case "jumped":
-                lbDeveloperSounds.Text = $"{sound}\r\n" + lbDeveloperSounds.Text;
-                break;
 
-            case "landed":
-                lbDeveloperSounds.Text = $"{sound}\r\n" + lbDeveloperSounds.Text;
-                break;
+        }
 
-            case "spring":
-                lbDeveloperSounds.Text = $"{sound}\r\n" + lbDeveloperSounds.Text;
+        // Landed
+        if (sound == "landed" || sound == "start")
+        {
 
-                ResetSounds(sound);
+        }
 
+        // Spring
+        if (sound == "spring" || sound == "start")
+        {
+            if (sound != "start")
+            {
+                // Zahození dohraného zvuku
+                waveOutSpring.Stop();
+                waveOutSpring.Dispose();
+            }
+
+            // Naètení audio souboru ze souborù hry
+            AudioFileReader audioFileSpring = new AudioFileReader(filePathSpring);
+
+            // Nová instance AudioFileReaderu a WaveOutEventu
+            waveOutSpring = new WaveOutEvent();
+
+            // Pøidání AudioFileReaderu do výstupu
+            waveOutSpring.Init(audioFileSpring);
+
+            // Pøehrání zvuku
+            if (sound != "start")
                 waveOutSpring.Play();
-                break;
+        }
 
-            case "grabOn":
+        // GrabOn
+        if (sound == "grabOn" || sound == "start")
+        {
+            if (sound != "start")
+            {
+                waveOutGrabOn.Stop();
+                waveOutGrabOn.Dispose();
+            }
+            AudioFileReader audioFileGrabOn = new AudioFileReader(filePathGrabOn);
+            waveOutGrabOn = new WaveOutEvent();
+            waveOutGrabOn.Init(audioFileGrabOn);
+
+            if (sound != "start")
+            {
                 if (!grabbedOn)
-                {
-                    lbDeveloperSounds.Text = $"{sound}\r\n" + lbDeveloperSounds.Text;
-
-                    ResetSounds(sound);
                     waveOutGrabOn.Play();
-                }
+
                 grabbedOn = true;
-                break;
+            }
+        }
 
-            case "grabOff":
+        // GrabOff
+        if (sound == "grabOff" || sound == "start")
+        {
+            if (sound != "start")
+            {
+                waveOutGrabOff.Stop();
+                waveOutGrabOff.Dispose();
+            }
+            AudioFileReader audioFileGrabOff = new AudioFileReader(filePathGrabOff);
+            waveOutGrabOff = new WaveOutEvent();
+            waveOutGrabOff.Init(audioFileGrabOff);
+
+            if (sound != "start")
+            {
                 if (grabbedOn)
-                {
-                    lbDeveloperSounds.Text = $"{sound}\r\n" + lbDeveloperSounds.Text;
-                }
+                    waveOutGrabOff.Play();
                 grabbedOn = false;
-                break;
+            }
+        }
 
-            case "dash":
-                lbDeveloperSounds.Text = $"{sound}\r\n" + lbDeveloperSounds.Text;
-                break;
+        // Dash
+        if (sound == "dash" || sound == "start")
+        {
+
         }
     }
 
