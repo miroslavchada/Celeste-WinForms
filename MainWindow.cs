@@ -29,9 +29,9 @@ public partial class MainWindow : Form
     bool closeToBlockLeft, closeToBlockRight;
     int closeToBlockLeftDist, closeToBlockRightDist;
     bool onBlockLeft, onBlockRight;
-    bool closeToBlockDown;
-    int closeToBlockDownDist;
-    bool onBlockDown;
+    bool closeToBlockDown, closeToBlockUp;
+    int closeToBlockDownDist, closeToBlockUpDist;
+    bool onBlockDown, onBlockUp;
     int playerBlockHeightDiff;
     bool climbed;
     string lastGrabbedOn = "";
@@ -136,12 +136,14 @@ public partial class MainWindow : Form
                         player.Bottom > block.Top + 1 && player.Top < block.Bottom)
                     {
                         left = false;
+                        movementSpeed = 0;
                     }
 
                     if (playerRightOffset > block.Left && player.Left < block.Right - player.Width / 2 &&
                         player.Bottom > block.Top + 1 && player.Top < block.Bottom)
                     {
                         right = false;
+                        movementSpeed = 0;
                     }
                 }
 
@@ -177,13 +179,6 @@ public partial class MainWindow : Form
                             playerBlockHeightDiff = player.Bottom - block.Top;
                         }
                     }
-
-                    // midAir
-                    if (block.Top - player.Bottom == -1 &&
-                        playerLeftOffset < block.Right && playerRightOffset > block.Left)
-                    {
-                        midAir = false;
-                    }
                 }
 
                 // Slide aktivace
@@ -201,6 +196,13 @@ public partial class MainWindow : Form
 
                     lastGrabbedOn = onBlockLeft ? "Left" : onBlockRight ? "Right" : "";
                 }
+            }
+
+            // midAir
+            if (block.Top - player.Bottom == -1 &&
+                playerLeftOffset < block.Right && playerRightOffset > block.Left)
+            {
+                midAir = false;
             }
         }
 
@@ -269,7 +271,8 @@ public partial class MainWindow : Form
             switch (facing)
             {
                 case "Right":
-                    movementSpeed = 4 * movementSpeedMax;
+                    if (!onBlockRight)
+                        movementSpeed = 4 * movementSpeedMax;
                     force = 0;
 
                     dashedNonVertical = true;
@@ -277,8 +280,9 @@ public partial class MainWindow : Form
                     break;
 
                 case "RightUp":
-                    movementSpeed = Convert.ToInt32((double)(Math.Sqrt(2) / (double)2) * 4 * movementSpeedMax);
-                    force = movementSpeed;
+                    if (!onBlockRight)
+                        movementSpeed = Convert.ToInt32((double)(Math.Sqrt(2) / (double)2) * 4 * movementSpeedMax);
+                    force = Convert.ToInt32((double)(Math.Sqrt(2) / (double)2) * 4 * movementSpeedMax);
 
                     dashedNonVertical = true;
                     timerDashedNonVertical.Enabled = true;
@@ -290,15 +294,17 @@ public partial class MainWindow : Form
                     break;
 
                 case "LeftUp":
-                    movementSpeed = Convert.ToInt32((double)(Math.Sqrt(2) / (double)2) * -4 * movementSpeedMax);
-                    force = -movementSpeed;
+                    if (!onBlockLeft)
+                        movementSpeed = Convert.ToInt32((double)(Math.Sqrt(2) / (double)2) * -4 * movementSpeedMax);
+                    force = Convert.ToInt32((double)(Math.Sqrt(2) / (double)2) * 4 * movementSpeedMax);
 
                     dashedNonVertical = true;
                     timerDashedNonVertical.Enabled = true;
                     break;
 
                 case "Left":
-                    movementSpeed = -4 * movementSpeedMax;
+                    if (!onBlockLeft)
+                        movementSpeed = -4 * movementSpeedMax;
                     force = 0;
 
                     dashedNonVertical = true;
@@ -306,8 +312,10 @@ public partial class MainWindow : Form
                     break;
 
                 case "LeftDown":
-                    movementSpeed = Convert.ToInt32((double)(Math.Sqrt(2) / (double)2) * -4 * movementSpeedMax);
-                    force = movementSpeed;
+                    if (!onBlockLeft)
+                        movementSpeed = Convert.ToInt32((double)(Math.Sqrt(2) / (double)2) * -4 * movementSpeedMax);
+                    if (!onBlockDown)
+                        force = Convert.ToInt32((double)(Math.Sqrt(2) / (double)2) * 4 * movementSpeedMax);
 
                     dashedNonVertical = true;
                     timerDashedNonVertical.Enabled = true;
@@ -315,20 +323,20 @@ public partial class MainWindow : Form
 
                 case "Down":
                     movementSpeed = 0;
-                    force = -22;
+                    if (!onBlockDown)
+                        force = -22;
                     break;
 
                 case "RightDown":
-                    movementSpeed = Convert.ToInt32((double)(Math.Sqrt(2) / (double)2) * 4 * movementSpeedMax);
-                    force = -movementSpeed;
+                    if (!onBlockRight)
+                        movementSpeed = Convert.ToInt32((double)(Math.Sqrt(2) / (double)2) * 4 * movementSpeedMax);
+                    if (!onBlockDown)
+                        force = Convert.ToInt32((double)(Math.Sqrt(2) / (double)2) * -4 * movementSpeedMax);
 
                     dashedNonVertical = true;
                     timerDashedNonVertical.Enabled = true;
                     break;
             }
-
-            if (Math.Abs(movementSpeed) > movementSpeedMaxTarget)
-                movementSpeedMax = Math.Abs(movementSpeed);
 
             PlaySound("dash");
             dashed = true;
@@ -339,48 +347,65 @@ public partial class MainWindow : Form
         {
             PlaySound("grabOn");
 
+            force = 0;
+            movementSpeedTarget = 0;
+
             if (!(leftInput || rightInput || upInput || downInput))
                 facing = onBlockLeft ? "Left" : onBlockRight ? "Right" : lastStraightFacing;
 
-            if (facing == "Up")
-                player.Top -= movementSpeedMax / 5 * 4;
-
-            if (facing == "Down")
-                player.Top += movementSpeedMax / 5 * 4;
-
-            movementSpeedTarget = 0;
-            force = 0;
-        }
-        else  // Gravitace
-        {
-            if (force > (slide ? -2 : -25) && !dashedNonVertical)
+            if (facing == "Up" && !onBlockUp)
             {
-                force -= 1;
+                if (!onBlockUp)
+                    force = movementSpeedMax / 5 * 4;
+                else
+                    force = closeToBlockUpDist;
             }
 
-            if (closeToBlockDown)
+            if (facing == "Down" && !onBlockDown)
             {
-                force = 0;
-                player.Top += closeToBlockDownDist;
+                if (!closeToBlockDown)
+                    force = -movementSpeedMax / 5 * 4;
+                else
+                    force = -closeToBlockDownDist;
             }
 
             player.Top -= force;
         }
+        else  // Gravitace
+        {
+            if (closeToBlockDown)
+            {
+                player.Top += closeToBlockDownDist - 1;
+                force = 0;
+            }
+            else if (closeToBlockUp)
+            {
+                player.Top -= closeToBlockUpDist;
+            }
+
+            player.Top -= force;
+
+            if (force > (slide ? -2 : -25) && !dashedNonVertical & !closeToBlockDown)
+            {
+                force -= 1;
+            }
+        }
 
         closeToBlockDown = false;
         onBlockDown = false;
+        onBlockUp = false;
 
         foreach (PictureBox block in gameScreen.Controls.OfType<PictureBox>().Where(block => block.Tag != null))
         {
             // Pokud je hráè blízko k bloku, pøiblíží se pouze o rozdíl mezi hranou hráèe a bloku (proti bugùm)
             if (block.Tag.ToString().Contains("collision"))
             {
-                if (block.Top + 1 - player.Bottom < -force &&
+                if (block.Top + 1 - player.Bottom <= -force + 1 &&
                     playerLeftOffset <= block.Right && playerRightOffset >= block.Left &&
                     player.Bottom < block.Top)
                 {
                     closeToBlockDown = true;
-                    closeToBlockDownDist = block.Top - 1 - player.Bottom;
+                    closeToBlockDownDist = block.Top - player.Bottom + 1;
                 }
             }
 
@@ -390,17 +415,8 @@ public partial class MainWindow : Form
                 playerRightOffset > block.Left)
             {
                 // Vrchní kolize
-                if ((player.Bottom >= block.Top && player.Top < block.Top)) /// Zeshora
+                if (player.Bottom == block.Top + 1 && player.Top < block.Top) /// Zeshora
                 {
-                    if (!block.Tag.ToString().Contains("jump-through"))
-                    {
-                        player.Top = block.Top - player.Height + 1;
-                    }
-                    else if (player.Bottom == block.Top)
-                    {
-                        player.Top = block.Top - player.Height + 1;
-                    }
-
                     force = 0;
                     jump = false;
 
@@ -413,6 +429,23 @@ public partial class MainWindow : Form
                         if (!touchedGround)
                             PlaySound("landed");
                         touchedGround = true;
+                    }
+                }
+
+                // Pokud je hráè blízko k bloku, pøiblíží se pouze o rozdíl mezi hranou hráèe a bloku (proti bugùm)
+                if (block.Tag.ToString().Contains("collision") && !block.Tag.ToString().Contains("jump-through"))
+                {
+                    if (player.Top - block.Bottom <= force + 1 &&
+                        playerLeftOffset <= block.Right && playerRightOffset >= block.Left &&
+                        player.Bottom < block.Top)
+                    {
+                        closeToBlockUp = true;
+                        closeToBlockUpDist = player.Top - block.Bottom;
+
+                        if (player.Top - block.Bottom == 0)
+                        {
+                            onBlockUp = true;
+                        }
                     }
                 }
 
@@ -545,6 +578,12 @@ public partial class MainWindow : Form
 
         if (!onBlockDown)
             touchedGround = false;
+
+        // Reset hry, pokud se dostane hráè mimo hrací plochu
+        if (player.Bottom < gameScreen.Top || player.Left > gameScreen.Right || player.Top > gameScreen.Bottom + gameScreen.Height - 864 || player.Right < gameScreen.Left)
+        {
+            menuEscapeContinue(true);
+        }
     }
 
     #region Kamera
