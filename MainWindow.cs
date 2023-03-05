@@ -1,8 +1,4 @@
 using Celeste_WinForms.Properties;
-using System;
-using System.IO;
-using System.Reflection;
-using NAudio.Wave;
 
 namespace Celeste_WinForms;
 
@@ -33,6 +29,8 @@ public partial class MainWindow : Form
     bool closeToBlockLeft, closeToBlockRight;
     int closeToBlockLeftDist, closeToBlockRightDist;
     bool onBlockLeft, onBlockRight;
+    bool closeToBlockDown;
+    int closeToBlockDownDist;
     bool onBlockDown;
     int playerBlockHeightDiff;
     bool climbed;
@@ -68,7 +66,6 @@ public partial class MainWindow : Form
     public MainWindow()
     {
         InitializeComponent();
-        PlaySound("start");
 
         Level1();
 
@@ -89,6 +86,7 @@ public partial class MainWindow : Form
         closeToBlockLeft = false; closeToBlockRight = false;
         closeToBlockLeftDist = movementSpeed; closeToBlockRightDist = movementSpeed;
         onBlockLeft = false; onBlockRight = false;
+        closeToBlockLeftDist = 0;
         playerBlockHeightDiff = 0;
         slide = false;
         grab = false;
@@ -213,14 +211,11 @@ public partial class MainWindow : Form
             force = 15;
             PlaySound("jumped");
 
-            if (onBlockLeft || onBlockRight)
+            if ((onBlockLeft || onBlockRight) && !onBlockDown)
             {
-                if (!onBlockDown)
-                {
-                    movementSpeed = onBlockLeft ? movementSpeedMax * 2 : onBlockRight ? -movementSpeedMax * 2 : 0;
+                movementSpeed = onBlockLeft ? movementSpeedMax * 2 : onBlockRight ? -movementSpeedMax * 2 : 0;
 
-                    force = 11;
-                }
+                force = 11;
             }
 
             if (slide)
@@ -247,8 +242,6 @@ public partial class MainWindow : Form
             jumpCooldown = true;
             timerJumpCooldown.Enabled = true;
         }
-
-        onBlockDown = false;
 
         // Grab - Výskok na horní hranì bloku (<25px spodek hráèe - vršek bloku)
         if (grab && !grabAfterJumpCooldown)
@@ -360,13 +353,37 @@ public partial class MainWindow : Form
         }
         else  // Gravitace
         {
-            player.Top -= force;
             if (force > (slide ? -2 : -25) && !dashedNonVertical)
+            {
                 force -= 1;
+            }
+
+            if (closeToBlockDown)
+            {
+                force = 0;
+                player.Top += closeToBlockDownDist;
+            }
+
+            player.Top -= force;
         }
+
+        closeToBlockDown = false;
+        onBlockDown = false;
 
         foreach (PictureBox block in gameScreen.Controls.OfType<PictureBox>().Where(block => block.Tag != null))
         {
+            // Pokud je hráè blízko k bloku, pøiblíží se pouze o rozdíl mezi hranou hráèe a bloku (proti bugùm)
+            if (block.Tag.ToString().Contains("collision"))
+            {
+                if (block.Top + 1 - player.Bottom < -force &&
+                    playerLeftOffset <= block.Right && playerRightOffset >= block.Left &&
+                    player.Bottom < block.Top)
+                {
+                    closeToBlockDown = true;
+                    closeToBlockDownDist = block.Top - 1 - player.Bottom;
+                }
+            }
+
             // Interakce s bloky
             if (block.Tag.ToString().Contains("collision") && player.Bounds.IntersectsWith(block.Bounds) &&
                 playerLeftOffset < block.Right &&
@@ -388,6 +405,7 @@ public partial class MainWindow : Form
                     jump = false;
 
                     onBlockDown = true;
+                    closeToBlockDown = false;
                     dashed = false;
 
                     if (!block.Tag.ToString().Contains("spring"))
@@ -502,6 +520,7 @@ public partial class MainWindow : Form
             $"\r\nJumpCooldown: {jumpCooldown}" +
             $"\r\nCloseToBlock: {(closeToBlockLeft ? "Left" : closeToBlockRight ? "Right" : "none")}" +
             $"\r\nOnBlock: {(onBlockLeft ? "Left" : onBlockRight ? "Right" : "none")}" +
+            $"\r\nCloseToBlockDown: {closeToBlockDown} ({closeToBlockDownDist})" +
             $"\r\nOnBlockDown: {onBlockDown}" +
             $"\r\nPlayerBlockHeightDiff: {playerBlockHeightDiff}" +
             $"\r\nGrabInput: {grabInput}" +
@@ -660,6 +679,10 @@ public partial class MainWindow : Form
 
                 case Keys.ShiftKey:
                     grabInput = true;
+                    break;
+
+                case Keys.F3:
+                    lbDeveloperStats.Visible = !lbDeveloperStats.Visible;
                     break;
             }
         }
@@ -909,98 +932,70 @@ public partial class MainWindow : Form
 
     #region Sound design
 
-    // Cesty souborù - !!! PØED PUBLIKACÍ ODSTRANIT '../../../'
-    string filePathSpring = "../../../sounds/spring.wav";
-    string filePathGrabOn = "../../../sounds/wow_so_secret.wav";
-    string filePathGrabOff = "../../../sounds/spring.wav";
+    string lastMaterial = "ice";
 
-    private WaveOutEvent waveOutSpring;
-    private WaveOutEvent waveOutGrabOn;
-    private WaveOutEvent waveOutGrabOff;
+    SoundManager soundJumped = new("jump", 0.5f, false);
+    SoundManager soundLandedIce = new("land_ice", 0.5f, true);
+    public int landVariant = 1;
+    SoundManager soundSpring = new("spring", 0.5f, false);
+    SoundManager soundGrabOnIce = new("grab_ice", 0.5f, true);
+    public int grabOnVariant = 1;
+    SoundManager soundGrabOff = new("grab_letgo", 0.5f, false);
+    SoundManager soundDash = new("dash", 0.5f, false);
 
-    private void PlaySound(string sound)
+    public void PlaySound(string sound)
     {
-        // Jumped
-        if (sound == "jumped" || sound == "start")
+        switch (sound)
         {
+            case "jumped":
+                soundJumped.PlaySound(0);
+                break;
 
-        }
+            case "landed":
+                switch (lastMaterial)
+                {
+                    case "ice":
+                        soundLandedIce.PlaySound(landVariant);
 
-        // Landed
-        if (sound == "landed" || sound == "start")
-        {
+                        if (landVariant >= 5)
+                            landVariant = 1;
+                        else landVariant++;
+                        break;
+                }
+                break;
 
-        }
+            case "spring":
+                soundSpring.PlaySound(0);
+                break;
 
-        // Spring
-        if (sound == "spring" || sound == "start")
-        {
-            if (sound != "start")
-            {
-                // Zahození dohraného zvuku
-                waveOutSpring.Stop();
-                waveOutSpring.Dispose();
-            }
-
-            // Naètení audio souboru ze souborù hry
-            AudioFileReader audioFileSpring = new AudioFileReader(filePathSpring);
-
-            // Nová instance AudioFileReaderu a WaveOutEventu
-            waveOutSpring = new WaveOutEvent();
-
-            // Pøidání AudioFileReaderu do výstupu
-            waveOutSpring.Init(audioFileSpring);
-
-            // Pøehrání zvuku
-            if (sound != "start")
-                waveOutSpring.Play();
-        }
-
-        // GrabOn
-        if (sound == "grabOn" || sound == "start")
-        {
-            if (sound != "start")
-            {
-                waveOutGrabOn.Stop();
-                waveOutGrabOn.Dispose();
-            }
-            AudioFileReader audioFileGrabOn = new AudioFileReader(filePathGrabOn);
-            waveOutGrabOn = new WaveOutEvent();
-            waveOutGrabOn.Init(audioFileGrabOn);
-
-            if (sound != "start")
-            {
+            case "grabOn":
                 if (!grabbedOn)
-                    waveOutGrabOn.Play();
+                {
+                    switch (lastMaterial)
+                    {
+                        case "ice":
+                            soundGrabOnIce.PlaySound(grabOnVariant);
 
+                            if (grabOnVariant >= 5)
+                                grabOnVariant = 1;
+                            else grabOnVariant++;
+                            break;
+                    }
+                }
                 grabbedOn = true;
-            }
-        }
+                break;
 
-        // GrabOff
-        if (sound == "grabOff" || sound == "start")
-        {
-            if (sound != "start")
-            {
-                waveOutGrabOff.Stop();
-                waveOutGrabOff.Dispose();
-            }
-            AudioFileReader audioFileGrabOff = new AudioFileReader(filePathGrabOff);
-            waveOutGrabOff = new WaveOutEvent();
-            waveOutGrabOff.Init(audioFileGrabOff);
-
-            if (sound != "start")
-            {
+            case "grabOff":
                 if (grabbedOn)
-                    waveOutGrabOff.Play();
+                {
+                    soundGrabOff.PlaySound(0);
+                }
                 grabbedOn = false;
-            }
-        }
+                break;
 
-        // Dash
-        if (sound == "dash" || sound == "start")
-        {
-
+            case "dash":
+                soundDash.PlaySound(0);
+                break;
         }
     }
 
