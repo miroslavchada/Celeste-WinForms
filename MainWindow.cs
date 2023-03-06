@@ -36,6 +36,12 @@ public partial class MainWindow : Form
     bool climbed;
     string lastGrabbedOn = "";
 
+    // Ošetøení bugu dashe
+    bool dashCloseToBlockRight, dashCloseToBlockDown, dashCloseToBlockLeft, dashCloseToBlockUp;
+    bool dashCloseToBlockRightDownRight, dashCloseToBlockRightDownDown, dashCloseToBlockLeftDownLeft, dashCloseToBlockLeftDownDown, dashCloseToBlockLeftUpLeft, dashCloseToBlockLeftUpUp, dashCloseToBlockRightUpRight, dashCloseToBlockRightUpUp;
+    int dashCloseToBlockRightDist, dashCloseToBlockDownDist, dashCloseToBlockLeftDist, dashCloseToBlockUpDist;
+    int dashCloseToBlockRightDownRightDist, dashCloseToBlockRightDownDownDist, dashCloseToBlockLeftDownLeftDist, dashCloseToBlockLeftDownDownDist, dashCloseToBlockLeftUpLeftDist, dashCloseToBlockLeftUpUpDist, dashCloseToBlockRightUpRightDist, dashCloseToBlockRightUpUpDist;
+
     bool dashInput, ctrlReleased = true;
     bool dashed;
     bool dashedNonVertical;
@@ -204,6 +210,16 @@ public partial class MainWindow : Form
             {
                 midAir = false;
             }
+
+            // Výpoèet zda je dash blízko
+            // RightDown, Down, LeftDown
+
+
+            // Left, LeftUp, Up, RightUp, Right
+            if (!block.Tag.ToString().Contains("jump-through"))
+            {
+
+            }
         }
 
         // Hráè drží mezerník
@@ -272,7 +288,7 @@ public partial class MainWindow : Form
             {
                 case "Right":
                     if (!onBlockRight)
-                        movementSpeed = 4 * movementSpeedMax;
+                        movementSpeed = (4 * movementSpeedMax);
                     force = 0;
 
                     dashedNonVertical = true;
@@ -417,6 +433,7 @@ public partial class MainWindow : Form
                 // Vrchní kolize
                 if (player.Bottom == block.Top + 1 && player.Top < block.Top) /// Zeshora
                 {
+                    player.Top = block.Top - player.Height + 1;
                     force = 0;
                     jump = false;
 
