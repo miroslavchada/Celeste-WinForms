@@ -11,7 +11,7 @@ namespace Celeste_WinForms
         WaveOut waveOut;
         string file;
         readonly float volume;
-        public static bool bannedSound;
+        public static bool bannedSound = true;
 
         public SoundManager(string _file, float _volume, bool variants)
         {

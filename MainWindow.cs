@@ -156,7 +156,7 @@ public partial class MainWindow : Form
                 // Pokud je hráè blízko k bloku, pøiblíží se pouze o rozdíl mezi hranou hráèe a bloku (proti bugùm)
                 if (block.Tag.ToString().Contains("collision"))
                 {
-                    if (playerLeftOffset - block.Right < movementSpeedMax && playerLeftOffset - block.Right >= 0 &&
+                    if (playerLeftOffset - block.Right < (movementSpeed < movementSpeedMax ? movementSpeedMax : movementSpeed) && playerLeftOffset - block.Right >= 0 &&
                         player.Bottom > block.Top + 1 && player.Top < block.Bottom)
                     {
                         closeToBlockLeft = true;
@@ -171,7 +171,7 @@ public partial class MainWindow : Form
                         }
                     }
 
-                    if (block.Left - playerRightOffset < movementSpeedMax && block.Left - playerRightOffset >= 0 &&
+                    if (block.Left - playerRightOffset < (movementSpeed < movementSpeedMax ? movementSpeedMax : movementSpeed) && block.Left - playerRightOffset >= 0 &&
                         player.Bottom > block.Top + 1 && player.Top < block.Bottom)
                     {
                         closeToBlockRight = true;
@@ -209,16 +209,6 @@ public partial class MainWindow : Form
                 playerLeftOffset < block.Right && playerRightOffset > block.Left)
             {
                 midAir = false;
-            }
-
-            // Výpoèet zda je dash blízko
-            // RightDown, Down, LeftDown
-
-
-            // Left, LeftUp, Up, RightUp, Right
-            if (!block.Tag.ToString().Contains("jump-through"))
-            {
-
             }
         }
 
@@ -331,7 +321,7 @@ public partial class MainWindow : Form
                     if (!onBlockLeft)
                         movementSpeed = Convert.ToInt32((double)(Math.Sqrt(2) / (double)2) * -4 * movementSpeedMax);
                     if (!onBlockDown)
-                        force = Convert.ToInt32((double)(Math.Sqrt(2) / (double)2) * 4 * movementSpeedMax);
+                        force = Convert.ToInt32((double)(Math.Sqrt(2) / (double)2) * -4 * movementSpeedMax);
 
                     dashedNonVertical = true;
                     timerDashedNonVertical.Enabled = true;
