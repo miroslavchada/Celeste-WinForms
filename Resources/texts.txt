@@ -1,0 +1,26 @@
+Èeština	English
+\\ Buttons
+HRÁT	PLAY
+NASTAVENÍ	SETTINGS
+ZAVØÍT	CLOSE
+ZPÌT	BACK
+POKRAÈOVAT	CONTINUE
+RESET OBRAZOVKY	SCREEN RESET
+OVLÁDÁNÍ	CONTROLS
+HLAVNÍ NABÍDKA	MAIN MENU
+\\ Main menu
+Hra vznikla v rámci roèníkové práce ve druhém roèníku na Støední prùmyslové škole Ostrov	The game was created as an second-year subject-specific project at the Secondary Technical School Ostrov
+\\ Contols
+OVLÁDÁNÍ	CONTROLS
+Doleva / Doprava	Left / Right
+Nahoru / Dolu	Up / Down
+Skok	Jump
+Dash	Dash
+Držení	Grab
+A / D	A / D
+W / S	W / S
+Mezerník	Space
+Alt	Alt
+Shift	Shift
+\\ Pause
+PAUZA	PAUSED

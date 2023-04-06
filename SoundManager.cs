@@ -6,35 +6,26 @@ namespace Celeste_WinForms
 {
     internal class SoundManager
     {
-        ComponentResourceManager rm = new(typeof(Resources));
-        Stream stream;
-        WaveOut waveOut;
-        string file;
-        readonly float volume;
-        public static bool bannedSound = true;
+        private static readonly ComponentResourceManager rm = new(typeof(Resources));
+        private WaveOutEvent waveOut;
+        private readonly string file;
+        private WaveFileReader reader;
+        public static bool bannedSound = false;
 
-        public SoundManager(string _file, float _volume, bool variants)
+        public SoundManager(string _file, bool variants)
         {
             file = _file;
-            volume = _volume;
 
-            stream = (Stream)rm.GetObject(file + (variants ? "_01" : ""));
-            waveOut = new WaveOut();
-            waveOut.Init(new WaveFileReader(stream));
+            reader = new WaveFileReader((Stream)rm.GetObject(file + (variants ? "_01" : "")));
+            waveOut = new WaveOutEvent();
+            waveOut.Init(reader);
         }
 
         public void PlaySound(int variant)
         {
-            waveOut.Stop();
-            waveOut.Dispose();
-
             if (!bannedSound)
             {
-                stream = (Stream)rm.GetObject(file + (variant != 0 ? $"_0{variant}" : ""));
-                waveOut = new();
-                waveOut.Init(new WaveFileReader(stream));
-                waveOut.Volume = volume;
-
+                reader.Position = 0;
                 waveOut.Play();
             }
         }

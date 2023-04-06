@@ -28,643 +28,606 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
-            this.gameScreen = new System.Windows.Forms.Panel();
-            this.player = new System.Windows.Forms.PictureBox();
-            this.blockBorderLeft = new System.Windows.Forms.PictureBox();
-            this.lbDeveloperStats = new System.Windows.Forms.Label();
-            this.menuStartContainer = new System.Windows.Forms.Panel();
-            this.startTableLP = new System.Windows.Forms.TableLayoutPanel();
-            this.startLbTitle = new System.Windows.Forms.Label();
-            this.startLbSubtitle = new System.Windows.Forms.Label();
-            this.startBtPlay = new System.Windows.Forms.Button();
-            this.startBtSettings = new System.Windows.Forms.Button();
-            this.startBtClose = new System.Windows.Forms.Button();
-            this.menuEscapeContainer = new System.Windows.Forms.Panel();
-            this.menuEscapeTableLP = new System.Windows.Forms.TableLayoutPanel();
-            this.menuEscapeLbPause = new System.Windows.Forms.Label();
-            this.menuEscapeBtContinue = new System.Windows.Forms.Button();
-            this.menuEscapeBtResetScreen = new System.Windows.Forms.Button();
-            this.menuEscapeBtControls = new System.Windows.Forms.Button();
-            this.menuEscapeBtStartMenu = new System.Windows.Forms.Button();
-            this.menuControlsContainer = new System.Windows.Forms.Panel();
-            this.menuControlsTableLP = new System.Windows.Forms.TableLayoutPanel();
-            this.menuControlsLbTitle = new System.Windows.Forms.Label();
-            this.menuControlsBtEscapeMenu = new System.Windows.Forms.Button();
-            this.menuControlsTableLPControls = new System.Windows.Forms.TableLayoutPanel();
-            this.menuControlsLbL1 = new System.Windows.Forms.Label();
-            this.menuControlsLbL2 = new System.Windows.Forms.Label();
-            this.menuControlsLbL3 = new System.Windows.Forms.Label();
-            this.menuControlsLbL4 = new System.Windows.Forms.Label();
-            this.menuControlsLbL5 = new System.Windows.Forms.Label();
-            this.menuControlsLbL6 = new System.Windows.Forms.Label();
-            this.menuControlsLbL7 = new System.Windows.Forms.Label();
-            this.menuControlsLbR1 = new System.Windows.Forms.Label();
-            this.menuControlsLbR2 = new System.Windows.Forms.Label();
-            this.menuControlsLbR3 = new System.Windows.Forms.Label();
-            this.menuControlsLbR4 = new System.Windows.Forms.Label();
-            this.menuControlsLbR5 = new System.Windows.Forms.Label();
-            this.menuControlsLbR6 = new System.Windows.Forms.Label();
-            this.menuControlsLbR7 = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.timerJumpHeadBumpCooldown = new System.Windows.Forms.Timer(this.components);
-            this.timerGrabAfterJumpCooldown = new System.Windows.Forms.Timer(this.components);
-            this.timerJumpCooldown = new System.Windows.Forms.Timer(this.components);
-            this.timerDashedNonVertical = new System.Windows.Forms.Timer(this.components);
-            this.gameScreen.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.player)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.blockBorderLeft)).BeginInit();
-            this.menuStartContainer.SuspendLayout();
-            this.startTableLP.SuspendLayout();
-            this.menuEscapeContainer.SuspendLayout();
-            this.menuEscapeTableLP.SuspendLayout();
-            this.menuControlsContainer.SuspendLayout();
-            this.menuControlsTableLP.SuspendLayout();
-            this.menuControlsTableLPControls.SuspendLayout();
-            this.SuspendLayout();
+            gameScreen = new Panel();
+            player = new PictureBox();
+            lbDeveloperStats = new Label();
+            menuMainContainer = new Panel();
+            mainTableLP = new TableLayoutPanel();
+            mainLbTitle = new Label();
+            mainLbSubtitle = new Label();
+            mainBtPlay = new Button();
+            mainBtSettings = new Button();
+            mainBtClose = new Button();
+            mainLbAuthor = new Label();
+            mainLbInfo = new Label();
+            menuEscapeContainer = new Panel();
+            menuEscapeTableLP = new TableLayoutPanel();
+            menuEscapeLbTitle = new Label();
+            menuEscapeBtContinue = new Button();
+            menuEscapeBtScreenReset = new Button();
+            menuEscapeBtControls = new Button();
+            menuEscapeBtMainMenu = new Button();
+            menuControlsContainer = new Panel();
+            menuControlsTableLP = new TableLayoutPanel();
+            menuControlsLbTitle = new Label();
+            menuControlsBtEscapeMenu = new Button();
+            menuControlsTableLPControls = new TableLayoutPanel();
+            menuControlsLbL1 = new Label();
+            menuControlsLbL2 = new Label();
+            menuControlsLbL3 = new Label();
+            menuControlsLbL4 = new Label();
+            menuControlsLbL5 = new Label();
+            menuControlsLbR1 = new Label();
+            menuControlsLbR2 = new Label();
+            menuControlsLbR3 = new Label();
+            menuControlsLbR4 = new Label();
+            menuControlsLbR5 = new Label();
+            timer1 = new System.Windows.Forms.Timer(components);
+            timerJumpHeadBumpCooldown = new System.Windows.Forms.Timer(components);
+            timerGrabAfterJumpCooldown = new System.Windows.Forms.Timer(components);
+            timerJumpCooldown = new System.Windows.Forms.Timer(components);
+            timerDashedNonVertical = new System.Windows.Forms.Timer(components);
+            gameScreen.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)player).BeginInit();
+            menuMainContainer.SuspendLayout();
+            mainTableLP.SuspendLayout();
+            menuEscapeContainer.SuspendLayout();
+            menuEscapeTableLP.SuspendLayout();
+            menuControlsContainer.SuspendLayout();
+            menuControlsTableLP.SuspendLayout();
+            menuControlsTableLPControls.SuspendLayout();
+            SuspendLayout();
             // 
             // gameScreen
             // 
-            this.gameScreen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(21)))), ((int)(((byte)(39)))));
-            this.gameScreen.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.gameScreen.Controls.Add(this.player);
-            this.gameScreen.Controls.Add(this.blockBorderLeft);
-            this.gameScreen.Enabled = false;
-            this.gameScreen.Location = new System.Drawing.Point(0, 0);
-            this.gameScreen.Margin = new System.Windows.Forms.Padding(2);
-            this.gameScreen.Name = "gameScreen";
-            this.gameScreen.Size = new System.Drawing.Size(1536, 864);
-            this.gameScreen.TabIndex = 0;
-            this.gameScreen.Visible = false;
+            gameScreen.BackColor = Color.FromArgb(15, 21, 39);
+            gameScreen.BackgroundImageLayout = ImageLayout.Stretch;
+            gameScreen.Controls.Add(player);
+            gameScreen.Enabled = false;
+            gameScreen.Location = new Point(0, 0);
+            gameScreen.Margin = new Padding(2);
+            gameScreen.Name = "gameScreen";
+            gameScreen.Size = new Size(1536, 864);
+            gameScreen.TabIndex = 0;
+            gameScreen.Visible = false;
             // 
             // player
             // 
-            this.player.BackColor = System.Drawing.Color.Transparent;
-            this.player.BackgroundImage = global::Celeste_WinForms.Properties.Resources.mario_;
-            this.player.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.player.Location = new System.Drawing.Point(9, 788);
-            this.player.Margin = new System.Windows.Forms.Padding(0);
-            this.player.Name = "player";
-            this.player.Size = new System.Drawing.Size(51, 67);
-            this.player.TabIndex = 0;
-            this.player.TabStop = false;
-            // 
-            // blockBorderLeft
-            // 
-            this.blockBorderLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.blockBorderLeft.Location = new System.Drawing.Point(-19, 0);
-            this.blockBorderLeft.Margin = new System.Windows.Forms.Padding(0);
-            this.blockBorderLeft.Name = "blockBorderLeft";
-            this.blockBorderLeft.Size = new System.Drawing.Size(10, 864);
-            this.blockBorderLeft.TabIndex = 7;
-            this.blockBorderLeft.TabStop = false;
-            this.blockBorderLeft.Tag = "object collision";
+            player.BackColor = Color.Transparent;
+            player.BackgroundImage = Properties.Resources.mario_;
+            player.BackgroundImageLayout = ImageLayout.None;
+            player.Location = new Point(9, 788);
+            player.Margin = new Padding(0);
+            player.Name = "player";
+            player.Size = new Size(51, 67);
+            player.TabIndex = 0;
+            player.TabStop = false;
             // 
             // lbDeveloperStats
             // 
-            this.lbDeveloperStats.AutoSize = true;
-            this.lbDeveloperStats.BackColor = System.Drawing.Color.Black;
-            this.lbDeveloperStats.Font = new System.Drawing.Font("Cascadia Code", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lbDeveloperStats.ForeColor = System.Drawing.Color.Yellow;
-            this.lbDeveloperStats.Location = new System.Drawing.Point(15, 10);
-            this.lbDeveloperStats.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lbDeveloperStats.Name = "lbDeveloperStats";
-            this.lbDeveloperStats.Padding = new System.Windows.Forms.Padding(2, 4, 2, 4);
-            this.lbDeveloperStats.Size = new System.Drawing.Size(102, 32);
-            this.lbDeveloperStats.TabIndex = 0;
-            this.lbDeveloperStats.Text = "F3 STATS";
+            lbDeveloperStats.AutoSize = true;
+            lbDeveloperStats.BackColor = Color.Black;
+            lbDeveloperStats.Enabled = false;
+            lbDeveloperStats.Font = new Font("Cascadia Code", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            lbDeveloperStats.ForeColor = Color.Yellow;
+            lbDeveloperStats.Location = new Point(15, 10);
+            lbDeveloperStats.Margin = new Padding(2, 0, 2, 0);
+            lbDeveloperStats.Name = "lbDeveloperStats";
+            lbDeveloperStats.Padding = new Padding(2, 4, 2, 4);
+            lbDeveloperStats.Size = new Size(102, 32);
+            lbDeveloperStats.TabIndex = 0;
+            lbDeveloperStats.Text = "F3 STATS";
+            lbDeveloperStats.Visible = false;
             // 
-            // menuStartContainer
+            // menuMainContainer
             // 
-            this.menuStartContainer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(73)))), ((int)(((byte)(137)))), ((int)(((byte)(158)))));
-            this.menuStartContainer.Controls.Add(this.startTableLP);
-            this.menuStartContainer.Enabled = false;
-            this.menuStartContainer.Location = new System.Drawing.Point(0, 0);
-            this.menuStartContainer.Name = "menuStartContainer";
-            this.menuStartContainer.Size = new System.Drawing.Size(1536, 864);
-            this.menuStartContainer.TabIndex = 8;
-            this.menuStartContainer.Visible = false;
+            menuMainContainer.BackColor = Color.FromArgb(200, 215, 235);
+            menuMainContainer.Controls.Add(mainTableLP);
+            menuMainContainer.Enabled = false;
+            menuMainContainer.Location = new Point(0, 0);
+            menuMainContainer.Name = "menuMainContainer";
+            menuMainContainer.Size = new Size(1536, 864);
+            menuMainContainer.TabIndex = 8;
+            menuMainContainer.Visible = false;
             // 
-            // startTableLP
+            // mainTableLP
             // 
-            this.startTableLP.ColumnCount = 1;
-            this.startTableLP.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.startTableLP.Controls.Add(this.startLbTitle, 0, 0);
-            this.startTableLP.Controls.Add(this.startLbSubtitle, 0, 1);
-            this.startTableLP.Controls.Add(this.startBtPlay, 0, 3);
-            this.startTableLP.Controls.Add(this.startBtSettings, 0, 4);
-            this.startTableLP.Controls.Add(this.startBtClose, 0, 5);
-            this.startTableLP.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.startTableLP.Location = new System.Drawing.Point(0, 0);
-            this.startTableLP.Name = "startTableLP";
-            this.startTableLP.RowCount = 7;
-            this.startTableLP.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 236F));
-            this.startTableLP.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.startTableLP.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 231F));
-            this.startTableLP.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.startTableLP.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.startTableLP.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.startTableLP.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.startTableLP.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.startTableLP.Size = new System.Drawing.Size(1536, 864);
-            this.startTableLP.TabIndex = 0;
+            mainTableLP.BackColor = Color.Transparent;
+            mainTableLP.ColumnCount = 1;
+            mainTableLP.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            mainTableLP.Controls.Add(mainLbTitle, 0, 0);
+            mainTableLP.Controls.Add(mainLbSubtitle, 0, 1);
+            mainTableLP.Controls.Add(mainBtPlay, 0, 3);
+            mainTableLP.Controls.Add(mainBtSettings, 0, 4);
+            mainTableLP.Controls.Add(mainBtClose, 0, 5);
+            mainTableLP.Controls.Add(mainLbAuthor, 0, 6);
+            mainTableLP.Controls.Add(mainLbInfo, 0, 7);
+            mainTableLP.Dock = DockStyle.Fill;
+            mainTableLP.Location = new Point(0, 0);
+            mainTableLP.Name = "mainTableLP";
+            mainTableLP.RowCount = 8;
+            mainTableLP.RowStyles.Add(new RowStyle(SizeType.Absolute, 236F));
+            mainTableLP.RowStyles.Add(new RowStyle());
+            mainTableLP.RowStyles.Add(new RowStyle(SizeType.Absolute, 182F));
+            mainTableLP.RowStyles.Add(new RowStyle());
+            mainTableLP.RowStyles.Add(new RowStyle());
+            mainTableLP.RowStyles.Add(new RowStyle());
+            mainTableLP.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            mainTableLP.RowStyles.Add(new RowStyle());
+            mainTableLP.Size = new Size(1536, 864);
+            mainTableLP.TabIndex = 0;
             // 
-            // startLbTitle
+            // mainLbTitle
             // 
-            this.startLbTitle.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.startLbTitle.AutoSize = true;
-            this.startLbTitle.Font = new System.Drawing.Font("Segoe UI", 72F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.startLbTitle.ForeColor = System.Drawing.Color.White;
-            this.startLbTitle.Location = new System.Drawing.Point(448, 45);
-            this.startLbTitle.Name = "startLbTitle";
-            this.startLbTitle.Size = new System.Drawing.Size(640, 191);
-            this.startLbTitle.TabIndex = 0;
-            this.startLbTitle.Text = "CELESTE";
+            mainLbTitle.Anchor = AnchorStyles.Bottom;
+            mainLbTitle.AutoSize = true;
+            mainLbTitle.Font = new Font("Segoe UI", 72F, FontStyle.Bold, GraphicsUnit.Point);
+            mainLbTitle.ForeColor = Color.FromArgb(68, 101, 147);
+            mainLbTitle.Location = new Point(448, 45);
+            mainLbTitle.Name = "mainLbTitle";
+            mainLbTitle.Size = new Size(640, 191);
+            mainLbTitle.TabIndex = 0;
+            mainLbTitle.Text = "CELESTE";
             // 
-            // startLbSubtitle
+            // mainLbSubtitle
             // 
-            this.startLbSubtitle.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.startLbSubtitle.AutoSize = true;
-            this.startLbSubtitle.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.startLbSubtitle.ForeColor = System.Drawing.Color.White;
-            this.startLbSubtitle.Location = new System.Drawing.Point(471, 236);
-            this.startLbSubtitle.Name = "startLbSubtitle";
-            this.startLbSubtitle.Size = new System.Drawing.Size(594, 65);
-            this.startLbSubtitle.TabIndex = 4;
-            this.startLbSubtitle.Text = "Fan-made Forms Remake";
+            mainLbSubtitle.Anchor = AnchorStyles.Top;
+            mainLbSubtitle.AutoSize = true;
+            mainLbSubtitle.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point);
+            mainLbSubtitle.ForeColor = Color.FromArgb(68, 101, 147);
+            mainLbSubtitle.Location = new Point(425, 236);
+            mainLbSubtitle.Name = "mainLbSubtitle";
+            mainLbSubtitle.Size = new Size(685, 65);
+            mainLbSubtitle.TabIndex = 4;
+            mainLbSubtitle.Text = "Fan-made WinForms Remake";
             // 
-            // startBtPlay
+            // mainBtPlay
             // 
-            this.startBtPlay.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.startBtPlay.BackColor = System.Drawing.Color.White;
-            this.startBtPlay.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.startBtPlay.Location = new System.Drawing.Point(543, 535);
-            this.startBtPlay.Name = "startBtPlay";
-            this.startBtPlay.Size = new System.Drawing.Size(450, 70);
-            this.startBtPlay.TabIndex = 1;
-            this.startBtPlay.Text = "HRÁT";
-            this.startBtPlay.UseVisualStyleBackColor = false;
-            this.startBtPlay.Click += new System.EventHandler(this.buttonClicked);
+            mainBtPlay.Anchor = AnchorStyles.None;
+            mainBtPlay.BackColor = Color.White;
+            mainBtPlay.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            mainBtPlay.ForeColor = Color.FromArgb(68, 101, 147);
+            mainBtPlay.Location = new Point(543, 486);
+            mainBtPlay.Name = "mainBtPlay";
+            mainBtPlay.Size = new Size(450, 70);
+            mainBtPlay.TabIndex = 1;
+            mainBtPlay.Text = "HRÁT";
+            mainBtPlay.UseVisualStyleBackColor = false;
+            mainBtPlay.Click += buttonClicked;
             // 
-            // startBtSettings
+            // mainBtSettings
             // 
-            this.startBtSettings.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.startBtSettings.BackColor = System.Drawing.Color.White;
-            this.startBtSettings.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.startBtSettings.Location = new System.Drawing.Point(543, 611);
-            this.startBtSettings.Name = "startBtSettings";
-            this.startBtSettings.Size = new System.Drawing.Size(450, 70);
-            this.startBtSettings.TabIndex = 2;
-            this.startBtSettings.Text = "NASTAVENÍ";
-            this.startBtSettings.UseVisualStyleBackColor = false;
+            mainBtSettings.Anchor = AnchorStyles.Top;
+            mainBtSettings.BackColor = Color.White;
+            mainBtSettings.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            mainBtSettings.ForeColor = Color.FromArgb(68, 101, 147);
+            mainBtSettings.Location = new Point(543, 562);
+            mainBtSettings.Name = "mainBtSettings";
+            mainBtSettings.Size = new Size(450, 70);
+            mainBtSettings.TabIndex = 2;
+            mainBtSettings.Text = "NASTAVENÍ";
+            mainBtSettings.UseVisualStyleBackColor = false;
             // 
-            // startBtClose
+            // mainBtClose
             // 
-            this.startBtClose.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.startBtClose.BackColor = System.Drawing.Color.White;
-            this.startBtClose.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.startBtClose.Location = new System.Drawing.Point(543, 687);
-            this.startBtClose.Name = "startBtClose";
-            this.startBtClose.Size = new System.Drawing.Size(450, 70);
-            this.startBtClose.TabIndex = 3;
-            this.startBtClose.Text = "ZAVŘÍT";
-            this.startBtClose.UseVisualStyleBackColor = false;
-            this.startBtClose.Click += new System.EventHandler(this.buttonClicked);
+            mainBtClose.Anchor = AnchorStyles.Top;
+            mainBtClose.BackColor = Color.White;
+            mainBtClose.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            mainBtClose.ForeColor = Color.FromArgb(193, 54, 54);
+            mainBtClose.Location = new Point(543, 638);
+            mainBtClose.Name = "mainBtClose";
+            mainBtClose.Size = new Size(450, 70);
+            mainBtClose.TabIndex = 3;
+            mainBtClose.Text = "ZAVŘÍT";
+            mainBtClose.UseVisualStyleBackColor = false;
+            mainBtClose.Click += buttonClicked;
+            // 
+            // mainLbAuthor
+            // 
+            mainLbAuthor.Anchor = AnchorStyles.Bottom;
+            mainLbAuthor.AutoSize = true;
+            mainLbAuthor.Font = new Font("Segoe UI Semibold", 15F, FontStyle.Bold, GraphicsUnit.Point);
+            mainLbAuthor.ForeColor = Color.FromArgb(68, 101, 147);
+            mainLbAuthor.Location = new Point(615, 781);
+            mainLbAuthor.Name = "mainLbAuthor";
+            mainLbAuthor.Size = new Size(305, 41);
+            mainLbAuthor.TabIndex = 5;
+            mainLbAuthor.Text = "Miroslav Chada 2023";
+            // 
+            // mainLbInfo
+            // 
+            mainLbInfo.Anchor = AnchorStyles.None;
+            mainLbInfo.AutoSize = true;
+            mainLbInfo.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            mainLbInfo.ForeColor = Color.FromArgb(68, 101, 147);
+            mainLbInfo.Location = new Point(321, 825);
+            mainLbInfo.Margin = new Padding(3, 3, 3, 9);
+            mainLbInfo.Name = "mainLbInfo";
+            mainLbInfo.Size = new Size(893, 30);
+            mainLbInfo.TabIndex = 6;
+            mainLbInfo.Text = "Hra vznikla v rámci ročníkové práce ve druhém ročníku na Střední průmyslové škole Ostrov";
+            mainLbInfo.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // menuEscapeContainer
             // 
-            this.menuEscapeContainer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(73)))), ((int)(((byte)(137)))), ((int)(((byte)(158)))));
-            this.menuEscapeContainer.Controls.Add(this.menuEscapeTableLP);
-            this.menuEscapeContainer.Enabled = false;
-            this.menuEscapeContainer.Location = new System.Drawing.Point(0, 0);
-            this.menuEscapeContainer.Name = "menuEscapeContainer";
-            this.menuEscapeContainer.Size = new System.Drawing.Size(1536, 864);
-            this.menuEscapeContainer.TabIndex = 9;
-            this.menuEscapeContainer.Visible = false;
+            menuEscapeContainer.BackColor = Color.FromArgb(200, 215, 235);
+            menuEscapeContainer.Controls.Add(menuEscapeTableLP);
+            menuEscapeContainer.Enabled = false;
+            menuEscapeContainer.Location = new Point(0, 0);
+            menuEscapeContainer.Name = "menuEscapeContainer";
+            menuEscapeContainer.Size = new Size(1536, 864);
+            menuEscapeContainer.TabIndex = 9;
+            menuEscapeContainer.Visible = false;
             // 
             // menuEscapeTableLP
             // 
-            this.menuEscapeTableLP.ColumnCount = 1;
-            this.menuEscapeTableLP.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.menuEscapeTableLP.Controls.Add(this.menuEscapeLbPause, 0, 0);
-            this.menuEscapeTableLP.Controls.Add(this.menuEscapeBtContinue, 0, 2);
-            this.menuEscapeTableLP.Controls.Add(this.menuEscapeBtResetScreen, 0, 3);
-            this.menuEscapeTableLP.Controls.Add(this.menuEscapeBtControls, 0, 4);
-            this.menuEscapeTableLP.Controls.Add(this.menuEscapeBtStartMenu, 0, 5);
-            this.menuEscapeTableLP.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.menuEscapeTableLP.Location = new System.Drawing.Point(0, 0);
-            this.menuEscapeTableLP.Name = "menuEscapeTableLP";
-            this.menuEscapeTableLP.RowCount = 7;
-            this.menuEscapeTableLP.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 162F));
-            this.menuEscapeTableLP.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.menuEscapeTableLP.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.menuEscapeTableLP.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.menuEscapeTableLP.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.menuEscapeTableLP.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.menuEscapeTableLP.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 97F));
-            this.menuEscapeTableLP.Size = new System.Drawing.Size(1536, 864);
-            this.menuEscapeTableLP.TabIndex = 2;
+            menuEscapeTableLP.ColumnCount = 1;
+            menuEscapeTableLP.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            menuEscapeTableLP.Controls.Add(menuEscapeLbTitle, 0, 0);
+            menuEscapeTableLP.Controls.Add(menuEscapeBtContinue, 0, 2);
+            menuEscapeTableLP.Controls.Add(menuEscapeBtScreenReset, 0, 3);
+            menuEscapeTableLP.Controls.Add(menuEscapeBtControls, 0, 4);
+            menuEscapeTableLP.Controls.Add(menuEscapeBtMainMenu, 0, 5);
+            menuEscapeTableLP.Dock = DockStyle.Fill;
+            menuEscapeTableLP.Location = new Point(0, 0);
+            menuEscapeTableLP.Name = "menuEscapeTableLP";
+            menuEscapeTableLP.RowCount = 7;
+            menuEscapeTableLP.RowStyles.Add(new RowStyle(SizeType.Absolute, 162F));
+            menuEscapeTableLP.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            menuEscapeTableLP.RowStyles.Add(new RowStyle());
+            menuEscapeTableLP.RowStyles.Add(new RowStyle());
+            menuEscapeTableLP.RowStyles.Add(new RowStyle());
+            menuEscapeTableLP.RowStyles.Add(new RowStyle());
+            menuEscapeTableLP.RowStyles.Add(new RowStyle(SizeType.Absolute, 97F));
+            menuEscapeTableLP.Size = new Size(1536, 864);
+            menuEscapeTableLP.TabIndex = 2;
             // 
-            // menuEscapeLbPause
+            // menuEscapeLbTitle
             // 
-            this.menuEscapeLbPause.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.menuEscapeLbPause.AutoSize = true;
-            this.menuEscapeLbPause.Font = new System.Drawing.Font("Segoe UI", 28F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuEscapeLbPause.ForeColor = System.Drawing.Color.White;
-            this.menuEscapeLbPause.Location = new System.Drawing.Point(661, 88);
-            this.menuEscapeLbPause.Name = "menuEscapeLbPause";
-            this.menuEscapeLbPause.Size = new System.Drawing.Size(214, 74);
-            this.menuEscapeLbPause.TabIndex = 0;
-            this.menuEscapeLbPause.Text = "PAUZA";
+            menuEscapeLbTitle.Anchor = AnchorStyles.Bottom;
+            menuEscapeLbTitle.AutoSize = true;
+            menuEscapeLbTitle.Font = new Font("Segoe UI", 28F, FontStyle.Bold, GraphicsUnit.Point);
+            menuEscapeLbTitle.ForeColor = Color.FromArgb(68, 101, 147);
+            menuEscapeLbTitle.Location = new Point(661, 88);
+            menuEscapeLbTitle.Name = "menuEscapeLbTitle";
+            menuEscapeLbTitle.Size = new Size(214, 74);
+            menuEscapeLbTitle.TabIndex = 0;
+            menuEscapeLbTitle.Text = "PAUZA";
             // 
             // menuEscapeBtContinue
             // 
-            this.menuEscapeBtContinue.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.menuEscapeBtContinue.BackColor = System.Drawing.Color.White;
-            this.menuEscapeBtContinue.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuEscapeBtContinue.Location = new System.Drawing.Point(597, 478);
-            this.menuEscapeBtContinue.Name = "menuEscapeBtContinue";
-            this.menuEscapeBtContinue.Size = new System.Drawing.Size(342, 67);
-            this.menuEscapeBtContinue.TabIndex = 1;
-            this.menuEscapeBtContinue.Text = "POKRAČOVAT";
-            this.menuEscapeBtContinue.UseVisualStyleBackColor = false;
-            this.menuEscapeBtContinue.Click += new System.EventHandler(this.buttonClicked);
+            menuEscapeBtContinue.Anchor = AnchorStyles.None;
+            menuEscapeBtContinue.BackColor = Color.White;
+            menuEscapeBtContinue.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            menuEscapeBtContinue.ForeColor = Color.FromArgb(68, 101, 147);
+            menuEscapeBtContinue.Location = new Point(597, 478);
+            menuEscapeBtContinue.Name = "menuEscapeBtContinue";
+            menuEscapeBtContinue.Size = new Size(342, 67);
+            menuEscapeBtContinue.TabIndex = 1;
+            menuEscapeBtContinue.Text = "POKRAČOVAT";
+            menuEscapeBtContinue.UseVisualStyleBackColor = false;
+            menuEscapeBtContinue.Click += buttonClicked;
             // 
-            // menuEscapeBtResetScreen
+            // menuEscapeBtScreenReset
             // 
-            this.menuEscapeBtResetScreen.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.menuEscapeBtResetScreen.BackColor = System.Drawing.Color.White;
-            this.menuEscapeBtResetScreen.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuEscapeBtResetScreen.Location = new System.Drawing.Point(597, 551);
-            this.menuEscapeBtResetScreen.Name = "menuEscapeBtResetScreen";
-            this.menuEscapeBtResetScreen.Size = new System.Drawing.Size(342, 67);
-            this.menuEscapeBtResetScreen.TabIndex = 5;
-            this.menuEscapeBtResetScreen.Text = "RESET OBRAZOVKY";
-            this.menuEscapeBtResetScreen.UseVisualStyleBackColor = false;
-            this.menuEscapeBtResetScreen.Click += new System.EventHandler(this.buttonClicked);
+            menuEscapeBtScreenReset.Anchor = AnchorStyles.None;
+            menuEscapeBtScreenReset.BackColor = Color.White;
+            menuEscapeBtScreenReset.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            menuEscapeBtScreenReset.ForeColor = Color.FromArgb(68, 101, 147);
+            menuEscapeBtScreenReset.Location = new Point(597, 551);
+            menuEscapeBtScreenReset.Name = "menuEscapeBtScreenReset";
+            menuEscapeBtScreenReset.Size = new Size(342, 67);
+            menuEscapeBtScreenReset.TabIndex = 5;
+            menuEscapeBtScreenReset.Text = "RESET OBRAZOVKY";
+            menuEscapeBtScreenReset.UseVisualStyleBackColor = false;
+            menuEscapeBtScreenReset.Click += buttonClicked;
             // 
             // menuEscapeBtControls
             // 
-            this.menuEscapeBtControls.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.menuEscapeBtControls.BackColor = System.Drawing.Color.White;
-            this.menuEscapeBtControls.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuEscapeBtControls.Location = new System.Drawing.Point(597, 624);
-            this.menuEscapeBtControls.Name = "menuEscapeBtControls";
-            this.menuEscapeBtControls.Size = new System.Drawing.Size(342, 67);
-            this.menuEscapeBtControls.TabIndex = 4;
-            this.menuEscapeBtControls.Text = "OVLÁDÁNÍ";
-            this.menuEscapeBtControls.UseVisualStyleBackColor = false;
-            this.menuEscapeBtControls.Click += new System.EventHandler(this.buttonClicked);
+            menuEscapeBtControls.Anchor = AnchorStyles.None;
+            menuEscapeBtControls.BackColor = Color.White;
+            menuEscapeBtControls.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            menuEscapeBtControls.ForeColor = Color.FromArgb(68, 101, 147);
+            menuEscapeBtControls.Location = new Point(597, 624);
+            menuEscapeBtControls.Name = "menuEscapeBtControls";
+            menuEscapeBtControls.Size = new Size(342, 67);
+            menuEscapeBtControls.TabIndex = 4;
+            menuEscapeBtControls.Text = "OVLÁDÁNÍ";
+            menuEscapeBtControls.UseVisualStyleBackColor = false;
+            menuEscapeBtControls.Click += buttonClicked;
             // 
-            // menuEscapeBtStartMenu
+            // menuEscapeBtMainMenu
             // 
-            this.menuEscapeBtStartMenu.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.menuEscapeBtStartMenu.BackColor = System.Drawing.Color.RosyBrown;
-            this.menuEscapeBtStartMenu.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuEscapeBtStartMenu.ForeColor = System.Drawing.Color.White;
-            this.menuEscapeBtStartMenu.Location = new System.Drawing.Point(597, 697);
-            this.menuEscapeBtStartMenu.Name = "menuEscapeBtStartMenu";
-            this.menuEscapeBtStartMenu.Size = new System.Drawing.Size(342, 67);
-            this.menuEscapeBtStartMenu.TabIndex = 3;
-            this.menuEscapeBtStartMenu.Text = "HLAVNÍ NABÍDKA";
-            this.menuEscapeBtStartMenu.UseVisualStyleBackColor = false;
-            this.menuEscapeBtStartMenu.Click += new System.EventHandler(this.buttonClicked);
+            menuEscapeBtMainMenu.Anchor = AnchorStyles.None;
+            menuEscapeBtMainMenu.BackColor = Color.RosyBrown;
+            menuEscapeBtMainMenu.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            menuEscapeBtMainMenu.ForeColor = Color.White;
+            menuEscapeBtMainMenu.Location = new Point(597, 697);
+            menuEscapeBtMainMenu.Name = "menuEscapeBtMainMenu";
+            menuEscapeBtMainMenu.Size = new Size(342, 67);
+            menuEscapeBtMainMenu.TabIndex = 3;
+            menuEscapeBtMainMenu.Text = "HLAVNÍ NABÍDKA";
+            menuEscapeBtMainMenu.UseVisualStyleBackColor = false;
+            menuEscapeBtMainMenu.Click += buttonClicked;
             // 
             // menuControlsContainer
             // 
-            this.menuControlsContainer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(73)))), ((int)(((byte)(137)))), ((int)(((byte)(158)))));
-            this.menuControlsContainer.Controls.Add(this.menuControlsTableLP);
-            this.menuControlsContainer.Enabled = false;
-            this.menuControlsContainer.Location = new System.Drawing.Point(0, 0);
-            this.menuControlsContainer.Name = "menuControlsContainer";
-            this.menuControlsContainer.Size = new System.Drawing.Size(1536, 864);
-            this.menuControlsContainer.TabIndex = 1;
-            this.menuControlsContainer.Visible = false;
+            menuControlsContainer.BackColor = Color.FromArgb(200, 215, 235);
+            menuControlsContainer.Controls.Add(menuControlsTableLP);
+            menuControlsContainer.Enabled = false;
+            menuControlsContainer.Location = new Point(0, 0);
+            menuControlsContainer.Name = "menuControlsContainer";
+            menuControlsContainer.Size = new Size(1536, 864);
+            menuControlsContainer.TabIndex = 1;
+            menuControlsContainer.Visible = false;
             // 
             // menuControlsTableLP
             // 
-            this.menuControlsTableLP.ColumnCount = 1;
-            this.menuControlsTableLP.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.menuControlsTableLP.Controls.Add(this.menuControlsLbTitle, 0, 0);
-            this.menuControlsTableLP.Controls.Add(this.menuControlsBtEscapeMenu, 0, 2);
-            this.menuControlsTableLP.Controls.Add(this.menuControlsTableLPControls, 0, 1);
-            this.menuControlsTableLP.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.menuControlsTableLP.Location = new System.Drawing.Point(0, 0);
-            this.menuControlsTableLP.Name = "menuControlsTableLP";
-            this.menuControlsTableLP.RowCount = 3;
-            this.menuControlsTableLP.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 160F));
-            this.menuControlsTableLP.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.menuControlsTableLP.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 174F));
-            this.menuControlsTableLP.Size = new System.Drawing.Size(1536, 864);
-            this.menuControlsTableLP.TabIndex = 0;
+            menuControlsTableLP.ColumnCount = 1;
+            menuControlsTableLP.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            menuControlsTableLP.Controls.Add(menuControlsLbTitle, 0, 0);
+            menuControlsTableLP.Controls.Add(menuControlsBtEscapeMenu, 0, 2);
+            menuControlsTableLP.Controls.Add(menuControlsTableLPControls, 0, 1);
+            menuControlsTableLP.Dock = DockStyle.Fill;
+            menuControlsTableLP.Location = new Point(0, 0);
+            menuControlsTableLP.Name = "menuControlsTableLP";
+            menuControlsTableLP.RowCount = 3;
+            menuControlsTableLP.RowStyles.Add(new RowStyle(SizeType.Absolute, 160F));
+            menuControlsTableLP.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            menuControlsTableLP.RowStyles.Add(new RowStyle(SizeType.Absolute, 174F));
+            menuControlsTableLP.Size = new Size(1536, 864);
+            menuControlsTableLP.TabIndex = 0;
             // 
             // menuControlsLbTitle
             // 
-            this.menuControlsLbTitle.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.menuControlsLbTitle.AutoSize = true;
-            this.menuControlsLbTitle.Font = new System.Drawing.Font("Segoe UI", 28F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuControlsLbTitle.ForeColor = System.Drawing.Color.White;
-            this.menuControlsLbTitle.Location = new System.Drawing.Point(635, 86);
-            this.menuControlsLbTitle.Name = "menuControlsLbTitle";
-            this.menuControlsLbTitle.Size = new System.Drawing.Size(265, 74);
-            this.menuControlsLbTitle.TabIndex = 0;
-            this.menuControlsLbTitle.Text = "Ovládání";
+            menuControlsLbTitle.Anchor = AnchorStyles.Bottom;
+            menuControlsLbTitle.AutoSize = true;
+            menuControlsLbTitle.Font = new Font("Segoe UI", 28F, FontStyle.Bold, GraphicsUnit.Point);
+            menuControlsLbTitle.ForeColor = Color.FromArgb(68, 101, 147);
+            menuControlsLbTitle.Location = new Point(608, 86);
+            menuControlsLbTitle.Name = "menuControlsLbTitle";
+            menuControlsLbTitle.Size = new Size(320, 74);
+            menuControlsLbTitle.TabIndex = 0;
+            menuControlsLbTitle.Text = "OVLÁDÁNÍ";
             // 
             // menuControlsBtEscapeMenu
             // 
-            this.menuControlsBtEscapeMenu.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.menuControlsBtEscapeMenu.BackColor = System.Drawing.Color.White;
-            this.menuControlsBtEscapeMenu.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuControlsBtEscapeMenu.Location = new System.Drawing.Point(597, 693);
-            this.menuControlsBtEscapeMenu.Name = "menuControlsBtEscapeMenu";
-            this.menuControlsBtEscapeMenu.Size = new System.Drawing.Size(342, 67);
-            this.menuControlsBtEscapeMenu.TabIndex = 5;
-            this.menuControlsBtEscapeMenu.Text = "ZPĚT";
-            this.menuControlsBtEscapeMenu.UseVisualStyleBackColor = false;
-            this.menuControlsBtEscapeMenu.Click += new System.EventHandler(this.buttonClicked);
+            menuControlsBtEscapeMenu.Anchor = AnchorStyles.Top;
+            menuControlsBtEscapeMenu.BackColor = Color.White;
+            menuControlsBtEscapeMenu.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            menuControlsBtEscapeMenu.ForeColor = Color.FromArgb(68, 101, 147);
+            menuControlsBtEscapeMenu.Location = new Point(597, 693);
+            menuControlsBtEscapeMenu.Name = "menuControlsBtEscapeMenu";
+            menuControlsBtEscapeMenu.Size = new Size(342, 67);
+            menuControlsBtEscapeMenu.TabIndex = 5;
+            menuControlsBtEscapeMenu.Text = "ZPĚT";
+            menuControlsBtEscapeMenu.UseVisualStyleBackColor = false;
+            menuControlsBtEscapeMenu.Click += buttonClicked;
             // 
             // menuControlsTableLPControls
             // 
-            this.menuControlsTableLPControls.ColumnCount = 2;
-            this.menuControlsTableLPControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.menuControlsTableLPControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.menuControlsTableLPControls.Controls.Add(this.menuControlsLbL1, 0, 1);
-            this.menuControlsTableLPControls.Controls.Add(this.menuControlsLbL2, 0, 2);
-            this.menuControlsTableLPControls.Controls.Add(this.menuControlsLbL3, 0, 3);
-            this.menuControlsTableLPControls.Controls.Add(this.menuControlsLbL4, 0, 4);
-            this.menuControlsTableLPControls.Controls.Add(this.menuControlsLbL5, 0, 5);
-            this.menuControlsTableLPControls.Controls.Add(this.menuControlsLbL6, 0, 6);
-            this.menuControlsTableLPControls.Controls.Add(this.menuControlsLbL7, 0, 7);
-            this.menuControlsTableLPControls.Controls.Add(this.menuControlsLbR1, 1, 1);
-            this.menuControlsTableLPControls.Controls.Add(this.menuControlsLbR2, 1, 2);
-            this.menuControlsTableLPControls.Controls.Add(this.menuControlsLbR3, 1, 3);
-            this.menuControlsTableLPControls.Controls.Add(this.menuControlsLbR4, 1, 4);
-            this.menuControlsTableLPControls.Controls.Add(this.menuControlsLbR5, 1, 5);
-            this.menuControlsTableLPControls.Controls.Add(this.menuControlsLbR6, 1, 6);
-            this.menuControlsTableLPControls.Controls.Add(this.menuControlsLbR7, 1, 7);
-            this.menuControlsTableLPControls.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.menuControlsTableLPControls.Location = new System.Drawing.Point(3, 163);
-            this.menuControlsTableLPControls.Name = "menuControlsTableLPControls";
-            this.menuControlsTableLPControls.RowCount = 9;
-            this.menuControlsTableLPControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
-            this.menuControlsTableLPControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
-            this.menuControlsTableLPControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
-            this.menuControlsTableLPControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
-            this.menuControlsTableLPControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
-            this.menuControlsTableLPControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
-            this.menuControlsTableLPControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
-            this.menuControlsTableLPControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
-            this.menuControlsTableLPControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
-            this.menuControlsTableLPControls.Size = new System.Drawing.Size(1530, 524);
-            this.menuControlsTableLPControls.TabIndex = 2;
+            menuControlsTableLPControls.ColumnCount = 2;
+            menuControlsTableLPControls.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            menuControlsTableLPControls.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            menuControlsTableLPControls.Controls.Add(menuControlsLbL1, 0, 1);
+            menuControlsTableLPControls.Controls.Add(menuControlsLbL2, 0, 2);
+            menuControlsTableLPControls.Controls.Add(menuControlsLbL3, 0, 3);
+            menuControlsTableLPControls.Controls.Add(menuControlsLbL4, 0, 4);
+            menuControlsTableLPControls.Controls.Add(menuControlsLbL5, 0, 5);
+            menuControlsTableLPControls.Controls.Add(menuControlsLbR1, 1, 1);
+            menuControlsTableLPControls.Controls.Add(menuControlsLbR2, 1, 2);
+            menuControlsTableLPControls.Controls.Add(menuControlsLbR3, 1, 3);
+            menuControlsTableLPControls.Controls.Add(menuControlsLbR4, 1, 4);
+            menuControlsTableLPControls.Controls.Add(menuControlsLbR5, 1, 5);
+            menuControlsTableLPControls.Dock = DockStyle.Fill;
+            menuControlsTableLPControls.Location = new Point(3, 163);
+            menuControlsTableLPControls.Name = "menuControlsTableLPControls";
+            menuControlsTableLPControls.RowCount = 7;
+            menuControlsTableLPControls.RowStyles.Add(new RowStyle(SizeType.Absolute, 61F));
+            menuControlsTableLPControls.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            menuControlsTableLPControls.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            menuControlsTableLPControls.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            menuControlsTableLPControls.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            menuControlsTableLPControls.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            menuControlsTableLPControls.RowStyles.Add(new RowStyle(SizeType.Absolute, 62F));
+            menuControlsTableLPControls.Size = new Size(1530, 524);
+            menuControlsTableLPControls.TabIndex = 2;
             // 
             // menuControlsLbL1
             // 
-            this.menuControlsLbL1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.menuControlsLbL1.AutoSize = true;
-            this.menuControlsLbL1.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuControlsLbL1.ForeColor = System.Drawing.Color.White;
-            this.menuControlsLbL1.Location = new System.Drawing.Point(533, 47);
-            this.menuControlsLbL1.Margin = new System.Windows.Forms.Padding(0, 0, 100, 0);
-            this.menuControlsLbL1.Name = "menuControlsLbL1";
-            this.menuControlsLbL1.Size = new System.Drawing.Size(132, 48);
-            this.menuControlsLbL1.TabIndex = 0;
-            this.menuControlsLbL1.Text = "Doleva";
+            menuControlsLbL1.Anchor = AnchorStyles.Right;
+            menuControlsLbL1.AutoSize = true;
+            menuControlsLbL1.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuControlsLbL1.ForeColor = Color.FromArgb(68, 101, 147);
+            menuControlsLbL1.Location = new Point(360, 77);
+            menuControlsLbL1.Margin = new Padding(0, 0, 100, 0);
+            menuControlsLbL1.Name = "menuControlsLbL1";
+            menuControlsLbL1.Size = new Size(305, 48);
+            menuControlsLbL1.TabIndex = 0;
+            menuControlsLbL1.Text = "Doleva / Doprava";
             // 
             // menuControlsLbL2
             // 
-            this.menuControlsLbL2.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.menuControlsLbL2.AutoSize = true;
-            this.menuControlsLbL2.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuControlsLbL2.ForeColor = System.Drawing.Color.White;
-            this.menuControlsLbL2.Location = new System.Drawing.Point(507, 111);
-            this.menuControlsLbL2.Margin = new System.Windows.Forms.Padding(0, 0, 100, 0);
-            this.menuControlsLbL2.Name = "menuControlsLbL2";
-            this.menuControlsLbL2.Size = new System.Drawing.Size(158, 48);
-            this.menuControlsLbL2.TabIndex = 1;
-            this.menuControlsLbL2.Text = "Doprava";
+            menuControlsLbL2.Anchor = AnchorStyles.Right;
+            menuControlsLbL2.AutoSize = true;
+            menuControlsLbL2.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuControlsLbL2.ForeColor = Color.FromArgb(68, 101, 147);
+            menuControlsLbL2.Location = new Point(408, 157);
+            menuControlsLbL2.Margin = new Padding(0, 0, 100, 0);
+            menuControlsLbL2.Name = "menuControlsLbL2";
+            menuControlsLbL2.Size = new Size(257, 48);
+            menuControlsLbL2.TabIndex = 2;
+            menuControlsLbL2.Text = "Nahoru / Dolu";
             // 
             // menuControlsLbL3
             // 
-            this.menuControlsLbL3.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.menuControlsLbL3.AutoSize = true;
-            this.menuControlsLbL3.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuControlsLbL3.ForeColor = System.Drawing.Color.White;
-            this.menuControlsLbL3.Location = new System.Drawing.Point(521, 175);
-            this.menuControlsLbL3.Margin = new System.Windows.Forms.Padding(0, 0, 100, 0);
-            this.menuControlsLbL3.Name = "menuControlsLbL3";
-            this.menuControlsLbL3.Size = new System.Drawing.Size(144, 48);
-            this.menuControlsLbL3.TabIndex = 2;
-            this.menuControlsLbL3.Text = "Nahoru";
+            menuControlsLbL3.Anchor = AnchorStyles.Right;
+            menuControlsLbL3.AutoSize = true;
+            menuControlsLbL3.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuControlsLbL3.ForeColor = Color.FromArgb(68, 101, 147);
+            menuControlsLbL3.Location = new Point(566, 237);
+            menuControlsLbL3.Margin = new Padding(0, 0, 100, 0);
+            menuControlsLbL3.Name = "menuControlsLbL3";
+            menuControlsLbL3.Size = new Size(99, 48);
+            menuControlsLbL3.TabIndex = 4;
+            menuControlsLbL3.Text = "Skok";
             // 
             // menuControlsLbL4
             // 
-            this.menuControlsLbL4.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.menuControlsLbL4.AutoSize = true;
-            this.menuControlsLbL4.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuControlsLbL4.ForeColor = System.Drawing.Color.White;
-            this.menuControlsLbL4.Location = new System.Drawing.Point(567, 239);
-            this.menuControlsLbL4.Margin = new System.Windows.Forms.Padding(0, 0, 100, 0);
-            this.menuControlsLbL4.Name = "menuControlsLbL4";
-            this.menuControlsLbL4.Size = new System.Drawing.Size(98, 48);
-            this.menuControlsLbL4.TabIndex = 3;
-            this.menuControlsLbL4.Text = "Dolu";
+            menuControlsLbL4.Anchor = AnchorStyles.Right;
+            menuControlsLbL4.AutoSize = true;
+            menuControlsLbL4.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuControlsLbL4.ForeColor = Color.FromArgb(68, 101, 147);
+            menuControlsLbL4.Location = new Point(563, 317);
+            menuControlsLbL4.Margin = new Padding(0, 0, 100, 0);
+            menuControlsLbL4.Name = "menuControlsLbL4";
+            menuControlsLbL4.Size = new Size(102, 48);
+            menuControlsLbL4.TabIndex = 5;
+            menuControlsLbL4.Text = "Dash";
             // 
             // menuControlsLbL5
             // 
-            this.menuControlsLbL5.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.menuControlsLbL5.AutoSize = true;
-            this.menuControlsLbL5.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuControlsLbL5.ForeColor = System.Drawing.Color.White;
-            this.menuControlsLbL5.Location = new System.Drawing.Point(566, 303);
-            this.menuControlsLbL5.Margin = new System.Windows.Forms.Padding(0, 0, 100, 0);
-            this.menuControlsLbL5.Name = "menuControlsLbL5";
-            this.menuControlsLbL5.Size = new System.Drawing.Size(99, 48);
-            this.menuControlsLbL5.TabIndex = 4;
-            this.menuControlsLbL5.Text = "Skok";
-            // 
-            // menuControlsLbL6
-            // 
-            this.menuControlsLbL6.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.menuControlsLbL6.AutoSize = true;
-            this.menuControlsLbL6.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuControlsLbL6.ForeColor = System.Drawing.Color.White;
-            this.menuControlsLbL6.Location = new System.Drawing.Point(563, 367);
-            this.menuControlsLbL6.Margin = new System.Windows.Forms.Padding(0, 0, 100, 0);
-            this.menuControlsLbL6.Name = "menuControlsLbL6";
-            this.menuControlsLbL6.Size = new System.Drawing.Size(102, 48);
-            this.menuControlsLbL6.TabIndex = 5;
-            this.menuControlsLbL6.Text = "Dash";
-            // 
-            // menuControlsLbL7
-            // 
-            this.menuControlsLbL7.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.menuControlsLbL7.AutoSize = true;
-            this.menuControlsLbL7.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuControlsLbL7.ForeColor = System.Drawing.Color.White;
-            this.menuControlsLbL7.Location = new System.Drawing.Point(539, 431);
-            this.menuControlsLbL7.Margin = new System.Windows.Forms.Padding(0, 0, 100, 0);
-            this.menuControlsLbL7.Name = "menuControlsLbL7";
-            this.menuControlsLbL7.Size = new System.Drawing.Size(126, 48);
-            this.menuControlsLbL7.TabIndex = 6;
-            this.menuControlsLbL7.Text = "Držení";
+            menuControlsLbL5.Anchor = AnchorStyles.Right;
+            menuControlsLbL5.AutoSize = true;
+            menuControlsLbL5.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuControlsLbL5.ForeColor = Color.FromArgb(68, 101, 147);
+            menuControlsLbL5.Location = new Point(539, 397);
+            menuControlsLbL5.Margin = new Padding(0, 0, 100, 0);
+            menuControlsLbL5.Name = "menuControlsLbL5";
+            menuControlsLbL5.Size = new Size(126, 48);
+            menuControlsLbL5.TabIndex = 6;
+            menuControlsLbL5.Text = "Držení";
             // 
             // menuControlsLbR1
             // 
-            this.menuControlsLbR1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.menuControlsLbR1.AutoSize = true;
-            this.menuControlsLbR1.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuControlsLbR1.ForeColor = System.Drawing.Color.White;
-            this.menuControlsLbR1.Location = new System.Drawing.Point(865, 47);
-            this.menuControlsLbR1.Margin = new System.Windows.Forms.Padding(100, 0, 0, 0);
-            this.menuControlsLbR1.Name = "menuControlsLbR1";
-            this.menuControlsLbR1.Size = new System.Drawing.Size(44, 48);
-            this.menuControlsLbR1.TabIndex = 7;
-            this.menuControlsLbR1.Text = "A";
+            menuControlsLbR1.Anchor = AnchorStyles.Left;
+            menuControlsLbR1.AutoSize = true;
+            menuControlsLbR1.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuControlsLbR1.ForeColor = Color.FromArgb(68, 101, 147);
+            menuControlsLbR1.Location = new Point(865, 77);
+            menuControlsLbR1.Margin = new Padding(100, 0, 0, 0);
+            menuControlsLbR1.Name = "menuControlsLbR1";
+            menuControlsLbR1.Size = new Size(105, 48);
+            menuControlsLbR1.TabIndex = 7;
+            menuControlsLbR1.Text = "A / D";
             // 
             // menuControlsLbR2
             // 
-            this.menuControlsLbR2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.menuControlsLbR2.AutoSize = true;
-            this.menuControlsLbR2.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuControlsLbR2.ForeColor = System.Drawing.Color.White;
-            this.menuControlsLbR2.Location = new System.Drawing.Point(865, 111);
-            this.menuControlsLbR2.Margin = new System.Windows.Forms.Padding(100, 0, 0, 0);
-            this.menuControlsLbR2.Name = "menuControlsLbR2";
-            this.menuControlsLbR2.Size = new System.Drawing.Size(46, 48);
-            this.menuControlsLbR2.TabIndex = 8;
-            this.menuControlsLbR2.Text = "D";
+            menuControlsLbR2.Anchor = AnchorStyles.Left;
+            menuControlsLbR2.AutoSize = true;
+            menuControlsLbR2.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuControlsLbR2.ForeColor = Color.FromArgb(68, 101, 147);
+            menuControlsLbR2.Location = new Point(865, 157);
+            menuControlsLbR2.Margin = new Padding(100, 0, 0, 0);
+            menuControlsLbR2.Name = "menuControlsLbR2";
+            menuControlsLbR2.Size = new Size(110, 48);
+            menuControlsLbR2.TabIndex = 8;
+            menuControlsLbR2.Text = "W / S";
             // 
             // menuControlsLbR3
             // 
-            this.menuControlsLbR3.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.menuControlsLbR3.AutoSize = true;
-            this.menuControlsLbR3.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuControlsLbR3.ForeColor = System.Drawing.Color.White;
-            this.menuControlsLbR3.Location = new System.Drawing.Point(865, 175);
-            this.menuControlsLbR3.Margin = new System.Windows.Forms.Padding(100, 0, 0, 0);
-            this.menuControlsLbR3.Name = "menuControlsLbR3";
-            this.menuControlsLbR3.Size = new System.Drawing.Size(55, 48);
-            this.menuControlsLbR3.TabIndex = 9;
-            this.menuControlsLbR3.Text = "W";
+            menuControlsLbR3.Anchor = AnchorStyles.Left;
+            menuControlsLbR3.AutoSize = true;
+            menuControlsLbR3.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuControlsLbR3.ForeColor = Color.FromArgb(68, 101, 147);
+            menuControlsLbR3.Location = new Point(865, 237);
+            menuControlsLbR3.Margin = new Padding(100, 0, 0, 0);
+            menuControlsLbR3.Name = "menuControlsLbR3";
+            menuControlsLbR3.Size = new Size(170, 48);
+            menuControlsLbR3.TabIndex = 11;
+            menuControlsLbR3.Text = "Mezerník";
             // 
             // menuControlsLbR4
             // 
-            this.menuControlsLbR4.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.menuControlsLbR4.AutoSize = true;
-            this.menuControlsLbR4.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuControlsLbR4.ForeColor = System.Drawing.Color.White;
-            this.menuControlsLbR4.Location = new System.Drawing.Point(865, 239);
-            this.menuControlsLbR4.Margin = new System.Windows.Forms.Padding(100, 0, 0, 0);
-            this.menuControlsLbR4.Name = "menuControlsLbR4";
-            this.menuControlsLbR4.Size = new System.Drawing.Size(40, 48);
-            this.menuControlsLbR4.TabIndex = 10;
-            this.menuControlsLbR4.Text = "S";
+            menuControlsLbR4.Anchor = AnchorStyles.Left;
+            menuControlsLbR4.AutoSize = true;
+            menuControlsLbR4.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuControlsLbR4.ForeColor = Color.FromArgb(68, 101, 147);
+            menuControlsLbR4.Location = new Point(865, 317);
+            menuControlsLbR4.Margin = new Padding(100, 0, 0, 0);
+            menuControlsLbR4.Name = "menuControlsLbR4";
+            menuControlsLbR4.Size = new Size(66, 48);
+            menuControlsLbR4.TabIndex = 12;
+            menuControlsLbR4.Text = "Alt";
             // 
             // menuControlsLbR5
             // 
-            this.menuControlsLbR5.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.menuControlsLbR5.AutoSize = true;
-            this.menuControlsLbR5.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuControlsLbR5.ForeColor = System.Drawing.Color.White;
-            this.menuControlsLbR5.Location = new System.Drawing.Point(865, 303);
-            this.menuControlsLbR5.Margin = new System.Windows.Forms.Padding(100, 0, 0, 0);
-            this.menuControlsLbR5.Name = "menuControlsLbR5";
-            this.menuControlsLbR5.Size = new System.Drawing.Size(117, 48);
-            this.menuControlsLbR5.TabIndex = 11;
-            this.menuControlsLbR5.Text = "Space";
-            // 
-            // menuControlsLbR6
-            // 
-            this.menuControlsLbR6.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.menuControlsLbR6.AutoSize = true;
-            this.menuControlsLbR6.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuControlsLbR6.ForeColor = System.Drawing.Color.White;
-            this.menuControlsLbR6.Location = new System.Drawing.Point(865, 367);
-            this.menuControlsLbR6.Margin = new System.Windows.Forms.Padding(100, 0, 0, 0);
-            this.menuControlsLbR6.Name = "menuControlsLbR6";
-            this.menuControlsLbR6.Size = new System.Drawing.Size(66, 48);
-            this.menuControlsLbR6.TabIndex = 12;
-            this.menuControlsLbR6.Text = "Alt";
-            // 
-            // menuControlsLbR7
-            // 
-            this.menuControlsLbR7.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.menuControlsLbR7.AutoSize = true;
-            this.menuControlsLbR7.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.menuControlsLbR7.ForeColor = System.Drawing.Color.White;
-            this.menuControlsLbR7.Location = new System.Drawing.Point(865, 431);
-            this.menuControlsLbR7.Margin = new System.Windows.Forms.Padding(100, 0, 0, 0);
-            this.menuControlsLbR7.Name = "menuControlsLbR7";
-            this.menuControlsLbR7.Size = new System.Drawing.Size(96, 48);
-            this.menuControlsLbR7.TabIndex = 13;
-            this.menuControlsLbR7.Text = "Shift";
+            menuControlsLbR5.Anchor = AnchorStyles.Left;
+            menuControlsLbR5.AutoSize = true;
+            menuControlsLbR5.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuControlsLbR5.ForeColor = Color.FromArgb(68, 101, 147);
+            menuControlsLbR5.Location = new Point(865, 397);
+            menuControlsLbR5.Margin = new Padding(100, 0, 0, 0);
+            menuControlsLbR5.Name = "menuControlsLbR5";
+            menuControlsLbR5.Size = new Size(96, 48);
+            menuControlsLbR5.TabIndex = 13;
+            menuControlsLbR5.Text = "Shift";
             // 
             // timer1
             // 
-            this.timer1.Interval = 1;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            timer1.Interval = 1;
+            timer1.Tick += timer1_Tick;
             // 
             // timerJumpHeadBumpCooldown
             // 
-            this.timerJumpHeadBumpCooldown.Interval = 300;
-            this.timerJumpHeadBumpCooldown.Tick += new System.EventHandler(this.timerJumpHeadBumpCooldown_Tick);
+            timerJumpHeadBumpCooldown.Interval = 300;
+            timerJumpHeadBumpCooldown.Tick += timerJumpHeadBumpCooldown_Tick;
             // 
             // timerGrabAfterJumpCooldown
             // 
-            this.timerGrabAfterJumpCooldown.Interval = 280;
-            this.timerGrabAfterJumpCooldown.Tick += new System.EventHandler(this.timerGrabCooldown_Tick);
+            timerGrabAfterJumpCooldown.Interval = 280;
+            timerGrabAfterJumpCooldown.Tick += timerGrabCooldown_Tick;
             // 
             // timerJumpCooldown
             // 
-            this.timerJumpCooldown.Interval = 30;
-            this.timerJumpCooldown.Tick += new System.EventHandler(this.timerJumpCooldown_Tick);
+            timerJumpCooldown.Interval = 30;
+            timerJumpCooldown.Tick += timerJumpCooldown_Tick;
             // 
             // timerDashedNonVertical
             // 
-            this.timerDashedNonVertical.Tick += new System.EventHandler(this.timerDashedNonVertical_Tick);
+            timerDashedNonVertical.Tick += timerDashedNonVertical_Tick;
             // 
             // MainWindow
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(21)))), ((int)(((byte)(39)))));
-            this.ClientSize = new System.Drawing.Size(1536, 864);
-            this.Controls.Add(this.lbDeveloperStats);
-            this.Controls.Add(this.gameScreen);
-            this.Controls.Add(this.menuStartContainer);
-            this.Controls.Add(this.menuControlsContainer);
-            this.Controls.Add(this.menuEscapeContainer);
-            this.DoubleBuffered = true;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "MainWindow";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Celeste: Forms Edition";
-            this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyDown);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyUp);
-            this.gameScreen.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.player)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.blockBorderLeft)).EndInit();
-            this.menuStartContainer.ResumeLayout(false);
-            this.startTableLP.ResumeLayout(false);
-            this.startTableLP.PerformLayout();
-            this.menuEscapeContainer.ResumeLayout(false);
-            this.menuEscapeTableLP.ResumeLayout(false);
-            this.menuEscapeTableLP.PerformLayout();
-            this.menuControlsContainer.ResumeLayout(false);
-            this.menuControlsTableLP.ResumeLayout(false);
-            this.menuControlsTableLP.PerformLayout();
-            this.menuControlsTableLPControls.ResumeLayout(false);
-            this.menuControlsTableLPControls.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(144F, 144F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            BackColor = Color.FromArgb(15, 21, 39);
+            ClientSize = new Size(1536, 864);
+            Controls.Add(lbDeveloperStats);
+            Controls.Add(gameScreen);
+            Controls.Add(menuMainContainer);
+            Controls.Add(menuControlsContainer);
+            Controls.Add(menuEscapeContainer);
+            DoubleBuffered = true;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(2);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "MainWindow";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Celeste: Forms Edition";
+            TransparencyKey = Color.FromArgb(64, 64, 0);
+            KeyDown += MainWindow_KeyDown;
+            KeyUp += MainWindow_KeyUp;
+            gameScreen.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)player).EndInit();
+            menuMainContainer.ResumeLayout(false);
+            mainTableLP.ResumeLayout(false);
+            mainTableLP.PerformLayout();
+            menuEscapeContainer.ResumeLayout(false);
+            menuEscapeTableLP.ResumeLayout(false);
+            menuEscapeTableLP.PerformLayout();
+            menuControlsContainer.ResumeLayout(false);
+            menuControlsTableLP.ResumeLayout(false);
+            menuControlsTableLP.PerformLayout();
+            menuControlsTableLPControls.ResumeLayout(false);
+            menuControlsTableLPControls.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -674,19 +637,18 @@
         private System.Windows.Forms.Timer timer1;
         private Label lbDeveloperStats;
         private System.Windows.Forms.Timer timerJumpHeadBumpCooldown;
-        private PictureBox blockBorderLeft;
-        private Panel menuStartContainer;
-        private TableLayoutPanel startTableLP;
-        private Label startLbTitle;
-        private Button startBtPlay;
-        private Button startBtSettings;
-        private Button startBtClose;
+        private Panel menuMainContainer;
+        private TableLayoutPanel mainTableLP;
+        private Label mainLbTitle;
+        private Button mainBtPlay;
+        private Button mainBtSettings;
+        private Button mainBtClose;
         private Panel menuEscapeContainer;
-        private Label menuEscapeLbPause;
+        private Label menuEscapeLbTitle;
         private TableLayoutPanel menuEscapeTableLP;
         private Button menuEscapeBtContinue;
-        private Button menuEscapeBtStartMenu;
-        private Label startLbSubtitle;
+        private Button menuEscapeBtMainMenu;
+        private Label mainLbSubtitle;
         private Button menuEscapeBtControls;
         private Panel menuControlsContainer;
         private TableLayoutPanel menuControlsTableLP;
@@ -697,19 +659,17 @@
         private Label menuControlsLbL2;
         private Label menuControlsLbL3;
         private Label menuControlsLbL4;
-        private Label menuControlsLbL5;
-        private Label menuControlsLbL6;
-        private Label menuControlsLbL7;
         private Label menuControlsLbR1;
         private Label menuControlsLbR2;
         private Label menuControlsLbR3;
         private Label menuControlsLbR4;
-        private Label menuControlsLbR5;
-        private Label menuControlsLbR6;
-        private Label menuControlsLbR7;
         private System.Windows.Forms.Timer timerGrabAfterJumpCooldown;
         private System.Windows.Forms.Timer timerJumpCooldown;
         private System.Windows.Forms.Timer timerDashedNonVertical;
-        private Button menuEscapeBtResetScreen;
+        private Button menuEscapeBtScreenReset;
+        private Label mainLbInfo;
+        private Label mainLbAuthor;
+        private Label menuControlsLbR5;
+        private Label menuControlsLbL5;
     }
 }

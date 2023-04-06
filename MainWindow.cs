@@ -5,6 +5,9 @@ namespace Celeste_WinForms;
 public partial class MainWindow : Form
 {
     // Globální promìnné
+    /// Texty programu
+    List<string> texts = Resources.texts.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
     /// Hráè
     bool inputEnabled = false;
 
@@ -22,8 +25,7 @@ public partial class MainWindow : Form
     bool grabAfterJumpCooldown = false;
     int movementSpeed;
     int movementSpeedTarget = 0;
-    int movementSpeedMax;
-    int movementSpeedMaxTarget = 6;
+    int movementSpeedMax = 6;
     int force;
 
     bool closeToBlockLeft, closeToBlockRight;
@@ -67,15 +69,17 @@ public partial class MainWindow : Form
     /// Tagy <summary>
     /// "collision" - na objekt se vztahují kolize
     /// "spring" - pružina
+    /// jump-through - proskoèitelná platforma
     /// </summary>
 
     public MainWindow()
     {
         InitializeComponent();
 
+        LoadTexts("en");
         Level1();
 
-        menuStartContainer.Enabled = true; menuStartContainer.Visible = true;
+        menuMainContainer.Enabled = true; menuMainContainer.Visible = true;
     }
 
     private void timer1_Tick(object sender, EventArgs e)
@@ -156,7 +160,7 @@ public partial class MainWindow : Form
                 // Pokud je hráè blízko k bloku, pøiblíží se pouze o rozdíl mezi hranou hráèe a bloku (proti bugùm)
                 if (block.Tag.ToString().Contains("collision"))
                 {
-                    if (playerLeftOffset - block.Right < (movementSpeed < movementSpeedMax ? movementSpeedMax : movementSpeed) && playerLeftOffset - block.Right >= 0 &&
+                    if (playerLeftOffset - block.Right < (Math.Abs(movementSpeed) < movementSpeedMax ? movementSpeedMax : Math.Abs(movementSpeed)) && playerLeftOffset - block.Right >= 0 &&
                         player.Bottom > block.Top + 1 && player.Top < block.Bottom)
                     {
                         closeToBlockLeft = true;
@@ -552,6 +556,7 @@ public partial class MainWindow : Form
             $"\r\nCameraMovementSpeedTarget: {cameraMovementSpeedTarget}" +
             $"\r\nMovementSpeed: {movementSpeed}" +
             $"\r\nMovementSpeedTarget: {movementSpeedTarget}" +
+            $"\r\nMovementSpeedMax: {movementSpeedMax}" +
             $"\r\nForce: {force}" +
             $"\r\nFacing: {facing}" +
             $"\r\nJump: {jump}" +
@@ -570,15 +575,6 @@ public partial class MainWindow : Form
             $"\r\nDashInput: {dashInput}" +
             $"\r\nDashed: {dashed}" +
             $"\r\nGameScreen.Top: {gameScreen.Top}";
-
-
-        if (movementSpeedMax != movementSpeedMaxTarget)
-        {
-            if (movementSpeedMax > movementSpeedMaxTarget)
-                movementSpeedMax--;
-            else
-                movementSpeedMax = movementSpeedMaxTarget;
-        }
 
         jumpInput = false;
         dashInput = false;
@@ -736,7 +732,7 @@ public partial class MainWindow : Form
         switch (e.KeyCode)
         {
             case Keys.Escape:
-                if (!menuStartContainer.Enabled)
+                if (!menuMainContainer.Enabled)
                 {
                     if (menuEscapeContainer.Enabled)   // Pokud je na obrazovce pauza
                     {
@@ -776,6 +772,10 @@ public partial class MainWindow : Form
 
                 case Keys.NumPad2:
                     spawnLevel(2);
+                    break;
+
+                case Keys.NumPad3:
+                    spawnLevel(3);
                     break;
             }
         }
@@ -826,19 +826,19 @@ public partial class MainWindow : Form
 
         switch (clickedButton.Name)
         {
-            case "startBtPlay":    // Zapnutí hry ze Start menu
+            case "mainBtPlay":    // Zapnutí hry ze Start menu
                 movementSpeed = 0; force = 0;
                 spawnLevel(1);
 
-                menuStartContainer.Enabled = false;
-                menuStartContainer.Visible = false;
+                menuMainContainer.Enabled = false;
+                menuMainContainer.Visible = false;
                 gameScreen.Enabled = true;
                 gameScreen.Visible = true;
                 timer1.Enabled = true;
                 inputEnabled = true;
                 break;
 
-            case "startBtClose":    // Vypnutí hry ze Start menu
+            case "mainBtClose":    // Vypnutí hry ze Start menu
                 Close();
                 break;
 
@@ -846,7 +846,7 @@ public partial class MainWindow : Form
                 menuEscapeContinue(false);
                 break;
 
-            case "menuEscapeBtResetScreen":    // Reset obrazovky z Escape menu
+            case "menuEscapeBtScreenReset":    // Reset obrazovky z Escape menu
                 menuEscapeContinue(true);
                 break;
 
@@ -860,7 +860,7 @@ public partial class MainWindow : Form
                 menuEscapeContainer.Enabled = true; menuEscapeContainer.Visible = true;
                 break;
 
-            case "menuEscapeBtStartMenu":    // Odchod do Start menu z Escape menu
+            case "menuEscapeBtMainMenu":    // Odchod do Start menu z Escape menu
                 menuControlsContainer.Enabled = false; menuControlsContainer.Visible = false;
                 menuEscapeContainer.Enabled = false; menuEscapeContainer.Visible = false;
 
@@ -868,8 +868,8 @@ public partial class MainWindow : Form
                 inputEnabled = false;
 
                 gameScreen.Enabled = false; gameScreen.Visible = false;
-                menuStartContainer.Enabled = true;
-                menuStartContainer.Visible = true;
+                menuMainContainer.Enabled = true;
+                menuMainContainer.Visible = true;
                 break;
         }
 
@@ -922,33 +922,60 @@ public partial class MainWindow : Form
 
     private void Level2()
     {
-        gameScreen.Height = 1686;
+        gameScreen.Height = 1627;
 
-        Terrain pictureBox1 = new(0, 1590, 1339, 96, "collision", Color.FromArgb(95, 68, 35), false, Resources.blank, gameScreen);
-        Terrain pictureBox2 = new(219, 1547, 235, 43, "collision", Color.FromArgb(95, 68, 35), false, Resources.blank, gameScreen);
-        Terrain pictureBox3 = new(645, 1506, 222, 84, "collision", Color.FromArgb(95, 68, 35), false, Resources.blank, gameScreen);
-        Terrain pictureBox4 = new(942, 1431, 190, 84, "collision", Color.FromArgb(95, 68, 35), false, Resources.blank, gameScreen);
-        Terrain pictureBox5 = new(271, 1245, 66, 113, "collision", Color.FromArgb(115, 149, 218), false, Resources.blank, gameScreen);
-        Terrain pictureBox6 = new(1230, 1570, 51, 20, "collision spring", Color.FromArgb(154, 205, 50), false, Resources.blank, gameScreen);
-        Terrain pictureBox7 = new(31, 1164, 66, 426, "collision", Color.FromArgb(115, 149, 218), false, Resources.blank, gameScreen);
-        Terrain pictureBox8 = new(305, 461, 66, 540, "collision", Color.FromArgb(115, 149, 218), false, Resources.blank, gameScreen);
-        Terrain pictureBox9 = new(507, 1245, 222, 62, "collision", Color.FromArgb(115, 149, 218), false, Resources.blank, gameScreen);
-        Terrain pictureBox10 = new(1330, 169, 149, 790, "collision", Color.FromArgb(95, 68, 35), false, Resources.blank, gameScreen);
-        Terrain pictureBox11 = new(942, 1101, 222, 84, "collision", Color.FromArgb(115, 149, 218), false, Resources.blank, gameScreen);
-        Terrain pictureBox12 = new(470, 933, 397, 55, "collision", Color.FromArgb(95, 68, 35), false, Resources.blank, gameScreen);
-        Terrain pictureBox13 = new(793, 913, 51, 20, "collision spring", Color.FromArgb(154, 205, 50), false, Resources.blank, gameScreen);
-        Terrain pictureBox14 = new(1016, 790, 190, 48, "collision", Color.FromArgb(95, 68, 35), false, Resources.blank, gameScreen);
-        Terrain pictureBox15 = new(371, 726, 180, 30, "collision jump-through", Color.FromArgb(65, 50, 31), false, Resources.blank, gameScreen);
-        Terrain pictureBox16 = new(31, 31, 200, 336, "collision", Color.FromArgb(115, 149, 218), false, Resources.blank, gameScreen);
-        Terrain pictureBox17 = new(470, 240, 228, 48, "collision", Color.FromArgb(95, 68, 35), false, Resources.blank, gameScreen);
-        Terrain pictureBox18 = new(1104, 269, 226, 30, "collision jump-through", Color.FromArgb(65, 50, 31), false, Resources.blank, gameScreen);
+        Terrain pictureBox31 = new(1352, 448, 47, 28, "collision spring", Color.FromArgb(154, 205, 50), false, Resources.blank, gameScreen);
+        Terrain pictureBox30 = new(1349, 684, 50, 67, "collision", Color.FromArgb(128, 0, 0), false, Resources.blank, gameScreen);
+        Terrain pictureBox29 = new(1225, 883, 297, 28, "collision", Color.FromArgb(255, 0, 0), false, Resources.blank, gameScreen);
+        Terrain pictureBox28 = new(16, 1, 1209, 17, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox27 = new(1522, -1576, 16, 1627, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox23 = new(-1, -1576, 16, 1627, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox22 = new(913, 506, 114, 88, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox26 = new(1341, 476, 69, 63, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox25 = new(1181, 18, 44, 127, "collision", Color.FromArgb(255, 0, 0), false, Resources.blank, gameScreen);
+        Terrain pictureBox24 = new(1181, 394, 44, 517, "collision", Color.FromArgb(255, 0, 0), false, Resources.blank, gameScreen);
+        Terrain pictureBox21 = new(378, 748, 114, 88, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox20 = new(16, 394, 230, 33, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox19 = new(182, 428, 64, 53, "collision", Color.FromArgb(255, 0, 0), false, Resources.blank, gameScreen);
+        Terrain pictureBox18 = new(182, 598, 64, 62, "collision", Color.FromArgb(255, 0, 0), false, Resources.blank, gameScreen);
+        Terrain pictureBox17 = new(246, 911, 1276, 35, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox16 = new(182, 659, 64, 445, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox15 = new(16, 1264, 121, 28, "collision", Color.FromArgb(255, 0, 0), false, Resources.blank, gameScreen);
+        Terrain pictureBox14 = new(262, 1264, 121, 28, "collision", Color.FromArgb(255, 0, 0), false, Resources.blank, gameScreen);
+        Terrain pictureBox13 = new(488, 1264, 121, 28, "collision", Color.FromArgb(255, 0, 0), false, Resources.blank, gameScreen);
+        Terrain pictureBox12 = new(609, 1346, 50, 75, "collision", Color.FromArgb(255, 0, 0), false, Resources.blank, gameScreen);
+        Terrain pictureBox11 = new(1218, 1448, 50, 67, "collision", Color.FromArgb(128, 0, 0), false, Resources.blank, gameScreen);
+        Terrain pictureBox10 = new(1071, 30, 338, 20, "collision", Color.FromArgb(255, 0, 0), false, Resources.blank, gameScreen);
+        Terrain pictureBox9 = new(1409, 1519, 50, 108, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox8 = new(1098, 1323, 294, 43, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox7 = new(1021, 1519, 50, 108, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox6 = new(838, 1344, 50, 283, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox5 = new(838, 1134, 50, 210, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox4 = new(659, 1323, 179, 22, "collision jump-through", Color.FromArgb(65, 50, 31), false, Resources.blank, gameScreen);
+        Terrain pictureBox3 = new(609, 1134, 50, 210, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox1 = new(16, 1293, 593, 52, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Terrain pictureBox2 = new(16, 1519, 476, 52, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
 
-        terrainArray = new Terrain[] { pictureBox1, pictureBox2, pictureBox3, pictureBox4, pictureBox5, pictureBox6, pictureBox7, pictureBox8, pictureBox9, pictureBox10, pictureBox11, pictureBox12, pictureBox13, pictureBox14, pictureBox15, pictureBox16, pictureBox17, pictureBox18, };
+        terrainArray = new Terrain[] { pictureBox31, pictureBox30, pictureBox29, pictureBox28, pictureBox27, pictureBox23, pictureBox22, pictureBox26, pictureBox25, pictureBox24, pictureBox21, pictureBox20, pictureBox19, pictureBox18, pictureBox17, pictureBox16, pictureBox15, pictureBox14, pictureBox13, pictureBox12, pictureBox11, pictureBox10, pictureBox9, pictureBox8, pictureBox7, pictureBox6, pictureBox5, pictureBox4, pictureBox3, pictureBox1, pictureBox2, };
 
-        player.Left = 647;
-        player.Top = 866;
+        player.Left = 86;
+        player.Top = 1453;
 
-        CameraFocus("Player");
+        CameraFocus("Bottom");
+    }
+
+    private void Level3()
+    {
+        gameScreen.Height = 864;
+
+        Terrain pictureBox1 = new(0, 768, 1339, 96, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+
+        terrainArray = new Terrain[] { pictureBox1 };
+
+        player.Left = 186;
+        player.Top = 701;
+
+        CameraFocus("Bottom");
     }
 
     private void spawnLevel(int level)
@@ -962,6 +989,7 @@ public partial class MainWindow : Form
         {
             case 1: Level1(); break;
             case 2: Level2(); break;
+            case 3: Level3(); break;
         }
 
         currentLevel = level;
@@ -980,14 +1008,14 @@ public partial class MainWindow : Form
 
     string lastMaterial = "ice";
 
-    SoundManager soundJumped = new("jump", 0.5f, false);
-    SoundManager soundLandedIce = new("land_ice", 0.5f, true);
+    SoundManager soundJumped = new("jump", false);
+    SoundManager soundLandedIce = new("land_ice", true);
     public int landVariant = 1;
-    SoundManager soundSpring = new("spring", 0.5f, false);
-    SoundManager soundGrabOnIce = new("grab_ice", 0.5f, true);
+    SoundManager soundSpring = new("spring", false);
+    SoundManager soundGrabOnIce = new("grab_ice", true);
     public int grabOnVariant = 1;
-    SoundManager soundGrabOff = new("grab_letgo", 0.5f, false);
-    SoundManager soundDash = new("dash", 0.5f, false);
+    SoundManager soundGrabOff = new("grab_letgo", false);
+    SoundManager soundDash = new("dash", false);
 
     public void PlaySound(string sound)
     {
@@ -1046,4 +1074,50 @@ public partial class MainWindow : Form
     }
 
     #endregion Sound design
+
+    #region Texts
+
+    private void LoadTexts(string language)
+    {
+        int langIndex = 0;
+        switch (language)
+        {
+            case "cs":
+                langIndex = 0;
+                break;
+
+            case "en":
+                langIndex = 1;
+                break;
+        }
+
+        // Hlavní menu
+        mainBtPlay.Text = texts[2].Split('\t')[langIndex];
+        mainBtSettings.Text = texts[3].Split('\t')[langIndex];
+        mainBtClose.Text = texts[4].Split('\t')[langIndex];
+        mainLbInfo.Text = texts[11].Split('\t')[langIndex];
+
+        // Ovládání
+        menuControlsLbTitle.Text = texts[13].Split('\t')[langIndex];
+        menuControlsLbL1.Text = texts[14].Split('\t')[langIndex];
+        menuControlsLbL2.Text = texts[15].Split('\t')[langIndex];
+        menuControlsLbL3.Text = texts[16].Split('\t')[langIndex];
+        menuControlsLbL4.Text = texts[17].Split('\t')[langIndex];
+        menuControlsLbL5.Text = texts[18].Split('\t')[langIndex];
+        menuControlsLbR1.Text = texts[19].Split('\t')[langIndex];
+        menuControlsLbR2.Text = texts[20].Split('\t')[langIndex];
+        menuControlsLbR3.Text = texts[21].Split('\t')[langIndex];
+        menuControlsLbR4.Text = texts[22].Split('\t')[langIndex];
+        menuControlsLbR5.Text = texts[23].Split('\t')[langIndex];
+        menuControlsBtEscapeMenu.Text = texts[5].Split('\t')[langIndex];
+
+        // Pauza
+        menuEscapeLbTitle.Text = texts[25].Split('\t')[langIndex];
+        menuEscapeBtContinue.Text = texts[6].Split('\t')[langIndex];
+        menuEscapeBtScreenReset.Text = texts[7].Split('\t')[langIndex];
+        menuEscapeBtControls.Text = texts[8].Split('\t')[langIndex];
+        menuEscapeBtMainMenu.Text = texts[9].Split('\t')[langIndex];
+    }
+
+    #endregion Texts
 }
