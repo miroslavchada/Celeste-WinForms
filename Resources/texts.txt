@@ -9,7 +9,14 @@ RESET OBRAZOVKY	SCREEN RESET
 OVLÁDÁNÍ	CONTROLS
 HLAVNÍ NABÍDKA	MAIN MENU
 \\ Main menu
-Hra vznikla v rámci roèníkové práce ve druhém roèníku na Støední prùmyslové škole Ostrov	The game was created as an second-year subject-specific project at the Secondary Technical School Ostrov
+Hra vznikla v rámci roèníkové práce ve druhém roèníku na Støední prùmyslové škole Ostrov	This game was created as an second-year subject-specific project at the Secondary Technical School Ostrov
+\\ Settings
+NASTAVENÍ	SETTINGS
+Hlasitost	Volume
+Jazyk	Language
+Vstupní zaøízení	Input device
+Klávesnice	Keyboard
+Ovladaè	Controller
 \\ Contols
 OVLÁDÁNÍ	CONTROLS
 Doleva / Doprava	Left / Right

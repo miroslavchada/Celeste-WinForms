@@ -50,12 +50,18 @@ public partial class MainWindow : Form
 
     int playerLeftOffset, playerRightOffset;
 
+    /// Interface
+    int inputType = 0;  // 0 - Klávesnice   1 - PS5/PS4   2 - Xbox
+    string settingsOpenedFrom = "mainmenu";
+    int langIndex = 0;
+
     /// Level
     int currentLevel = 1;
 
     Terrain[] terrainArray;
 
     /// Zvuky
+    float volume = 0.7f;
     bool grabbedOn = false;
     bool touchedGround = true;
 
@@ -76,7 +82,7 @@ public partial class MainWindow : Form
     {
         InitializeComponent();
 
-        LoadTexts("en");
+        LoadTexts(0);
         Level1();
 
         menuMainContainer.Enabled = true; menuMainContainer.Visible = true;
@@ -582,11 +588,11 @@ public partial class MainWindow : Form
         if (!onBlockDown)
             touchedGround = false;
 
-        // Reset hry, pokud se dostane hráè mimo hrací plochu
-        if (player.Bottom < gameScreen.Top || player.Left > gameScreen.Right || player.Top > gameScreen.Bottom + gameScreen.Height - 864 || player.Right < gameScreen.Left)
-        {
-            menuEscapeContinue(true);
-        }
+        //// Reset hry, pokud se dostane hráè mimo hrací plochu
+        //if (player.Bottom < gameScreen.Top || player.Left > gameScreen.Right || player.Top > gameScreen.Bottom + gameScreen.Height - 864 || player.Right < gameScreen.Left)
+        //{
+        //    menuEscapeContinue(true);
+        //}
     }
 
     #region Kamera
@@ -738,6 +744,10 @@ public partial class MainWindow : Form
                     {
                         menuEscapeBtContinue.PerformClick();
                     }
+                    else if (menuSettingsContainer.Enabled)
+                    {
+                        menuSettingsBtBack.PerformClick();
+                    }
                     else if (menuControlsContainer.Enabled)   // Pokud je na obrazovce ovládání
                     {
                         menuControlsBtEscapeMenu.PerformClick();
@@ -820,25 +830,37 @@ public partial class MainWindow : Form
         }
     }
 
+    private void menuSettingsTrackR1_Scroll(object sender, EventArgs e)
+    {
+        volume = (float)(menuSettingsTrackR1.Value * 0.05);
+        menuSettingsLbVolumeR1.Text = Math.Floor(volume * 100).ToString();
+    }
+
     private void buttonClicked(object sender, EventArgs e)
     {
-        Button clickedButton = sender as Button;
+        Control clickedControl = sender as Control;
 
-        switch (clickedButton.Name)
+        switch (clickedControl.Name)
         {
-            case "mainBtPlay":    // Zapnutí hry ze Start menu
+            case "menuMainBtPlay":    // Zapnutí hry ze Start menu
                 movementSpeed = 0; force = 0;
                 spawnLevel(1);
 
-                menuMainContainer.Enabled = false;
-                menuMainContainer.Visible = false;
-                gameScreen.Enabled = true;
-                gameScreen.Visible = true;
+                menuMainContainer.Enabled = false; menuMainContainer.Visible = false;
+                gameScreen.Enabled = true; gameScreen.Visible = true;
+
                 timer1.Enabled = true;
                 inputEnabled = true;
                 break;
 
-            case "mainBtClose":    // Vypnutí hry ze Start menu
+            case "menuMainBtSettings":
+                menuMainContainer.Enabled = false; menuMainContainer.Visible = false;
+                menuSettingsContainer.Enabled = true; menuSettingsContainer.Visible = true;
+
+                settingsOpenedFrom = "mainmenu";
+                break;
+
+            case "menuMainBtClose":    // Vypnutí hry ze Start menu
                 Close();
                 break;
 
@@ -848,6 +870,13 @@ public partial class MainWindow : Form
 
             case "menuEscapeBtScreenReset":    // Reset obrazovky z Escape menu
                 menuEscapeContinue(true);
+                break;
+
+            case "menuEscapeBtSettings":
+                menuEscapeContainer.Enabled = false; menuEscapeContainer.Visible = false;
+                menuSettingsContainer.Enabled = true; menuSettingsContainer.Visible = true;
+
+                settingsOpenedFrom = "pause";
                 break;
 
             case "menuEscapeBtControls":    // Zobrazení ovládání v Escape menu
@@ -870,6 +899,44 @@ public partial class MainWindow : Form
                 gameScreen.Enabled = false; gameScreen.Visible = false;
                 menuMainContainer.Enabled = true;
                 menuMainContainer.Visible = true;
+                break;
+
+            case "menuSettingsBtBack":  // Odchod z Nastavení
+                menuSettingsContainer.Enabled = false; menuSettingsContainer.Visible = false;
+                if (settingsOpenedFrom == "mainmenu")
+                {
+                    menuMainContainer.Visible = true; menuMainContainer.Enabled = true;
+                }
+                else if (settingsOpenedFrom == "pause")
+                {
+                    menuEscapeContainer.Visible = true; menuEscapeContainer.Enabled = true;
+                }
+                break;
+
+            case "menuSettingsLbR2ControlL":   // Volba jazyka (zpìt)
+                if (!(langIndex <= 0))
+                    LoadTexts(-1);
+                break;
+
+            case "menuSettingsLbR2ControlR":   // Volba jazyka (další)
+                if (!(langIndex >= languages.Count() - 1))
+                    LoadTexts(1);
+                break;
+
+            case "menuSettingsLbR3ControlL":   // Volba vstupu (zpìt)
+                if (!(inputType <= 0))
+                {
+                    inputType--;
+                    LoadTexts(0);
+                }
+                break;
+
+            case "menuSettingsLbR3ControlR":   // Volba vstupu (další)
+                if (!(inputType >= inputs.Count() - 1))
+                {
+                    inputType++;
+                    LoadTexts(0);
+                }
                 break;
         }
 
@@ -1075,49 +1142,84 @@ public partial class MainWindow : Form
 
     #endregion Sound design
 
-    #region Texts
+    #region Texty
 
-    private void LoadTexts(string language)
+    List<string> languages = new List<string>()
     {
-        int langIndex = 0;
-        switch (language)
-        {
-            case "cs":
-                langIndex = 0;
-                break;
+        "Èesky",
+        "English"
+    };
 
-            case "en":
-                langIndex = 1;
-                break;
-        }
+    List<string> inputs = new List<string>()
+    {
+        "Klávesnice\tKeyboard",
+        "DualShock 4",
+        "Xbox Elite Series 2"
+    };
+
+    private void LoadTexts(int shift)
+    {
+        langIndex += shift;
+        menuSettingsLbR2Language.Text = languages[langIndex];
+
+        foreach (Control text in menuSettingsLbR2Container.Controls)
+            text.ForeColor = Color.FromArgb(68, 101, 147);
+
+        if (langIndex <= 0)
+            menuSettingsLbR2ControlL.ForeColor = Color.FromArgb(130, 160, 200);
+
+        if (langIndex >= languages.Count() - 1)
+            menuSettingsLbR2ControlR.ForeColor = Color.FromArgb(130, 160, 200);
+
 
         // Hlavní menu
-        mainBtPlay.Text = texts[2].Split('\t')[langIndex];
-        mainBtSettings.Text = texts[3].Split('\t')[langIndex];
-        mainBtClose.Text = texts[4].Split('\t')[langIndex];
+        menuMainBtPlay.Text = texts[2].Split('\t')[langIndex];
+        menuMainBtSettings.Text = texts[3].Split('\t')[langIndex];
+        menuMainBtClose.Text = texts[4].Split('\t')[langIndex];
         mainLbInfo.Text = texts[11].Split('\t')[langIndex];
 
+        // Nastavení
+        menuSettingsLbTitle.Text = texts[13].Split('\t')[langIndex];
+        menuSettingsLbL1.Text = texts[14].Split('\t')[langIndex];
+        menuSettingsLbL2.Text = texts[15].Split('\t')[langIndex];
+        menuSettingsLbL3.Text = texts[16].Split('\t')[langIndex];
+
+        menuSettingsLbR3Input.Text = inputType == 0 ? inputs[0].Split('\t')[langIndex] : inputs[inputType];
+
+        foreach (Control text in menuSettingsLbR3Container.Controls)
+            text.ForeColor = Color.FromArgb(68, 101, 147);
+
+        if (inputType <= 0)
+            menuSettingsLbR3ControlL.ForeColor = Color.FromArgb(130, 160, 200);
+
+        if (inputType >= inputs.Count() - 1)
+            menuSettingsLbR3ControlR.ForeColor = Color.FromArgb(130, 160, 200);
+
+
+        menuSettingsBtBack.Text = texts[5].Split('\t')[langIndex];
+
         // Ovládání
-        menuControlsLbTitle.Text = texts[13].Split('\t')[langIndex];
-        menuControlsLbL1.Text = texts[14].Split('\t')[langIndex];
-        menuControlsLbL2.Text = texts[15].Split('\t')[langIndex];
-        menuControlsLbL3.Text = texts[16].Split('\t')[langIndex];
-        menuControlsLbL4.Text = texts[17].Split('\t')[langIndex];
-        menuControlsLbL5.Text = texts[18].Split('\t')[langIndex];
-        menuControlsLbR1.Text = texts[19].Split('\t')[langIndex];
-        menuControlsLbR2.Text = texts[20].Split('\t')[langIndex];
-        menuControlsLbR3.Text = texts[21].Split('\t')[langIndex];
-        menuControlsLbR4.Text = texts[22].Split('\t')[langIndex];
-        menuControlsLbR5.Text = texts[23].Split('\t')[langIndex];
+        menuControlsLbTitle.Text = texts[20].Split('\t')[langIndex];
+        menuControlsLbL1.Text = texts[21].Split('\t')[langIndex];
+        menuControlsLbL2.Text = texts[22].Split('\t')[langIndex];
+        menuControlsLbL3.Text = texts[23].Split('\t')[langIndex];
+        menuControlsLbL4.Text = texts[24].Split('\t')[langIndex];
+        menuControlsLbL5.Text = texts[25].Split('\t')[langIndex];
+        menuControlsLbR1.Text = texts[26].Split('\t')[langIndex];
+        menuControlsLbR2.Text = texts[27].Split('\t')[langIndex];
+        menuControlsLbR3.Text = texts[28].Split('\t')[langIndex];
+        menuControlsLbR4.Text = texts[29].Split('\t')[langIndex];
+        menuControlsLbR5.Text = texts[30].Split('\t')[langIndex];
         menuControlsBtEscapeMenu.Text = texts[5].Split('\t')[langIndex];
 
         // Pauza
-        menuEscapeLbTitle.Text = texts[25].Split('\t')[langIndex];
+        menuEscapeLbTitle.Text = texts[32].Split('\t')[langIndex];
         menuEscapeBtContinue.Text = texts[6].Split('\t')[langIndex];
         menuEscapeBtScreenReset.Text = texts[7].Split('\t')[langIndex];
+        menuEscapeBtSettings.Text = texts[3].Split('\t')[langIndex];
         menuEscapeBtControls.Text = texts[8].Split('\t')[langIndex];
         menuEscapeBtMainMenu.Text = texts[9].Split('\t')[langIndex];
     }
 
-    #endregion Texts
+    #endregion Texty
 }

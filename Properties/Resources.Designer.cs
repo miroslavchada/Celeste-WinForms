@@ -295,15 +295,14 @@ namespace Celeste_WinForms.Properties {
         ///OVLÁDÁNÍ	CONTROLS
         ///HLAVNÍ NABÍDKA	MAIN MENU
         ///\\ Main menu
-        ///Hra vznikla v rámci ročníkové práce ve druhém ročníku na Střední průmyslové škole Ostrov	The game was created as an second-year subject-specific project at the Secondary Technical School Ostrov
-        ///\\ Contols
-        ///OVLÁDÁNÍ	CONTROLS
-        ///Doleva / Doprava	Left / Right
-        ///Nahoru / Dolu	Up / Down
-        ///Skok	Jump
-        ///Dash	Dash
-        ///Držení	Grab
-        /// [zbytek řetězce byl zkrácen];.
+        ///Hra vznikla v rámci ročníkové práce ve druhém ročníku na Střední průmyslové škole Ostrov	This game was created as an second-year subject-specific project at the Secondary Technical School Ostrov
+        ///\\ Settings
+        ///NASTAVENÍ	SETTINGS
+        ///Hlasitost	Volume
+        ///Jazyk	Language
+        ///Vstupní zařízení	Input device
+        ///Klávesnice	Keyboard
+        ///Ov [zbytek řetězce byl zkrácen];.
         /// </summary>
         internal static string texts {
             get {
