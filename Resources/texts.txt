@@ -14,7 +14,7 @@ Hra vznikla v rámci roèníkové práce ve druhém roèníku na Støední prùmyslové škol
 NASTAVENÍ	SETTINGS
 Hlasitost	Volume
 Jazyk	Language
-Vstupní zaøízení	Input device
+Zvuky	Sound
 Klávesnice	Keyboard
 Ovladaè	Controller
 \\ Contols
@@ -29,5 +29,6 @@ W / S	W / S
 Mezerník	Space
 Alt	Alt
 Shift	Shift
+Pauza	Pause
 \\ Pause
 PAUZA	PAUSED

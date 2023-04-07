@@ -118,9 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="bg_mario_h540" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\bg_mario_h540.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="blank" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\blank.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -166,20 +163,26 @@
   <data name="land_ice_05" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\land_ice_05.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="mario" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mario.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="mario-sprites0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mario-sprites0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="mario-sprites0_" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mario-sprites0_.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="mario-sprites1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mario-sprites1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="mario_" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\mario_.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playstationDash" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\playstationDash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playstationGrab" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\playstationGrab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playstationJump" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\playstationJump.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playstationLR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\playstationLR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playstationMenu" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\playstationMenu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="playstationUD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\playstationUD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="spring" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\spring.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -195,5 +198,23 @@
   </data>
   <data name="wow_so_secret" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\wow_so_secret.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="xboxDash" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\xboxDash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="xboxGrab" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\xboxGrab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="xboxJump" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\xboxJump.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="xboxLR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\xboxLR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="xboxMenu" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\xboxMenu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="xboxUD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\xboxUD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

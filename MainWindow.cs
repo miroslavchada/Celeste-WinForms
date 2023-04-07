@@ -1,4 +1,9 @@
 using Celeste_WinForms.Properties;
+using System.ComponentModel;
+using System.Diagnostics;
+using XInputDotNetPure;
+using ButtonState = XInputDotNetPure.ButtonState;
+using SharpDX.DirectInput;
 
 namespace Celeste_WinForms;
 
@@ -38,12 +43,6 @@ public partial class MainWindow : Form
     bool climbed;
     string lastGrabbedOn = "";
 
-    // Ošetøení bugu dashe
-    bool dashCloseToBlockRight, dashCloseToBlockDown, dashCloseToBlockLeft, dashCloseToBlockUp;
-    bool dashCloseToBlockRightDownRight, dashCloseToBlockRightDownDown, dashCloseToBlockLeftDownLeft, dashCloseToBlockLeftDownDown, dashCloseToBlockLeftUpLeft, dashCloseToBlockLeftUpUp, dashCloseToBlockRightUpRight, dashCloseToBlockRightUpUp;
-    int dashCloseToBlockRightDist, dashCloseToBlockDownDist, dashCloseToBlockLeftDist, dashCloseToBlockUpDist;
-    int dashCloseToBlockRightDownRightDist, dashCloseToBlockRightDownDownDist, dashCloseToBlockLeftDownLeftDist, dashCloseToBlockLeftDownDownDist, dashCloseToBlockLeftUpLeftDist, dashCloseToBlockLeftUpUpDist, dashCloseToBlockRightUpRightDist, dashCloseToBlockRightUpUpDist;
-
     bool dashInput, ctrlReleased = true;
     bool dashed;
     bool dashedNonVertical;
@@ -51,8 +50,11 @@ public partial class MainWindow : Form
     int playerLeftOffset, playerRightOffset;
 
     /// Interface
-    int inputType = 0;  // 0 - Klávesnice   1 - PS5/PS4   2 - Xbox
+    string playingOn;
+    Point cursor;
+    Point previousCursor;
     string settingsOpenedFrom = "mainmenu";
+    string controlsOpenedFrom = "mainmenu";
     int langIndex = 0;
 
     /// Level
@@ -61,6 +63,7 @@ public partial class MainWindow : Form
     Terrain[] terrainArray;
 
     /// Zvuky
+    public int soundOutputType = 0;
     float volume = 0.7f;
     bool grabbedOn = false;
     bool touchedGround = true;
@@ -69,6 +72,30 @@ public partial class MainWindow : Form
     int cameraMovementSpeed, cameraMovementSpeedTarget;
     int playerCenterY;
 
+    // Herní ovladaèe
+    /// Sjednocené
+    bool cA, cB, cX, cY;
+    bool cLeft, cRight, cUp, cDown;
+    bool cTrigger;
+    bool cOptions;
+
+    /// Xbox
+    private GamePadState previousXboxState;
+    GamePadState xboxState;
+    bool xboxA, xboxB, xboxX, xboxY;
+    bool xboxLeft, xboxRight, xboxUp, xboxDown;
+    bool xboxTrigger;
+    bool xboxOptions;
+
+    /// PlayStation
+    Joystick joystick;
+    bool psControllerConnected;
+    bool[]? previousButtons;
+    bool previousButtonsCleared = true;
+    bool psA, psB, psX, psY;
+    bool psLeft, psRight, psUp, psDown;
+    bool psTrigger;
+    bool psOptions;
 
     bool developerKeys;   // NumPad0 stisknuta
 
@@ -85,11 +112,205 @@ public partial class MainWindow : Form
         LoadTexts(0);
         Level1();
 
+        FindControllers();
+
         menuMainContainer.Enabled = true; menuMainContainer.Visible = true;
+        PlayingOnInfo("keyboard");
     }
+
+    #region Herní ovladaèe
+
+    private void timerControllers_Tick(object sender, EventArgs e)
+    {
+        // Reset inputù
+        xboxA = false; xboxB = false; xboxX = false; xboxY = false;
+        xboxLeft = false; xboxRight = false; xboxUp = false; xboxDown = false;
+        xboxTrigger = false; xboxOptions = false;
+        psA = false; psB = false; psX = false; psY = false;
+        psLeft = false; psRight = false; psUp = false; psDown = false;
+        psTrigger = false; psOptions = false;
+
+        // Xbox
+        GamePadState xboxState = GamePad.GetState(PlayerIndex.One);
+        if (xboxState.IsConnected)
+        {
+            if (inputEnabled)
+            {
+                xboxA = xboxState.Buttons.A == ButtonState.Pressed;
+                xboxB = xboxState.Buttons.B == ButtonState.Pressed;
+                xboxX = xboxState.Buttons.X == ButtonState.Pressed;
+                xboxY = xboxState.Buttons.Y == ButtonState.Pressed;
+                xboxLeft =
+                    xboxState.ThumbSticks.Left.X < -0.4 ||
+                    xboxState.DPad.Left == ButtonState.Pressed;
+                xboxRight =
+                    xboxState.ThumbSticks.Left.X > 0.4 ||
+                    xboxState.DPad.Right == ButtonState.Pressed;
+                xboxUp =
+                    xboxState.ThumbSticks.Left.Y > 0.4 ||
+                    xboxState.DPad.Up == ButtonState.Pressed;
+                xboxDown =
+                    xboxState.ThumbSticks.Left.Y < -0.4 ||
+                    xboxState.DPad.Down == ButtonState.Pressed;
+                xboxTrigger =
+                    xboxState.Triggers.Left > 0 ||
+                    xboxState.Triggers.Right > 0 ||
+                    xboxState.Buttons.LeftShoulder == ButtonState.Pressed ||
+                    xboxState.Buttons.RightShoulder == ButtonState.Pressed;
+            }
+
+            xboxOptions = xboxState.Buttons.Start == ButtonState.Pressed &&
+                previousXboxState.Buttons.Start == ButtonState.Released;
+
+            #region Hraje na Xbox, pokud se dotknul
+
+            if (xboxState.Buttons.A != previousXboxState.Buttons.A ||
+                xboxState.Buttons.B != previousXboxState.Buttons.B ||
+                xboxState.Buttons.X != previousXboxState.Buttons.X ||
+                xboxState.Buttons.Y != previousXboxState.Buttons.Y ||
+                xboxState.Buttons.Start != previousXboxState.Buttons.Start ||
+                xboxState.Buttons.Back != previousXboxState.Buttons.Back ||
+                xboxState.Buttons.Guide != previousXboxState.Buttons.Guide ||
+                xboxState.Buttons.RightStick != previousXboxState.Buttons.RightStick ||
+                xboxState.Buttons.LeftShoulder != previousXboxState.Buttons.LeftShoulder ||
+                xboxState.Buttons.RightShoulder != previousXboxState.Buttons.RightShoulder ||
+                xboxState.DPad.Left != previousXboxState.DPad.Left ||
+                xboxState.DPad.Right != previousXboxState.DPad.Right ||
+                xboxState.DPad.Up != previousXboxState.DPad.Up ||
+                xboxState.DPad.Down != previousXboxState.DPad.Down ||
+                xboxState.ThumbSticks.Left.X >= 0.1 ||
+                xboxState.ThumbSticks.Left.X <= -0.1 ||
+                xboxState.ThumbSticks.Left.Y >= 0.1 ||
+                xboxState.ThumbSticks.Left.Y <= -0.1 ||
+                xboxState.ThumbSticks.Right.X >= 0.1 ||
+                xboxState.ThumbSticks.Right.X <= -0.1 ||
+                xboxState.ThumbSticks.Right.Y >= 0.1 ||
+                xboxState.ThumbSticks.Right.Y <= -0.1 ||
+                xboxState.Triggers.Left != 0 ||
+                xboxState.Triggers.Right != 0
+                )
+            {
+                PlayingOnInfo("xbox");
+            }
+
+            #endregion
+
+            previousXboxState = xboxState;
+        }
+        else
+        {
+            previousXboxState = GamePad.GetState(PlayerIndex.One);
+        }
+
+        // PlayStation
+        try
+        {
+            if (psControllerConnected)
+            {
+                joystick.Poll();
+
+                var state = joystick.GetCurrentState();
+                var buttons = state.Buttons;
+
+                if (previousButtonsCleared)
+                {
+                    previousButtons = buttons;
+                    previousButtonsCleared = false;
+                }
+
+                if (inputEnabled)
+                {
+                    psA = buttons[1];
+                    psB = buttons[2];
+                    psX = buttons[0];
+                    psY = buttons[3];
+                    psLeft =
+                        (state.X / 32768.0f) - 1 < -0.4 ||
+                        state.PointOfViewControllers[0] == 22500 || // Down-Left
+                        state.PointOfViewControllers[0] == 27000 || // Left
+                        state.PointOfViewControllers[0] == 31500;   // Up-Left
+                    psRight =
+                        (state.X / 32768.0f) - 1 > 0.4 ||
+                        state.PointOfViewControllers[0] == 4500 ||  // Up-Right
+                        state.PointOfViewControllers[0] == 9000 ||  // Right
+                        state.PointOfViewControllers[0] == 13500;   // Down-Right
+                    psUp =
+                        (state.Y / 32768.0f) - 1 < -0.4 ||
+                        state.PointOfViewControllers[0] == 0 ||     // Up
+                        state.PointOfViewControllers[0] == 4500 ||  // Up-Right
+                        state.PointOfViewControllers[0] == 31500;   // Up-Left
+                    psDown =
+                        (state.Y / 32768.0f) - 1 > 0.4 ||
+                        state.PointOfViewControllers[0] == 13500 || // Down-Right
+                        state.PointOfViewControllers[0] == 18000 || // Down
+                        state.PointOfViewControllers[0] == 22500;   // Down-Left
+                    psTrigger =
+                        buttons[4] ||
+                        buttons[5];
+                }
+
+                psOptions = buttons[9] && !previousButtons[9];
+
+                #region Hraje na PS, pokud se dotknul
+
+                for (int i = 0; i <= 13; i++)
+                {
+                    if (buttons[i] != previousButtons[i])
+                        PlayingOnInfo("playstation");
+                }
+
+                if ((state.X / 32768.0f) - 1 >= 0.1 ||
+                    (state.X / 32768.0f) - 1 <= -0.1 ||
+                    (state.Y / 32768.0f) - 1 >= 0.1 ||
+                    (state.Y / 32768.0f) - 1 <= -0.1)
+                {
+                    PlayingOnInfo("playstation");
+                }
+
+                #endregion
+
+                previousButtons = buttons;
+            }
+        }
+        catch (Exception)
+        {
+            previousButtons = new bool[0];
+            previousButtonsCleared = true;
+            psControllerConnected = false;
+            return;
+        }
+
+        // Sjednocení vstupù PS a Xbox
+        cA = xboxA || psA;
+        cB = xboxB || psB;
+        cX = xboxX || psX;
+        cY = xboxY || psY;
+        cLeft = xboxLeft || psLeft;
+        cRight = xboxRight || psRight;
+        cUp = xboxUp || psUp;
+        cDown = xboxDown || psDown;
+        cTrigger = xboxTrigger || psTrigger;
+
+        if (xboxOptions || psOptions)
+        {
+            Escape("controller");
+        }
+
+        // Kurzor
+        previousCursor = cursor;
+        cursor = PointToClient(Cursor.Position);
+
+        if (cursor != previousCursor)
+        {
+            PlayingOnInfo("keyboard");
+        }
+    }
+
+    #endregion Herní ovladaèe
 
     private void timer1_Tick(object sender, EventArgs e)
     {
+
         // Movement
 
         // Základní hodnoty
@@ -107,14 +328,11 @@ public partial class MainWindow : Form
         slide = false;
         grab = false;
 
-        // Kurzor
-        Point cursor = this.PointToClient(Cursor.Position);
-
         updateCamera();
 
         // Pohyb
         /// Inputy
-        if (leftInput)
+        if (leftInput || cLeft)
         {
             left = true;
             facing = "Left";
@@ -123,7 +341,7 @@ public partial class MainWindow : Form
         else
             left = false;
 
-        if (rightInput)
+        if (rightInput || cRight)
         {
             right = true;
             facing = "Right";
@@ -132,9 +350,9 @@ public partial class MainWindow : Form
         else
             right = false;
 
-        if (upInput)
+        if (upInput || cUp)
             facing += "Up";
-        else if (downInput)
+        else if (downInput || cDown)
             facing += "Down";
 
         if (facing == "")
@@ -198,14 +416,14 @@ public partial class MainWindow : Form
                 }
 
                 // Slide aktivace
-                if (((onBlockLeft && leftInput) || (onBlockRight && rightInput)) && force < 0)
+                if (((onBlockLeft && (leftInput || cLeft)) || (onBlockRight && (rightInput || cRight))) && force < 0)
                 {
                     slide = true;
                     midAir = false;
                 }
 
                 // Grab aktivace
-                if (grabInput && (onBlockLeft || onBlockRight))
+                if ((grabInput || cTrigger) && (onBlockLeft || onBlockRight))
                 {
                     grab = true;
                     midAir = false;
@@ -223,7 +441,7 @@ public partial class MainWindow : Form
         }
 
         // Hráè drží mezerník
-        if (jumpInput && !midAir && !jumpCooldown && !grabAfterJumpCooldown)
+        if ((jumpInput || (cA || cY)) && !midAir && !jumpCooldown && !grabAfterJumpCooldown)
         {
             jump = true;
             force = 15;
@@ -282,7 +500,7 @@ public partial class MainWindow : Form
         }
 
         // Funkce Dash
-        if (dashInput && !dashed)
+        if ((dashInput || (cB || cX)) && !dashed)
         {
             switch (facing)
             {
@@ -366,7 +584,7 @@ public partial class MainWindow : Form
             force = 0;
             movementSpeedTarget = 0;
 
-            if (!(leftInput || rightInput || upInput || downInput))
+            if (!((leftInput || cLeft) || (rightInput || cRight) || (upInput || cUp) || (downInput || cDown)))
                 facing = onBlockLeft ? "Left" : onBlockRight ? "Right" : lastStraightFacing;
 
             if (facing == "Up" && !onBlockUp)
@@ -509,7 +727,7 @@ public partial class MainWindow : Form
                     movementSpeed += movementSpeed < movementSpeedTarget ? 1 : movementSpeed > movementSpeedTarget ? -1 : 0;
 
                     if (!midAir)
-                        movementSpeed = movementSpeedTarget;
+                        movementSpeed += movementSpeed < movementSpeedTarget ? 1 : movementSpeedTarget - movementSpeed;
                 }
             }
 
@@ -527,7 +745,7 @@ public partial class MainWindow : Form
                     movementSpeed += movementSpeed < movementSpeedTarget ? 1 : movementSpeed > movementSpeedTarget ? -1 : 0;
 
                     if (!midAir)
-                        movementSpeed = movementSpeedTarget;
+                        movementSpeed += movementSpeed > movementSpeedTarget ? -1 : movementSpeedTarget - movementSpeed;
                 }
             }
         }
@@ -580,7 +798,8 @@ public partial class MainWindow : Form
             $"\r\nLastGrabbedOn: {lastGrabbedOn}" +
             $"\r\nDashInput: {dashInput}" +
             $"\r\nDashed: {dashed}" +
-            $"\r\nGameScreen.Top: {gameScreen.Top}";
+            $"\r\nGameScreen.Top: {gameScreen.Top}" +
+            $"\r\nPlayingOn: {playingOn}";
 
         jumpInput = false;
         dashInput = false;
@@ -689,6 +908,8 @@ public partial class MainWindow : Form
 
     private void MainWindow_KeyDown(object sender, KeyEventArgs e)
     {
+        PlayingOnInfo("keyboard");
+
         if (inputEnabled)
         {
             switch (e.KeyCode)
@@ -738,28 +959,7 @@ public partial class MainWindow : Form
         switch (e.KeyCode)
         {
             case Keys.Escape:
-                if (!menuMainContainer.Enabled)
-                {
-                    if (menuEscapeContainer.Enabled)   // Pokud je na obrazovce pauza
-                    {
-                        menuEscapeBtContinue.PerformClick();
-                    }
-                    else if (menuSettingsContainer.Enabled)
-                    {
-                        menuSettingsBtBack.PerformClick();
-                    }
-                    else if (menuControlsContainer.Enabled)   // Pokud je na obrazovce ovládání
-                    {
-                        menuControlsBtEscapeMenu.PerformClick();
-                    }
-                    else   // Pokud je ve høe
-                    {
-                        menuEscapeContainer.Enabled = true; menuEscapeContainer.Visible = true;
-                        gameScreen.Enabled = false; gameScreen.Visible = false;
-                        timer1.Enabled = false;
-                        inputEnabled = false;
-                    }
-                }
+                Escape("keyboard");
                 break;
 
             case Keys.NumPad0:
@@ -789,6 +989,38 @@ public partial class MainWindow : Form
                     break;
             }
         }
+    }
+
+    private void Escape(string escInputType)
+    {
+        if (!menuMainContainer.Enabled)
+        {
+            if (menuEscapeContainer.Enabled)   // Pokud je na obrazovce pauza
+            {
+                menuEscapeBtContinue.PerformClick();
+            }
+            else if (menuSettingsContainer.Enabled) // Pokud je v nastavení
+            {
+                menuSettingsBtBack.PerformClick();
+                if (escInputType == "controller")
+                    menuEscapeBtContinue.PerformClick();
+            }
+            else if (menuControlsContainer.Enabled)   // Pokud je na obrazovce ovládání
+            {
+                menuControlsBtBack.PerformClick();
+                if (escInputType == "controller")
+                    menuEscapeBtContinue.PerformClick();
+            }
+            else   // Pokud je ve høe
+            {
+                menuEscapeContainer.Enabled = true; menuEscapeContainer.Visible = true;
+                gameScreen.Enabled = false; gameScreen.Visible = false;
+                timer1.Enabled = false;
+                inputEnabled = false;
+            }
+        }
+
+        Focus();
     }
 
     private void MainWindow_KeyUp(object sender, KeyEventArgs e)
@@ -843,6 +1075,8 @@ public partial class MainWindow : Form
         switch (clickedControl.Name)
         {
             case "menuMainBtPlay":    // Zapnutí hry ze Start menu
+                FindControllers();
+
                 movementSpeed = 0; force = 0;
                 spawnLevel(1);
 
@@ -858,6 +1092,13 @@ public partial class MainWindow : Form
                 menuSettingsContainer.Enabled = true; menuSettingsContainer.Visible = true;
 
                 settingsOpenedFrom = "mainmenu";
+                break;
+
+            case "menuMainBtControls":
+                menuMainContainer.Enabled = false; menuMainContainer.Visible = false;
+                menuControlsContainer.Enabled = true; menuControlsContainer.Visible = true;
+
+                controlsOpenedFrom = "mainmenu";
                 break;
 
             case "menuMainBtClose":    // Vypnutí hry ze Start menu
@@ -882,11 +1123,20 @@ public partial class MainWindow : Form
             case "menuEscapeBtControls":    // Zobrazení ovládání v Escape menu
                 menuEscapeContainer.Enabled = false; menuEscapeContainer.Visible = false;
                 menuControlsContainer.Enabled = true; menuControlsContainer.Visible = true;
+
+                controlsOpenedFrom = "pause";
                 break;
 
-            case "menuControlsBtEscapeMenu":    // Odchod do Escape menu ze zobrazení ovládání
+            case "menuControlsBtBack":    // Odchod do Escape menu ze zobrazení ovládání
                 menuControlsContainer.Enabled = false; menuControlsContainer.Visible = false;
-                menuEscapeContainer.Enabled = true; menuEscapeContainer.Visible = true;
+                if (controlsOpenedFrom == "mainmenu")
+                {
+                    menuMainContainer.Enabled = true; menuMainContainer.Visible = true;
+                }
+                else if (controlsOpenedFrom == "pause")
+                {
+                    menuEscapeContainer.Enabled = true; menuEscapeContainer.Visible = true;
+                }
                 break;
 
             case "menuEscapeBtMainMenu":    // Odchod do Start menu z Escape menu
@@ -924,17 +1174,17 @@ public partial class MainWindow : Form
                 break;
 
             case "menuSettingsLbR3ControlL":   // Volba vstupu (zpìt)
-                if (!(inputType <= 0))
+                if (!(soundOutputType <= 0))
                 {
-                    inputType--;
+                    soundOutputType--;
                     LoadTexts(0);
                 }
                 break;
 
             case "menuSettingsLbR3ControlR":   // Volba vstupu (další)
-                if (!(inputType >= inputs.Count() - 1))
+                if (!(soundOutputType >= soundOutputTypeList.Count() - 1))
                 {
-                    inputType++;
+                    soundOutputType++;
                     LoadTexts(0);
                 }
                 break;
@@ -945,6 +1195,8 @@ public partial class MainWindow : Form
 
     private void menuEscapeContinue(bool restart)
     {
+        FindControllers();
+
         if (restart)
         {
             movementSpeed = 0; force = 0;
@@ -956,6 +1208,56 @@ public partial class MainWindow : Form
         gameScreen.Enabled = true; gameScreen.Visible = true;
         timer1.Enabled = true;
         inputEnabled = true;
+
+    }
+
+    private void FindControllers()
+    {
+        var input = new DirectInput();
+        var joystickGuid = Guid.Empty;
+
+        foreach (var deviceInstance in input.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AllDevices))
+        {
+            if (!(deviceInstance.Type == DeviceType.Gamepad))   // Nepøidá Xbox
+                joystickGuid = deviceInstance.InstanceGuid;
+        }
+
+        if (joystickGuid == Guid.Empty)
+            psControllerConnected = false;
+        else
+        {
+            joystick = new Joystick(input, joystickGuid);
+            joystick.Properties.BufferSize = 128;
+            joystick.Acquire();
+
+            psControllerConnected = true;
+        }
+    }
+
+    private void PlayingOnInfo(string device)
+    {
+        playingOn = device;
+
+        switch (device)
+        {
+            case "keyboard":
+                controlsContainer.RowStyles[0].Height = 100;
+                controlsContainer.RowStyles[1].Height = 0;
+                controlsContainer.RowStyles[2].Height = 0;
+                break;
+
+            case "xbox":
+                controlsContainer.RowStyles[0].Height = 0;
+                controlsContainer.RowStyles[1].Height = 100;
+                controlsContainer.RowStyles[2].Height = 0;
+                break;
+
+            case "playstation":
+                controlsContainer.RowStyles[0].Height = 0;
+                controlsContainer.RowStyles[1].Height = 0;
+                controlsContainer.RowStyles[2].Height = 100;
+                break;
+        }
     }
 
     #endregion Vstupy
@@ -1150,11 +1452,11 @@ public partial class MainWindow : Form
         "English"
     };
 
-    List<string> inputs = new List<string>()
+    List<string> soundOutputTypeList = new List<string>()
     {
-        "Klávesnice\tKeyboard",
-        "DualShock 4",
-        "Xbox Elite Series 2"
+        "Zvuky i hudba\tSounds and music",
+        "Pouze zvuky\tOnly sounds",
+        "Vypnuto\tOff"
     };
 
     private void LoadTexts(int shift)
@@ -1175,6 +1477,7 @@ public partial class MainWindow : Form
         // Hlavní menu
         menuMainBtPlay.Text = texts[2].Split('\t')[langIndex];
         menuMainBtSettings.Text = texts[3].Split('\t')[langIndex];
+        menuMainBtControls.Text = texts[8].Split('\t')[langIndex];
         menuMainBtClose.Text = texts[4].Split('\t')[langIndex];
         mainLbInfo.Text = texts[11].Split('\t')[langIndex];
 
@@ -1184,15 +1487,15 @@ public partial class MainWindow : Form
         menuSettingsLbL2.Text = texts[15].Split('\t')[langIndex];
         menuSettingsLbL3.Text = texts[16].Split('\t')[langIndex];
 
-        menuSettingsLbR3Input.Text = inputType == 0 ? inputs[0].Split('\t')[langIndex] : inputs[inputType];
+        menuSettingsLbR3Input.Text = soundOutputTypeList[soundOutputType].Split('\t')[langIndex];
 
         foreach (Control text in menuSettingsLbR3Container.Controls)
             text.ForeColor = Color.FromArgb(68, 101, 147);
 
-        if (inputType <= 0)
+        if (soundOutputType <= 0)
             menuSettingsLbR3ControlL.ForeColor = Color.FromArgb(130, 160, 200);
 
-        if (inputType >= inputs.Count() - 1)
+        if (soundOutputType >= soundOutputTypeList.Count() - 1)
             menuSettingsLbR3ControlR.ForeColor = Color.FromArgb(130, 160, 200);
 
 
@@ -1205,15 +1508,16 @@ public partial class MainWindow : Form
         menuControlsLbL3.Text = texts[23].Split('\t')[langIndex];
         menuControlsLbL4.Text = texts[24].Split('\t')[langIndex];
         menuControlsLbL5.Text = texts[25].Split('\t')[langIndex];
-        menuControlsLbR1.Text = texts[26].Split('\t')[langIndex];
-        menuControlsLbR2.Text = texts[27].Split('\t')[langIndex];
-        menuControlsLbR3.Text = texts[28].Split('\t')[langIndex];
-        menuControlsLbR4.Text = texts[29].Split('\t')[langIndex];
-        menuControlsLbR5.Text = texts[30].Split('\t')[langIndex];
-        menuControlsBtEscapeMenu.Text = texts[5].Split('\t')[langIndex];
+        lbKeyboard1.Text = texts[26].Split('\t')[langIndex];
+        lbKeyboard2.Text = texts[27].Split('\t')[langIndex];
+        lbKeyboard3.Text = texts[28].Split('\t')[langIndex];
+        lbKeyboard4.Text = texts[29].Split('\t')[langIndex];
+        lbKeyboard5.Text = texts[30].Split('\t')[langIndex];
+        lbKeyboard6.Text = texts[31].Split('\t')[langIndex];
+        menuControlsBtBack.Text = texts[5].Split('\t')[langIndex];
 
         // Pauza
-        menuEscapeLbTitle.Text = texts[32].Split('\t')[langIndex];
+        menuEscapeLbTitle.Text = texts[33].Split('\t')[langIndex];
         menuEscapeBtContinue.Text = texts[6].Split('\t')[langIndex];
         menuEscapeBtScreenReset.Text = texts[7].Split('\t')[langIndex];
         menuEscapeBtSettings.Text = texts[3].Split('\t')[langIndex];

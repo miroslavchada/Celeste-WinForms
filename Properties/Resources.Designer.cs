@@ -63,16 +63,6 @@ namespace Celeste_WinForms.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap bg_mario_h540 {
-            get {
-                object obj = ResourceManager.GetObject("bg_mario_h540", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap blank {
             get {
                 object obj = ResourceManager.GetObject("blank", resourceCulture);
@@ -209,16 +199,6 @@ namespace Celeste_WinForms.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap mario {
-            get {
-                object obj = ResourceManager.GetObject("mario", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap mario_ {
             get {
                 object obj = ResourceManager.GetObject("mario_", resourceCulture);
@@ -229,9 +209,9 @@ namespace Celeste_WinForms.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap mario_sprites0 {
+        internal static System.Drawing.Bitmap playstationDash {
             get {
-                object obj = ResourceManager.GetObject("mario-sprites0", resourceCulture);
+                object obj = ResourceManager.GetObject("playstationDash", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -239,9 +219,9 @@ namespace Celeste_WinForms.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap mario_sprites0_ {
+        internal static System.Drawing.Bitmap playstationGrab {
             get {
-                object obj = ResourceManager.GetObject("mario-sprites0_", resourceCulture);
+                object obj = ResourceManager.GetObject("playstationGrab", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -249,9 +229,39 @@ namespace Celeste_WinForms.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap mario_sprites1 {
+        internal static System.Drawing.Bitmap playstationJump {
             get {
-                object obj = ResourceManager.GetObject("mario-sprites1", resourceCulture);
+                object obj = ResourceManager.GetObject("playstationJump", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap playstationLR {
+            get {
+                object obj = ResourceManager.GetObject("playstationLR", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap playstationMenu {
+            get {
+                object obj = ResourceManager.GetObject("playstationMenu", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap playstationUD {
+            get {
+                object obj = ResourceManager.GetObject("playstationUD", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -300,9 +310,10 @@ namespace Celeste_WinForms.Properties {
         ///NASTAVENÍ	SETTINGS
         ///Hlasitost	Volume
         ///Jazyk	Language
-        ///Vstupní zařízení	Input device
+        ///Zvuky	Sound
         ///Klávesnice	Keyboard
-        ///Ov [zbytek řetězce byl zkrácen];.
+        ///Ovladač	Controller
+        /// [zbytek řetězce byl zkrácen];.
         /// </summary>
         internal static string texts {
             get {
@@ -316,6 +327,66 @@ namespace Celeste_WinForms.Properties {
         internal static System.IO.UnmanagedMemoryStream wow_so_secret {
             get {
                 return ResourceManager.GetStream("wow_so_secret", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap xboxDash {
+            get {
+                object obj = ResourceManager.GetObject("xboxDash", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap xboxGrab {
+            get {
+                object obj = ResourceManager.GetObject("xboxGrab", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap xboxJump {
+            get {
+                object obj = ResourceManager.GetObject("xboxJump", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap xboxLR {
+            get {
+                object obj = ResourceManager.GetObject("xboxLR", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap xboxMenu {
+            get {
+                object obj = ResourceManager.GetObject("xboxMenu", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap xboxUD {
+            get {
+                object obj = ResourceManager.GetObject("xboxUD", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }
