@@ -24,11 +24,12 @@ Nahoru / Dolu	Up / Down
 Skok	Jump
 Dash	Dash
 Držení	Grab
+Pauza	Pause
 A / D	A / D
 W / S	W / S
 Mezerník	Space
 Alt	Alt
 Shift	Shift
-Pauza	Pause
+Esc	Esc
 \\ Pause
 PAUZA	PAUSED

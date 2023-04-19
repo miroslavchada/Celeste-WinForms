@@ -94,20 +94,20 @@
             menuSettignsTableLP = new TableLayoutPanel();
             menuSettingsLbTitle = new Label();
             menuSettingsTableLPSettings = new TableLayoutPanel();
-            menuSettingsLbL1 = new Label();
             menuSettingsLbR1Container = new TableLayoutPanel();
-            menuSettingsTrackR1 = new TrackBar();
             menuSettingsLbVolumeR1 = new Label();
-            menuSettingsLbL2 = new Label();
+            menuSettingsTrackR1 = new TrackBar();
             menuSettingsLbR2Container = new TableLayoutPanel();
-            menuSettingsLbR2Language = new Label();
             menuSettingsLbR2ControlL = new Label();
             menuSettingsLbR2ControlR = new Label();
-            menuSettingsLbL3 = new Label();
+            menuSettingsLbR2Language = new Label();
             menuSettingsLbR3Container = new TableLayoutPanel();
+            menuSettingsLbR3ControlR = new Label();
             menuSettingsLbR3Input = new Label();
             menuSettingsLbR3ControlL = new Label();
-            menuSettingsLbR3ControlR = new Label();
+            menuSettingsLbL1 = new Label();
+            menuSettingsLbL2 = new Label();
+            menuSettingsLbL3 = new Label();
             menuSettingsBtBack = new Button();
             timerControllers = new System.Windows.Forms.Timer(components);
             tableLayoutPanel1 = new TableLayoutPanel();
@@ -215,7 +215,7 @@
             menuMainContainer.BackColor = Color.FromArgb(200, 215, 235);
             menuMainContainer.Controls.Add(menuMainTableLP);
             menuMainContainer.Enabled = false;
-            menuMainContainer.Location = new Point(0, 900);
+            menuMainContainer.Location = new Point(0, 0);
             menuMainContainer.Name = "menuMainContainer";
             menuMainContainer.Size = new Size(1536, 864);
             menuMainContainer.TabIndex = 8;
@@ -995,7 +995,7 @@
             menuSettingsContainer.BackColor = Color.FromArgb(200, 215, 235);
             menuSettingsContainer.Controls.Add(menuSettignsTableLP);
             menuSettingsContainer.Enabled = false;
-            menuSettingsContainer.Location = new Point(0, 900);
+            menuSettingsContainer.Location = new Point(0, 0);
             menuSettingsContainer.Name = "menuSettingsContainer";
             menuSettingsContainer.Size = new Size(1536, 864);
             menuSettingsContainer.TabIndex = 2;
@@ -1032,15 +1032,17 @@
             // 
             // menuSettingsTableLPSettings
             // 
-            menuSettingsTableLPSettings.ColumnCount = 2;
-            menuSettingsTableLPSettings.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            menuSettingsTableLPSettings.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            menuSettingsTableLPSettings.Controls.Add(menuSettingsLbL1, 0, 0);
-            menuSettingsTableLPSettings.Controls.Add(menuSettingsLbR1Container, 1, 0);
-            menuSettingsTableLPSettings.Controls.Add(menuSettingsLbL2, 0, 1);
-            menuSettingsTableLPSettings.Controls.Add(menuSettingsLbR2Container, 1, 1);
-            menuSettingsTableLPSettings.Controls.Add(menuSettingsLbL3, 0, 2);
-            menuSettingsTableLPSettings.Controls.Add(menuSettingsLbR3Container, 1, 2);
+            menuSettingsTableLPSettings.ColumnCount = 4;
+            menuSettingsTableLPSettings.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22.5F));
+            menuSettingsTableLPSettings.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 27.5F));
+            menuSettingsTableLPSettings.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 27.5F));
+            menuSettingsTableLPSettings.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22.5F));
+            menuSettingsTableLPSettings.Controls.Add(menuSettingsLbR1Container, 2, 0);
+            menuSettingsTableLPSettings.Controls.Add(menuSettingsLbR2Container, 2, 1);
+            menuSettingsTableLPSettings.Controls.Add(menuSettingsLbR3Container, 2, 2);
+            menuSettingsTableLPSettings.Controls.Add(menuSettingsLbL1, 1, 0);
+            menuSettingsTableLPSettings.Controls.Add(menuSettingsLbL2, 1, 1);
+            menuSettingsTableLPSettings.Controls.Add(menuSettingsLbL3, 1, 2);
             menuSettingsTableLPSettings.Dock = DockStyle.Fill;
             menuSettingsTableLPSettings.Location = new Point(3, 188);
             menuSettingsTableLPSettings.Margin = new Padding(3, 43, 3, 3);
@@ -1053,49 +1055,24 @@
             menuSettingsTableLPSettings.Size = new Size(1530, 499);
             menuSettingsTableLPSettings.TabIndex = 6;
             // 
-            // menuSettingsLbL1
-            // 
-            menuSettingsLbL1.Anchor = AnchorStyles.Right;
-            menuSettingsLbL1.AutoSize = true;
-            menuSettingsLbL1.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
-            menuSettingsLbL1.ForeColor = Color.FromArgb(68, 101, 147);
-            menuSettingsLbL1.Location = new Point(502, 16);
-            menuSettingsLbL1.Margin = new Padding(0, 0, 100, 0);
-            menuSettingsLbL1.Name = "menuSettingsLbL1";
-            menuSettingsLbL1.Size = new Size(163, 48);
-            menuSettingsLbL1.TabIndex = 5;
-            menuSettingsLbL1.Text = "Hlasitost";
-            // 
             // menuSettingsLbR1Container
             // 
-            menuSettingsLbR1Container.ColumnCount = 2;
-            menuSettingsLbR1Container.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
-            menuSettingsLbR1Container.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
-            menuSettingsLbR1Container.Controls.Add(menuSettingsTrackR1, 0, 1);
-            menuSettingsLbR1Container.Controls.Add(menuSettingsLbVolumeR1, 1, 1);
+            menuSettingsLbR1Container.ColumnCount = 3;
+            menuSettingsLbR1Container.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 14F));
+            menuSettingsLbR1Container.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 69F));
+            menuSettingsLbR1Container.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 17F));
+            menuSettingsLbR1Container.Controls.Add(menuSettingsLbVolumeR1, 2, 1);
+            menuSettingsLbR1Container.Controls.Add(menuSettingsTrackR1, 1, 1);
             menuSettingsLbR1Container.Dock = DockStyle.Fill;
-            menuSettingsLbR1Container.Location = new Point(765, 0);
+            menuSettingsLbR1Container.Location = new Point(764, 0);
             menuSettingsLbR1Container.Margin = new Padding(0);
             menuSettingsLbR1Container.Name = "menuSettingsLbR1Container";
             menuSettingsLbR1Container.RowCount = 3;
             menuSettingsLbR1Container.RowStyles.Add(new RowStyle(SizeType.Percent, 22.2222214F));
             menuSettingsLbR1Container.RowStyles.Add(new RowStyle(SizeType.Percent, 55.5555573F));
             menuSettingsLbR1Container.RowStyles.Add(new RowStyle(SizeType.Percent, 22.2222214F));
-            menuSettingsLbR1Container.Size = new Size(765, 80);
+            menuSettingsLbR1Container.Size = new Size(420, 80);
             menuSettingsLbR1Container.TabIndex = 6;
-            // 
-            // menuSettingsTrackR1
-            // 
-            menuSettingsTrackR1.Dock = DockStyle.Fill;
-            menuSettingsTrackR1.LargeChange = 1;
-            menuSettingsTrackR1.Location = new Point(100, 20);
-            menuSettingsTrackR1.Margin = new Padding(100, 3, 0, 3);
-            menuSettingsTrackR1.Maximum = 20;
-            menuSettingsTrackR1.Name = "menuSettingsTrackR1";
-            menuSettingsTrackR1.Size = new Size(359, 38);
-            menuSettingsTrackR1.TabIndex = 4;
-            menuSettingsTrackR1.Value = 14;
-            menuSettingsTrackR1.Scroll += menuSettingsTrackR1_Scroll;
             // 
             // menuSettingsLbVolumeR1
             // 
@@ -1103,57 +1080,45 @@
             menuSettingsLbVolumeR1.AutoSize = true;
             menuSettingsLbVolumeR1.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold, GraphicsUnit.Point);
             menuSettingsLbVolumeR1.ForeColor = Color.FromArgb(68, 101, 147);
-            menuSettingsLbVolumeR1.Location = new Point(459, 17);
+            menuSettingsLbVolumeR1.Location = new Point(347, 17);
             menuSettingsLbVolumeR1.Margin = new Padding(0);
             menuSettingsLbVolumeR1.Name = "menuSettingsLbVolumeR1";
             menuSettingsLbVolumeR1.Size = new Size(55, 44);
             menuSettingsLbVolumeR1.TabIndex = 6;
             menuSettingsLbVolumeR1.Text = "70";
             // 
-            // menuSettingsLbL2
+            // menuSettingsTrackR1
             // 
-            menuSettingsLbL2.Anchor = AnchorStyles.Right;
-            menuSettingsLbL2.AutoSize = true;
-            menuSettingsLbL2.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
-            menuSettingsLbL2.ForeColor = Color.FromArgb(68, 101, 147);
-            menuSettingsLbL2.Location = new Point(558, 96);
-            menuSettingsLbL2.Margin = new Padding(0, 0, 100, 0);
-            menuSettingsLbL2.Name = "menuSettingsLbL2";
-            menuSettingsLbL2.Size = new Size(107, 48);
-            menuSettingsLbL2.TabIndex = 1;
-            menuSettingsLbL2.Text = "Jazyk";
+            menuSettingsTrackR1.Dock = DockStyle.Fill;
+            menuSettingsTrackR1.LargeChange = 1;
+            menuSettingsTrackR1.Location = new Point(58, 20);
+            menuSettingsTrackR1.Margin = new Padding(0, 3, 0, 3);
+            menuSettingsTrackR1.Maximum = 20;
+            menuSettingsTrackR1.Name = "menuSettingsTrackR1";
+            menuSettingsTrackR1.Size = new Size(289, 38);
+            menuSettingsTrackR1.TabIndex = 4;
+            menuSettingsTrackR1.Value = 14;
+            menuSettingsTrackR1.Scroll += menuSettingsTrackR1_Scroll;
             // 
             // menuSettingsLbR2Container
             // 
             menuSettingsLbR2Container.ColumnCount = 4;
-            menuSettingsLbR2Container.ColumnStyles.Add(new ColumnStyle());
-            menuSettingsLbR2Container.ColumnStyles.Add(new ColumnStyle());
-            menuSettingsLbR2Container.ColumnStyles.Add(new ColumnStyle());
             menuSettingsLbR2Container.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            menuSettingsLbR2Container.Controls.Add(menuSettingsLbR2Language, 0, 0);
-            menuSettingsLbR2Container.Controls.Add(menuSettingsLbR2ControlL, 0, 0);
-            menuSettingsLbR2Container.Controls.Add(menuSettingsLbR2ControlR, 2, 0);
+            menuSettingsLbR2Container.ColumnStyles.Add(new ColumnStyle());
+            menuSettingsLbR2Container.ColumnStyles.Add(new ColumnStyle());
+            menuSettingsLbR2Container.ColumnStyles.Add(new ColumnStyle());
+            menuSettingsLbR2Container.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            menuSettingsLbR2Container.Controls.Add(menuSettingsLbR2ControlL, 1, 0);
+            menuSettingsLbR2Container.Controls.Add(menuSettingsLbR2ControlR, 3, 0);
+            menuSettingsLbR2Container.Controls.Add(menuSettingsLbR2Language, 2, 0);
             menuSettingsLbR2Container.Dock = DockStyle.Fill;
-            menuSettingsLbR2Container.Location = new Point(765, 80);
+            menuSettingsLbR2Container.Location = new Point(764, 80);
             menuSettingsLbR2Container.Margin = new Padding(0);
             menuSettingsLbR2Container.Name = "menuSettingsLbR2Container";
             menuSettingsLbR2Container.RowCount = 1;
             menuSettingsLbR2Container.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            menuSettingsLbR2Container.Size = new Size(765, 80);
+            menuSettingsLbR2Container.Size = new Size(420, 80);
             menuSettingsLbR2Container.TabIndex = 2;
-            // 
-            // menuSettingsLbR2Language
-            // 
-            menuSettingsLbR2Language.Anchor = AnchorStyles.Right;
-            menuSettingsLbR2Language.AutoSize = true;
-            menuSettingsLbR2Language.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
-            menuSettingsLbR2Language.ForeColor = Color.FromArgb(68, 101, 147);
-            menuSettingsLbR2Language.Location = new Point(162, 16);
-            menuSettingsLbR2Language.Margin = new Padding(0);
-            menuSettingsLbR2Language.Name = "menuSettingsLbR2Language";
-            menuSettingsLbR2Language.Size = new Size(114, 48);
-            menuSettingsLbR2Language.TabIndex = 1;
-            menuSettingsLbR2Language.Text = "Česky";
             // 
             // menuSettingsLbR2ControlL
             // 
@@ -1161,8 +1126,8 @@
             menuSettingsLbR2ControlL.AutoSize = true;
             menuSettingsLbR2ControlL.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuSettingsLbR2ControlL.ForeColor = Color.FromArgb(130, 160, 200);
-            menuSettingsLbR2ControlL.Location = new Point(100, 11);
-            menuSettingsLbR2ControlL.Margin = new Padding(100, 0, 0, 0);
+            menuSettingsLbR2ControlL.Location = new Point(182, 11);
+            menuSettingsLbR2ControlL.Margin = new Padding(0);
             menuSettingsLbR2ControlL.Name = "menuSettingsLbR2ControlL";
             menuSettingsLbR2ControlL.Padding = new Padding(5);
             menuSettingsLbR2ControlL.Size = new Size(62, 58);
@@ -1176,7 +1141,7 @@
             menuSettingsLbR2ControlR.AutoSize = true;
             menuSettingsLbR2ControlR.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuSettingsLbR2ControlR.ForeColor = Color.FromArgb(68, 101, 147);
-            menuSettingsLbR2ControlR.Location = new Point(276, 11);
+            menuSettingsLbR2ControlR.Location = new Point(358, 11);
             menuSettingsLbR2ControlR.Margin = new Padding(0);
             menuSettingsLbR2ControlR.Name = "menuSettingsLbR2ControlR";
             menuSettingsLbR2ControlR.Padding = new Padding(5);
@@ -1185,37 +1150,52 @@
             menuSettingsLbR2ControlR.Text = "▶";
             menuSettingsLbR2ControlR.Click += buttonClicked;
             // 
-            // menuSettingsLbL3
+            // menuSettingsLbR2Language
             // 
-            menuSettingsLbL3.Anchor = AnchorStyles.Right;
-            menuSettingsLbL3.AutoSize = true;
-            menuSettingsLbL3.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
-            menuSettingsLbL3.ForeColor = Color.FromArgb(68, 101, 147);
-            menuSettingsLbL3.Location = new Point(548, 176);
-            menuSettingsLbL3.Margin = new Padding(0, 0, 100, 0);
-            menuSettingsLbL3.Name = "menuSettingsLbL3";
-            menuSettingsLbL3.Size = new Size(117, 48);
-            menuSettingsLbL3.TabIndex = 3;
-            menuSettingsLbL3.Text = "Zvuky";
+            menuSettingsLbR2Language.Anchor = AnchorStyles.Right;
+            menuSettingsLbR2Language.AutoSize = true;
+            menuSettingsLbR2Language.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsLbR2Language.ForeColor = Color.FromArgb(68, 101, 147);
+            menuSettingsLbR2Language.Location = new Point(244, 16);
+            menuSettingsLbR2Language.Margin = new Padding(0);
+            menuSettingsLbR2Language.Name = "menuSettingsLbR2Language";
+            menuSettingsLbR2Language.Size = new Size(114, 48);
+            menuSettingsLbR2Language.TabIndex = 1;
+            menuSettingsLbR2Language.Text = "Česky";
             // 
             // menuSettingsLbR3Container
             // 
             menuSettingsLbR3Container.ColumnCount = 4;
-            menuSettingsLbR3Container.ColumnStyles.Add(new ColumnStyle());
-            menuSettingsLbR3Container.ColumnStyles.Add(new ColumnStyle());
-            menuSettingsLbR3Container.ColumnStyles.Add(new ColumnStyle());
             menuSettingsLbR3Container.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            menuSettingsLbR3Container.Controls.Add(menuSettingsLbR3Input, 0, 0);
-            menuSettingsLbR3Container.Controls.Add(menuSettingsLbR3ControlL, 0, 0);
-            menuSettingsLbR3Container.Controls.Add(menuSettingsLbR3ControlR, 2, 0);
+            menuSettingsLbR3Container.ColumnStyles.Add(new ColumnStyle());
+            menuSettingsLbR3Container.ColumnStyles.Add(new ColumnStyle());
+            menuSettingsLbR3Container.ColumnStyles.Add(new ColumnStyle());
+            menuSettingsLbR3Container.Controls.Add(menuSettingsLbR3ControlR, 3, 0);
+            menuSettingsLbR3Container.Controls.Add(menuSettingsLbR3Input, 2, 0);
+            menuSettingsLbR3Container.Controls.Add(menuSettingsLbR3ControlL, 1, 0);
             menuSettingsLbR3Container.Dock = DockStyle.Fill;
-            menuSettingsLbR3Container.Location = new Point(765, 160);
+            menuSettingsLbR3Container.Location = new Point(764, 160);
             menuSettingsLbR3Container.Margin = new Padding(0);
             menuSettingsLbR3Container.Name = "menuSettingsLbR3Container";
             menuSettingsLbR3Container.RowCount = 1;
             menuSettingsLbR3Container.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            menuSettingsLbR3Container.Size = new Size(765, 80);
+            menuSettingsLbR3Container.Size = new Size(420, 80);
             menuSettingsLbR3Container.TabIndex = 7;
+            // 
+            // menuSettingsLbR3ControlR
+            // 
+            menuSettingsLbR3ControlR.Anchor = AnchorStyles.Right;
+            menuSettingsLbR3ControlR.AutoSize = true;
+            menuSettingsLbR3ControlR.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsLbR3ControlR.ForeColor = Color.FromArgb(68, 101, 147);
+            menuSettingsLbR3ControlR.Location = new Point(358, 11);
+            menuSettingsLbR3ControlR.Margin = new Padding(0);
+            menuSettingsLbR3ControlR.Name = "menuSettingsLbR3ControlR";
+            menuSettingsLbR3ControlR.Padding = new Padding(5);
+            menuSettingsLbR3ControlR.Size = new Size(62, 58);
+            menuSettingsLbR3ControlR.TabIndex = 2;
+            menuSettingsLbR3ControlR.Text = "▶";
+            menuSettingsLbR3ControlR.Click += buttonClicked;
             // 
             // menuSettingsLbR3Input
             // 
@@ -1223,7 +1203,7 @@
             menuSettingsLbR3Input.AutoSize = true;
             menuSettingsLbR3Input.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuSettingsLbR3Input.ForeColor = Color.FromArgb(68, 101, 147);
-            menuSettingsLbR3Input.Location = new Point(162, 16);
+            menuSettingsLbR3Input.Location = new Point(107, 16);
             menuSettingsLbR3Input.Margin = new Padding(0);
             menuSettingsLbR3Input.Name = "menuSettingsLbR3Input";
             menuSettingsLbR3Input.Size = new Size(251, 48);
@@ -1236,8 +1216,8 @@
             menuSettingsLbR3ControlL.AutoSize = true;
             menuSettingsLbR3ControlL.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuSettingsLbR3ControlL.ForeColor = Color.FromArgb(130, 160, 200);
-            menuSettingsLbR3ControlL.Location = new Point(100, 11);
-            menuSettingsLbR3ControlL.Margin = new Padding(100, 0, 0, 0);
+            menuSettingsLbR3ControlL.Location = new Point(45, 11);
+            menuSettingsLbR3ControlL.Margin = new Padding(0);
             menuSettingsLbR3ControlL.Name = "menuSettingsLbR3ControlL";
             menuSettingsLbR3ControlL.Padding = new Padding(5);
             menuSettingsLbR3ControlL.Size = new Size(62, 58);
@@ -1245,20 +1225,44 @@
             menuSettingsLbR3ControlL.Text = "◀";
             menuSettingsLbR3ControlL.Click += buttonClicked;
             // 
-            // menuSettingsLbR3ControlR
+            // menuSettingsLbL1
             // 
-            menuSettingsLbR3ControlR.Anchor = AnchorStyles.Right;
-            menuSettingsLbR3ControlR.AutoSize = true;
-            menuSettingsLbR3ControlR.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
-            menuSettingsLbR3ControlR.ForeColor = Color.FromArgb(68, 101, 147);
-            menuSettingsLbR3ControlR.Location = new Point(413, 11);
-            menuSettingsLbR3ControlR.Margin = new Padding(0);
-            menuSettingsLbR3ControlR.Name = "menuSettingsLbR3ControlR";
-            menuSettingsLbR3ControlR.Padding = new Padding(5);
-            menuSettingsLbR3ControlR.Size = new Size(62, 58);
-            menuSettingsLbR3ControlR.TabIndex = 2;
-            menuSettingsLbR3ControlR.Text = "▶";
-            menuSettingsLbR3ControlR.Click += buttonClicked;
+            menuSettingsLbL1.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            menuSettingsLbL1.AutoSize = true;
+            menuSettingsLbL1.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsLbL1.ForeColor = Color.FromArgb(68, 101, 147);
+            menuSettingsLbL1.Location = new Point(344, 16);
+            menuSettingsLbL1.Margin = new Padding(0);
+            menuSettingsLbL1.Name = "menuSettingsLbL1";
+            menuSettingsLbL1.Size = new Size(420, 48);
+            menuSettingsLbL1.TabIndex = 5;
+            menuSettingsLbL1.Text = "Hlasitost";
+            // 
+            // menuSettingsLbL2
+            // 
+            menuSettingsLbL2.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            menuSettingsLbL2.AutoSize = true;
+            menuSettingsLbL2.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsLbL2.ForeColor = Color.FromArgb(68, 101, 147);
+            menuSettingsLbL2.Location = new Point(344, 96);
+            menuSettingsLbL2.Margin = new Padding(0);
+            menuSettingsLbL2.Name = "menuSettingsLbL2";
+            menuSettingsLbL2.Size = new Size(420, 48);
+            menuSettingsLbL2.TabIndex = 1;
+            menuSettingsLbL2.Text = "Jazyk";
+            // 
+            // menuSettingsLbL3
+            // 
+            menuSettingsLbL3.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            menuSettingsLbL3.AutoSize = true;
+            menuSettingsLbL3.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsLbL3.ForeColor = Color.FromArgb(68, 101, 147);
+            menuSettingsLbL3.Location = new Point(344, 176);
+            menuSettingsLbL3.Margin = new Padding(0);
+            menuSettingsLbL3.Name = "menuSettingsLbL3";
+            menuSettingsLbL3.Size = new Size(420, 48);
+            menuSettingsLbL3.TabIndex = 3;
+            menuSettingsLbL3.Text = "Zvuky";
             // 
             // menuSettingsBtBack
             // 
