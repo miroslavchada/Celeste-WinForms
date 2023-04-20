@@ -108,6 +108,11 @@
             menuSettingsLbL1 = new Label();
             menuSettingsLbL2 = new Label();
             menuSettingsLbL3 = new Label();
+            menuSettingsLbL4 = new Label();
+            menuSettingsLbR4Container = new TableLayoutPanel();
+            menuSettingsLbR4ControlR = new Label();
+            menuSettingsLbR4FontSize = new Label();
+            menuSettingsLbR4ControlL = new Label();
             menuSettingsBtBack = new Button();
             timerControllers = new System.Windows.Forms.Timer(components);
             tableLayoutPanel1 = new TableLayoutPanel();
@@ -161,6 +166,7 @@
             ((System.ComponentModel.ISupportInitialize)menuSettingsTrackR1).BeginInit();
             menuSettingsLbR2Container.SuspendLayout();
             menuSettingsLbR3Container.SuspendLayout();
+            menuSettingsLbR4Container.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
@@ -206,7 +212,7 @@
             lbDeveloperStats.Margin = new Padding(2, 0, 2, 0);
             lbDeveloperStats.Name = "lbDeveloperStats";
             lbDeveloperStats.Padding = new Padding(2, 4, 2, 4);
-            lbDeveloperStats.Size = new Size(102, 32);
+            lbDeveloperStats.Size = new Size(67, 24);
             lbDeveloperStats.TabIndex = 0;
             lbDeveloperStats.Text = "F3 STATS";
             // 
@@ -255,11 +261,11 @@
             // 
             menuMainLbTitle.Anchor = AnchorStyles.Bottom;
             menuMainLbTitle.AutoSize = true;
-            menuMainLbTitle.Font = new Font("Segoe UI", 62F, FontStyle.Bold, GraphicsUnit.Point);
+            menuMainLbTitle.Font = new Font("Segoe UI", 84F, FontStyle.Bold, GraphicsUnit.Point);
             menuMainLbTitle.ForeColor = Color.FromArgb(68, 101, 147);
-            menuMainLbTitle.Location = new Point(493, 72);
+            menuMainLbTitle.Location = new Point(518, 87);
             menuMainLbTitle.Name = "menuMainLbTitle";
-            menuMainLbTitle.Size = new Size(550, 164);
+            menuMainLbTitle.Size = new Size(499, 149);
             menuMainLbTitle.TabIndex = 0;
             menuMainLbTitle.Text = "CELESTE";
             // 
@@ -267,21 +273,21 @@
             // 
             menuMainLbSubtitle.Anchor = AnchorStyles.Top;
             menuMainLbSubtitle.AutoSize = true;
-            menuMainLbSubtitle.Font = new Font("Segoe UI", 20F, FontStyle.Bold, GraphicsUnit.Point);
+            menuMainLbSubtitle.Font = new Font("Segoe UI", 26F, FontStyle.Bold, GraphicsUnit.Point);
             menuMainLbSubtitle.ForeColor = Color.FromArgb(68, 101, 147);
-            menuMainLbSubtitle.Location = new Point(481, 236);
+            menuMainLbSubtitle.Location = new Point(604, 236);
             menuMainLbSubtitle.Name = "menuMainLbSubtitle";
-            menuMainLbSubtitle.Size = new Size(573, 54);
+            menuMainLbSubtitle.Size = new Size(327, 47);
             menuMainLbSubtitle.TabIndex = 4;
-            menuMainLbSubtitle.Text = "Fan-made WinForms Remake";
+            menuMainLbSubtitle.Text = "WinForms Remake";
             // 
             // menuMainBtPlay
             // 
             menuMainBtPlay.Anchor = AnchorStyles.None;
             menuMainBtPlay.BackColor = Color.White;
-            menuMainBtPlay.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            menuMainBtPlay.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuMainBtPlay.ForeColor = Color.FromArgb(68, 101, 147);
-            menuMainBtPlay.Location = new Point(543, 450);
+            menuMainBtPlay.Location = new Point(543, 443);
             menuMainBtPlay.Name = "menuMainBtPlay";
             menuMainBtPlay.Size = new Size(450, 70);
             menuMainBtPlay.TabIndex = 1;
@@ -293,9 +299,9 @@
             // 
             menuMainBtSettings.Anchor = AnchorStyles.Top;
             menuMainBtSettings.BackColor = Color.White;
-            menuMainBtSettings.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            menuMainBtSettings.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuMainBtSettings.ForeColor = Color.FromArgb(68, 101, 147);
-            menuMainBtSettings.Location = new Point(543, 526);
+            menuMainBtSettings.Location = new Point(543, 519);
             menuMainBtSettings.Name = "menuMainBtSettings";
             menuMainBtSettings.Size = new Size(450, 70);
             menuMainBtSettings.TabIndex = 2;
@@ -307,9 +313,9 @@
             // 
             menuMainBtControls.Anchor = AnchorStyles.Top;
             menuMainBtControls.BackColor = Color.White;
-            menuMainBtControls.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            menuMainBtControls.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuMainBtControls.ForeColor = Color.FromArgb(68, 101, 147);
-            menuMainBtControls.Location = new Point(543, 602);
+            menuMainBtControls.Location = new Point(543, 595);
             menuMainBtControls.Name = "menuMainBtControls";
             menuMainBtControls.Size = new Size(450, 70);
             menuMainBtControls.TabIndex = 7;
@@ -321,9 +327,9 @@
             // 
             menuMainBtClose.Anchor = AnchorStyles.Top;
             menuMainBtClose.BackColor = Color.White;
-            menuMainBtClose.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            menuMainBtClose.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuMainBtClose.ForeColor = Color.FromArgb(193, 54, 54);
-            menuMainBtClose.Location = new Point(543, 678);
+            menuMainBtClose.Location = new Point(543, 671);
             menuMainBtClose.Name = "menuMainBtClose";
             menuMainBtClose.Size = new Size(450, 70);
             menuMainBtClose.TabIndex = 3;
@@ -335,12 +341,12 @@
             // 
             mainLbInfo.Anchor = AnchorStyles.None;
             mainLbInfo.AutoSize = true;
-            mainLbInfo.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            mainLbInfo.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             mainLbInfo.ForeColor = Color.FromArgb(68, 101, 147);
-            mainLbInfo.Location = new Point(321, 825);
+            mainLbInfo.Location = new Point(447, 834);
             mainLbInfo.Margin = new Padding(3, 3, 3, 9);
             mainLbInfo.Name = "mainLbInfo";
-            mainLbInfo.Size = new Size(893, 30);
+            mainLbInfo.Size = new Size(642, 21);
             mainLbInfo.TabIndex = 6;
             mainLbInfo.Text = "Hra vznikla v rámci ročníkové práce ve druhém ročníku na Střední průmyslové škole Ostrov";
             mainLbInfo.TextAlign = ContentAlignment.MiddleCenter;
@@ -349,11 +355,11 @@
             // 
             menuMainLbAuthor.Anchor = AnchorStyles.Bottom;
             menuMainLbAuthor.AutoSize = true;
-            menuMainLbAuthor.Font = new Font("Segoe UI Semibold", 15F, FontStyle.Bold, GraphicsUnit.Point);
+            menuMainLbAuthor.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuMainLbAuthor.ForeColor = Color.FromArgb(68, 101, 147);
-            menuMainLbAuthor.Location = new Point(615, 781);
+            menuMainLbAuthor.Location = new Point(647, 799);
             menuMainLbAuthor.Name = "menuMainLbAuthor";
-            menuMainLbAuthor.Size = new Size(305, 41);
+            menuMainLbAuthor.Size = new Size(241, 32);
             menuMainLbAuthor.TabIndex = 5;
             menuMainLbAuthor.Text = "Miroslav Chada 2023";
             // 
@@ -397,11 +403,11 @@
             // 
             menuEscapeLbTitle.Anchor = AnchorStyles.Bottom;
             menuEscapeLbTitle.AutoSize = true;
-            menuEscapeLbTitle.Font = new Font("Segoe UI", 28F, FontStyle.Bold, GraphicsUnit.Point);
+            menuEscapeLbTitle.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point);
             menuEscapeLbTitle.ForeColor = Color.FromArgb(68, 101, 147);
-            menuEscapeLbTitle.Location = new Point(661, 71);
+            menuEscapeLbTitle.Location = new Point(675, 80);
             menuEscapeLbTitle.Name = "menuEscapeLbTitle";
-            menuEscapeLbTitle.Size = new Size(214, 74);
+            menuEscapeLbTitle.Size = new Size(185, 65);
             menuEscapeLbTitle.TabIndex = 0;
             menuEscapeLbTitle.Text = "PAUZA";
             // 
@@ -409,7 +415,7 @@
             // 
             menuEscapeBtContinue.Anchor = AnchorStyles.None;
             menuEscapeBtContinue.BackColor = Color.White;
-            menuEscapeBtContinue.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            menuEscapeBtContinue.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuEscapeBtContinue.ForeColor = Color.FromArgb(68, 101, 147);
             menuEscapeBtContinue.Location = new Point(597, 405);
             menuEscapeBtContinue.Name = "menuEscapeBtContinue";
@@ -423,7 +429,7 @@
             // 
             menuEscapeBtScreenReset.Anchor = AnchorStyles.None;
             menuEscapeBtScreenReset.BackColor = Color.White;
-            menuEscapeBtScreenReset.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            menuEscapeBtScreenReset.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuEscapeBtScreenReset.ForeColor = Color.FromArgb(68, 101, 147);
             menuEscapeBtScreenReset.Location = new Point(597, 478);
             menuEscapeBtScreenReset.Name = "menuEscapeBtScreenReset";
@@ -437,7 +443,7 @@
             // 
             menuEscapeBtSettings.Anchor = AnchorStyles.None;
             menuEscapeBtSettings.BackColor = Color.White;
-            menuEscapeBtSettings.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            menuEscapeBtSettings.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuEscapeBtSettings.ForeColor = Color.FromArgb(68, 101, 147);
             menuEscapeBtSettings.Location = new Point(597, 551);
             menuEscapeBtSettings.Name = "menuEscapeBtSettings";
@@ -451,7 +457,7 @@
             // 
             menuEscapeBtControls.Anchor = AnchorStyles.None;
             menuEscapeBtControls.BackColor = Color.White;
-            menuEscapeBtControls.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            menuEscapeBtControls.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuEscapeBtControls.ForeColor = Color.FromArgb(68, 101, 147);
             menuEscapeBtControls.Location = new Point(597, 624);
             menuEscapeBtControls.Name = "menuEscapeBtControls";
@@ -465,7 +471,7 @@
             // 
             menuEscapeBtMainMenu.Anchor = AnchorStyles.None;
             menuEscapeBtMainMenu.BackColor = Color.White;
-            menuEscapeBtMainMenu.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            menuEscapeBtMainMenu.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuEscapeBtMainMenu.ForeColor = Color.FromArgb(193, 54, 54);
             menuEscapeBtMainMenu.Location = new Point(597, 697);
             menuEscapeBtMainMenu.Name = "menuEscapeBtMainMenu";
@@ -507,11 +513,11 @@
             // 
             menuControlsLbTitle.Anchor = AnchorStyles.Bottom;
             menuControlsLbTitle.AutoSize = true;
-            menuControlsLbTitle.Font = new Font("Segoe UI", 28F, FontStyle.Bold, GraphicsUnit.Point);
+            menuControlsLbTitle.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point);
             menuControlsLbTitle.ForeColor = Color.FromArgb(68, 101, 147);
-            menuControlsLbTitle.Location = new Point(608, 71);
+            menuControlsLbTitle.Location = new Point(630, 80);
             menuControlsLbTitle.Name = "menuControlsLbTitle";
-            menuControlsLbTitle.Size = new Size(320, 74);
+            menuControlsLbTitle.Size = new Size(276, 65);
             menuControlsLbTitle.TabIndex = 0;
             menuControlsLbTitle.Text = "OVLÁDÁNÍ";
             // 
@@ -561,12 +567,12 @@
             // 
             menuControlsLbL1.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             menuControlsLbL1.AutoSize = true;
-            menuControlsLbL1.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuControlsLbL1.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             menuControlsLbL1.ForeColor = Color.FromArgb(68, 101, 147);
-            menuControlsLbL1.Location = new Point(344, 16);
+            menuControlsLbL1.Location = new Point(344, 17);
             menuControlsLbL1.Margin = new Padding(0);
             menuControlsLbL1.Name = "menuControlsLbL1";
-            menuControlsLbL1.Size = new Size(421, 48);
+            menuControlsLbL1.Size = new Size(421, 45);
             menuControlsLbL1.TabIndex = 0;
             menuControlsLbL1.Text = "Doleva / Doprava";
             // 
@@ -574,12 +580,12 @@
             // 
             menuControlsLbL2.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             menuControlsLbL2.AutoSize = true;
-            menuControlsLbL2.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuControlsLbL2.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             menuControlsLbL2.ForeColor = Color.FromArgb(68, 101, 147);
-            menuControlsLbL2.Location = new Point(344, 96);
+            menuControlsLbL2.Location = new Point(344, 97);
             menuControlsLbL2.Margin = new Padding(0);
             menuControlsLbL2.Name = "menuControlsLbL2";
-            menuControlsLbL2.Size = new Size(421, 48);
+            menuControlsLbL2.Size = new Size(421, 45);
             menuControlsLbL2.TabIndex = 2;
             menuControlsLbL2.Text = "Nahoru / Dolu";
             // 
@@ -587,12 +593,12 @@
             // 
             menuControlsLbL3.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             menuControlsLbL3.AutoSize = true;
-            menuControlsLbL3.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuControlsLbL3.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             menuControlsLbL3.ForeColor = Color.FromArgb(68, 101, 147);
-            menuControlsLbL3.Location = new Point(344, 176);
+            menuControlsLbL3.Location = new Point(344, 177);
             menuControlsLbL3.Margin = new Padding(0);
             menuControlsLbL3.Name = "menuControlsLbL3";
-            menuControlsLbL3.Size = new Size(421, 48);
+            menuControlsLbL3.Size = new Size(421, 45);
             menuControlsLbL3.TabIndex = 4;
             menuControlsLbL3.Text = "Skok";
             // 
@@ -600,12 +606,12 @@
             // 
             menuControlsLbL4.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             menuControlsLbL4.AutoSize = true;
-            menuControlsLbL4.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuControlsLbL4.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             menuControlsLbL4.ForeColor = Color.FromArgb(68, 101, 147);
-            menuControlsLbL4.Location = new Point(344, 256);
+            menuControlsLbL4.Location = new Point(344, 257);
             menuControlsLbL4.Margin = new Padding(0);
             menuControlsLbL4.Name = "menuControlsLbL4";
-            menuControlsLbL4.Size = new Size(421, 48);
+            menuControlsLbL4.Size = new Size(421, 45);
             menuControlsLbL4.TabIndex = 5;
             menuControlsLbL4.Text = "Dash";
             // 
@@ -613,12 +619,12 @@
             // 
             menuControlsLbL5.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             menuControlsLbL5.AutoSize = true;
-            menuControlsLbL5.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuControlsLbL5.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             menuControlsLbL5.ForeColor = Color.FromArgb(68, 101, 147);
-            menuControlsLbL5.Location = new Point(344, 336);
+            menuControlsLbL5.Location = new Point(344, 337);
             menuControlsLbL5.Margin = new Padding(0);
             menuControlsLbL5.Name = "menuControlsLbL5";
-            menuControlsLbL5.Size = new Size(421, 48);
+            menuControlsLbL5.Size = new Size(421, 45);
             menuControlsLbL5.TabIndex = 6;
             menuControlsLbL5.Text = "Držení";
             // 
@@ -626,12 +632,12 @@
             // 
             menuControlsLbL6.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             menuControlsLbL6.AutoSize = true;
-            menuControlsLbL6.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuControlsLbL6.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             menuControlsLbL6.ForeColor = Color.FromArgb(68, 101, 147);
-            menuControlsLbL6.Location = new Point(344, 416);
+            menuControlsLbL6.Location = new Point(344, 417);
             menuControlsLbL6.Margin = new Padding(0);
             menuControlsLbL6.Name = "menuControlsLbL6";
-            menuControlsLbL6.Size = new Size(421, 48);
+            menuControlsLbL6.Size = new Size(421, 45);
             menuControlsLbL6.TabIndex = 7;
             menuControlsLbL6.Text = "Pauza";
             // 
@@ -683,12 +689,12 @@
             // 
             lbKeyboard1.Anchor = AnchorStyles.Right;
             lbKeyboard1.AutoSize = true;
-            lbKeyboard1.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            lbKeyboard1.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             lbKeyboard1.ForeColor = Color.FromArgb(68, 101, 147);
-            lbKeyboard1.Location = new Point(315, 16);
+            lbKeyboard1.Location = new Point(325, 17);
             lbKeyboard1.Margin = new Padding(0);
             lbKeyboard1.Name = "lbKeyboard1";
-            lbKeyboard1.Size = new Size(105, 48);
+            lbKeyboard1.Size = new Size(95, 45);
             lbKeyboard1.TabIndex = 7;
             lbKeyboard1.Text = "A / D";
             // 
@@ -696,12 +702,12 @@
             // 
             lbKeyboard2.Anchor = AnchorStyles.Right;
             lbKeyboard2.AutoSize = true;
-            lbKeyboard2.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            lbKeyboard2.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             lbKeyboard2.ForeColor = Color.FromArgb(68, 101, 147);
-            lbKeyboard2.Location = new Point(310, 96);
+            lbKeyboard2.Location = new Point(321, 97);
             lbKeyboard2.Margin = new Padding(0);
             lbKeyboard2.Name = "lbKeyboard2";
-            lbKeyboard2.Size = new Size(110, 48);
+            lbKeyboard2.Size = new Size(99, 45);
             lbKeyboard2.TabIndex = 8;
             lbKeyboard2.Text = "W / S";
             // 
@@ -709,12 +715,12 @@
             // 
             lbKeyboard3.Anchor = AnchorStyles.Right;
             lbKeyboard3.AutoSize = true;
-            lbKeyboard3.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            lbKeyboard3.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             lbKeyboard3.ForeColor = Color.FromArgb(68, 101, 147);
-            lbKeyboard3.Location = new Point(250, 176);
+            lbKeyboard3.Location = new Point(265, 177);
             lbKeyboard3.Margin = new Padding(0);
             lbKeyboard3.Name = "lbKeyboard3";
-            lbKeyboard3.Size = new Size(170, 48);
+            lbKeyboard3.Size = new Size(155, 45);
             lbKeyboard3.TabIndex = 11;
             lbKeyboard3.Text = "Mezerník";
             // 
@@ -722,12 +728,12 @@
             // 
             lbKeyboard4.Anchor = AnchorStyles.Right;
             lbKeyboard4.AutoSize = true;
-            lbKeyboard4.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            lbKeyboard4.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             lbKeyboard4.ForeColor = Color.FromArgb(68, 101, 147);
-            lbKeyboard4.Location = new Point(354, 256);
+            lbKeyboard4.Location = new Point(359, 257);
             lbKeyboard4.Margin = new Padding(0);
             lbKeyboard4.Name = "lbKeyboard4";
-            lbKeyboard4.Size = new Size(66, 48);
+            lbKeyboard4.Size = new Size(61, 45);
             lbKeyboard4.TabIndex = 12;
             lbKeyboard4.Text = "Alt";
             // 
@@ -735,12 +741,12 @@
             // 
             lbKeyboard5.Anchor = AnchorStyles.Right;
             lbKeyboard5.AutoSize = true;
-            lbKeyboard5.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            lbKeyboard5.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             lbKeyboard5.ForeColor = Color.FromArgb(68, 101, 147);
-            lbKeyboard5.Location = new Point(324, 336);
+            lbKeyboard5.Location = new Point(332, 337);
             lbKeyboard5.Margin = new Padding(0);
             lbKeyboard5.Name = "lbKeyboard5";
-            lbKeyboard5.Size = new Size(96, 48);
+            lbKeyboard5.Size = new Size(88, 45);
             lbKeyboard5.TabIndex = 13;
             lbKeyboard5.Text = "Shift";
             // 
@@ -748,12 +754,12 @@
             // 
             lbKeyboard6.Anchor = AnchorStyles.Right;
             lbKeyboard6.AutoSize = true;
-            lbKeyboard6.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            lbKeyboard6.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             lbKeyboard6.ForeColor = Color.FromArgb(68, 101, 147);
-            lbKeyboard6.Location = new Point(348, 416);
+            lbKeyboard6.Location = new Point(354, 417);
             lbKeyboard6.Margin = new Padding(0);
             lbKeyboard6.Name = "lbKeyboard6";
-            lbKeyboard6.Size = new Size(72, 48);
+            lbKeyboard6.Size = new Size(66, 45);
             lbKeyboard6.TabIndex = 14;
             lbKeyboard6.Text = "Esc";
             // 
@@ -955,7 +961,7 @@
             // 
             menuControlsBtBack.Anchor = AnchorStyles.Top;
             menuControlsBtBack.BackColor = Color.White;
-            menuControlsBtBack.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            menuControlsBtBack.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuControlsBtBack.ForeColor = Color.FromArgb(68, 101, 147);
             menuControlsBtBack.Location = new Point(597, 711);
             menuControlsBtBack.Margin = new Padding(3, 21, 3, 3);
@@ -1022,11 +1028,11 @@
             // 
             menuSettingsLbTitle.Anchor = AnchorStyles.Bottom;
             menuSettingsLbTitle.AutoSize = true;
-            menuSettingsLbTitle.Font = new Font("Segoe UI", 28F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsLbTitle.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point);
             menuSettingsLbTitle.ForeColor = Color.FromArgb(68, 101, 147);
-            menuSettingsLbTitle.Location = new Point(598, 71);
+            menuSettingsLbTitle.Location = new Point(621, 80);
             menuSettingsLbTitle.Name = "menuSettingsLbTitle";
-            menuSettingsLbTitle.Size = new Size(340, 74);
+            menuSettingsLbTitle.Size = new Size(294, 65);
             menuSettingsLbTitle.TabIndex = 0;
             menuSettingsLbTitle.Text = "NASTAVENÍ";
             // 
@@ -1043,11 +1049,14 @@
             menuSettingsTableLPSettings.Controls.Add(menuSettingsLbL1, 1, 0);
             menuSettingsTableLPSettings.Controls.Add(menuSettingsLbL2, 1, 1);
             menuSettingsTableLPSettings.Controls.Add(menuSettingsLbL3, 1, 2);
+            menuSettingsTableLPSettings.Controls.Add(menuSettingsLbL4, 1, 3);
+            menuSettingsTableLPSettings.Controls.Add(menuSettingsLbR4Container, 2, 3);
             menuSettingsTableLPSettings.Dock = DockStyle.Fill;
             menuSettingsTableLPSettings.Location = new Point(3, 188);
             menuSettingsTableLPSettings.Margin = new Padding(3, 43, 3, 3);
             menuSettingsTableLPSettings.Name = "menuSettingsTableLPSettings";
-            menuSettingsTableLPSettings.RowCount = 4;
+            menuSettingsTableLPSettings.RowCount = 5;
+            menuSettingsTableLPSettings.RowStyles.Add(new RowStyle(SizeType.Absolute, 80F));
             menuSettingsTableLPSettings.RowStyles.Add(new RowStyle(SizeType.Absolute, 80F));
             menuSettingsTableLPSettings.RowStyles.Add(new RowStyle(SizeType.Absolute, 80F));
             menuSettingsTableLPSettings.RowStyles.Add(new RowStyle(SizeType.Absolute, 80F));
@@ -1078,7 +1087,7 @@
             // 
             menuSettingsLbVolumeR1.Anchor = AnchorStyles.Left;
             menuSettingsLbVolumeR1.AutoSize = true;
-            menuSettingsLbVolumeR1.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsLbVolumeR1.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             menuSettingsLbVolumeR1.ForeColor = Color.FromArgb(68, 101, 147);
             menuSettingsLbVolumeR1.Location = new Point(347, 17);
             menuSettingsLbVolumeR1.Margin = new Padding(0);
@@ -1124,13 +1133,13 @@
             // 
             menuSettingsLbR2ControlL.Anchor = AnchorStyles.Right;
             menuSettingsLbR2ControlL.AutoSize = true;
-            menuSettingsLbR2ControlL.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsLbR2ControlL.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             menuSettingsLbR2ControlL.ForeColor = Color.FromArgb(130, 160, 200);
-            menuSettingsLbR2ControlL.Location = new Point(182, 11);
+            menuSettingsLbR2ControlL.Location = new Point(198, 12);
             menuSettingsLbR2ControlL.Margin = new Padding(0);
             menuSettingsLbR2ControlL.Name = "menuSettingsLbR2ControlL";
             menuSettingsLbR2ControlL.Padding = new Padding(5);
-            menuSettingsLbR2ControlL.Size = new Size(62, 58);
+            menuSettingsLbR2ControlL.Size = new Size(59, 55);
             menuSettingsLbR2ControlL.TabIndex = 0;
             menuSettingsLbR2ControlL.Text = "◀";
             menuSettingsLbR2ControlL.Click += buttonClicked;
@@ -1139,13 +1148,13 @@
             // 
             menuSettingsLbR2ControlR.Anchor = AnchorStyles.Right;
             menuSettingsLbR2ControlR.AutoSize = true;
-            menuSettingsLbR2ControlR.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsLbR2ControlR.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             menuSettingsLbR2ControlR.ForeColor = Color.FromArgb(68, 101, 147);
-            menuSettingsLbR2ControlR.Location = new Point(358, 11);
+            menuSettingsLbR2ControlR.Location = new Point(361, 12);
             menuSettingsLbR2ControlR.Margin = new Padding(0);
             menuSettingsLbR2ControlR.Name = "menuSettingsLbR2ControlR";
             menuSettingsLbR2ControlR.Padding = new Padding(5);
-            menuSettingsLbR2ControlR.Size = new Size(62, 58);
+            menuSettingsLbR2ControlR.Size = new Size(59, 55);
             menuSettingsLbR2ControlR.TabIndex = 2;
             menuSettingsLbR2ControlR.Text = "▶";
             menuSettingsLbR2ControlR.Click += buttonClicked;
@@ -1154,12 +1163,12 @@
             // 
             menuSettingsLbR2Language.Anchor = AnchorStyles.Right;
             menuSettingsLbR2Language.AutoSize = true;
-            menuSettingsLbR2Language.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsLbR2Language.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             menuSettingsLbR2Language.ForeColor = Color.FromArgb(68, 101, 147);
-            menuSettingsLbR2Language.Location = new Point(244, 16);
+            menuSettingsLbR2Language.Location = new Point(257, 17);
             menuSettingsLbR2Language.Margin = new Padding(0);
             menuSettingsLbR2Language.Name = "menuSettingsLbR2Language";
-            menuSettingsLbR2Language.Size = new Size(114, 48);
+            menuSettingsLbR2Language.Size = new Size(104, 45);
             menuSettingsLbR2Language.TabIndex = 1;
             menuSettingsLbR2Language.Text = "Česky";
             // 
@@ -1186,13 +1195,13 @@
             // 
             menuSettingsLbR3ControlR.Anchor = AnchorStyles.Right;
             menuSettingsLbR3ControlR.AutoSize = true;
-            menuSettingsLbR3ControlR.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsLbR3ControlR.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             menuSettingsLbR3ControlR.ForeColor = Color.FromArgb(68, 101, 147);
-            menuSettingsLbR3ControlR.Location = new Point(358, 11);
+            menuSettingsLbR3ControlR.Location = new Point(361, 12);
             menuSettingsLbR3ControlR.Margin = new Padding(0);
             menuSettingsLbR3ControlR.Name = "menuSettingsLbR3ControlR";
             menuSettingsLbR3ControlR.Padding = new Padding(5);
-            menuSettingsLbR3ControlR.Size = new Size(62, 58);
+            menuSettingsLbR3ControlR.Size = new Size(59, 55);
             menuSettingsLbR3ControlR.TabIndex = 2;
             menuSettingsLbR3ControlR.Text = "▶";
             menuSettingsLbR3ControlR.Click += buttonClicked;
@@ -1201,12 +1210,12 @@
             // 
             menuSettingsLbR3Input.Anchor = AnchorStyles.Right;
             menuSettingsLbR3Input.AutoSize = true;
-            menuSettingsLbR3Input.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsLbR3Input.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             menuSettingsLbR3Input.ForeColor = Color.FromArgb(68, 101, 147);
-            menuSettingsLbR3Input.Location = new Point(107, 16);
+            menuSettingsLbR3Input.Location = new Point(135, 17);
             menuSettingsLbR3Input.Margin = new Padding(0);
             menuSettingsLbR3Input.Name = "menuSettingsLbR3Input";
-            menuSettingsLbR3Input.Size = new Size(251, 48);
+            menuSettingsLbR3Input.Size = new Size(226, 45);
             menuSettingsLbR3Input.TabIndex = 1;
             menuSettingsLbR3Input.Text = "Zvuky i hudba";
             // 
@@ -1214,13 +1223,13 @@
             // 
             menuSettingsLbR3ControlL.Anchor = AnchorStyles.Right;
             menuSettingsLbR3ControlL.AutoSize = true;
-            menuSettingsLbR3ControlL.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsLbR3ControlL.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             menuSettingsLbR3ControlL.ForeColor = Color.FromArgb(130, 160, 200);
-            menuSettingsLbR3ControlL.Location = new Point(45, 11);
+            menuSettingsLbR3ControlL.Location = new Point(76, 12);
             menuSettingsLbR3ControlL.Margin = new Padding(0);
             menuSettingsLbR3ControlL.Name = "menuSettingsLbR3ControlL";
             menuSettingsLbR3ControlL.Padding = new Padding(5);
-            menuSettingsLbR3ControlL.Size = new Size(62, 58);
+            menuSettingsLbR3ControlL.Size = new Size(59, 55);
             menuSettingsLbR3ControlL.TabIndex = 0;
             menuSettingsLbR3ControlL.Text = "◀";
             menuSettingsLbR3ControlL.Click += buttonClicked;
@@ -1229,12 +1238,12 @@
             // 
             menuSettingsLbL1.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             menuSettingsLbL1.AutoSize = true;
-            menuSettingsLbL1.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsLbL1.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             menuSettingsLbL1.ForeColor = Color.FromArgb(68, 101, 147);
-            menuSettingsLbL1.Location = new Point(344, 16);
+            menuSettingsLbL1.Location = new Point(344, 17);
             menuSettingsLbL1.Margin = new Padding(0);
             menuSettingsLbL1.Name = "menuSettingsLbL1";
-            menuSettingsLbL1.Size = new Size(420, 48);
+            menuSettingsLbL1.Size = new Size(420, 45);
             menuSettingsLbL1.TabIndex = 5;
             menuSettingsLbL1.Text = "Hlasitost";
             // 
@@ -1242,12 +1251,12 @@
             // 
             menuSettingsLbL2.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             menuSettingsLbL2.AutoSize = true;
-            menuSettingsLbL2.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsLbL2.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             menuSettingsLbL2.ForeColor = Color.FromArgb(68, 101, 147);
-            menuSettingsLbL2.Location = new Point(344, 96);
+            menuSettingsLbL2.Location = new Point(344, 97);
             menuSettingsLbL2.Margin = new Padding(0);
             menuSettingsLbL2.Name = "menuSettingsLbL2";
-            menuSettingsLbL2.Size = new Size(420, 48);
+            menuSettingsLbL2.Size = new Size(420, 45);
             menuSettingsLbL2.TabIndex = 1;
             menuSettingsLbL2.Text = "Jazyk";
             // 
@@ -1255,20 +1264,95 @@
             // 
             menuSettingsLbL3.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             menuSettingsLbL3.AutoSize = true;
-            menuSettingsLbL3.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsLbL3.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
             menuSettingsLbL3.ForeColor = Color.FromArgb(68, 101, 147);
-            menuSettingsLbL3.Location = new Point(344, 176);
+            menuSettingsLbL3.Location = new Point(344, 177);
             menuSettingsLbL3.Margin = new Padding(0);
             menuSettingsLbL3.Name = "menuSettingsLbL3";
-            menuSettingsLbL3.Size = new Size(420, 48);
+            menuSettingsLbL3.Size = new Size(420, 45);
             menuSettingsLbL3.TabIndex = 3;
             menuSettingsLbL3.Text = "Zvuky";
+            // 
+            // menuSettingsLbL4
+            // 
+            menuSettingsLbL4.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            menuSettingsLbL4.AutoSize = true;
+            menuSettingsLbL4.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsLbL4.ForeColor = Color.FromArgb(68, 101, 147);
+            menuSettingsLbL4.Location = new Point(344, 257);
+            menuSettingsLbL4.Margin = new Padding(0);
+            menuSettingsLbL4.Name = "menuSettingsLbL4";
+            menuSettingsLbL4.Size = new Size(420, 45);
+            menuSettingsLbL4.TabIndex = 8;
+            menuSettingsLbL4.Text = "Zvětšení textu";
+            // 
+            // menuSettingsLbR4Container
+            // 
+            menuSettingsLbR4Container.ColumnCount = 4;
+            menuSettingsLbR4Container.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            menuSettingsLbR4Container.ColumnStyles.Add(new ColumnStyle());
+            menuSettingsLbR4Container.ColumnStyles.Add(new ColumnStyle());
+            menuSettingsLbR4Container.ColumnStyles.Add(new ColumnStyle());
+            menuSettingsLbR4Container.Controls.Add(menuSettingsLbR4ControlR, 3, 0);
+            menuSettingsLbR4Container.Controls.Add(menuSettingsLbR4FontSize, 2, 0);
+            menuSettingsLbR4Container.Controls.Add(menuSettingsLbR4ControlL, 1, 0);
+            menuSettingsLbR4Container.Dock = DockStyle.Fill;
+            menuSettingsLbR4Container.Location = new Point(764, 240);
+            menuSettingsLbR4Container.Margin = new Padding(0);
+            menuSettingsLbR4Container.Name = "menuSettingsLbR4Container";
+            menuSettingsLbR4Container.RowCount = 1;
+            menuSettingsLbR4Container.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            menuSettingsLbR4Container.Size = new Size(420, 80);
+            menuSettingsLbR4Container.TabIndex = 9;
+            // 
+            // menuSettingsLbR4ControlR
+            // 
+            menuSettingsLbR4ControlR.Anchor = AnchorStyles.Right;
+            menuSettingsLbR4ControlR.AutoSize = true;
+            menuSettingsLbR4ControlR.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsLbR4ControlR.ForeColor = Color.FromArgb(68, 101, 147);
+            menuSettingsLbR4ControlR.Location = new Point(361, 12);
+            menuSettingsLbR4ControlR.Margin = new Padding(0);
+            menuSettingsLbR4ControlR.Name = "menuSettingsLbR4ControlR";
+            menuSettingsLbR4ControlR.Padding = new Padding(5);
+            menuSettingsLbR4ControlR.Size = new Size(59, 55);
+            menuSettingsLbR4ControlR.TabIndex = 2;
+            menuSettingsLbR4ControlR.Text = "▶";
+            menuSettingsLbR4ControlR.Click += buttonClicked;
+            // 
+            // menuSettingsLbR4FontSize
+            // 
+            menuSettingsLbR4FontSize.Anchor = AnchorStyles.Right;
+            menuSettingsLbR4FontSize.AutoSize = true;
+            menuSettingsLbR4FontSize.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsLbR4FontSize.ForeColor = Color.FromArgb(68, 101, 147);
+            menuSettingsLbR4FontSize.Location = new Point(281, 17);
+            menuSettingsLbR4FontSize.Margin = new Padding(0);
+            menuSettingsLbR4FontSize.Name = "menuSettingsLbR4FontSize";
+            menuSettingsLbR4FontSize.Size = new Size(80, 45);
+            menuSettingsLbR4FontSize.TabIndex = 1;
+            menuSettingsLbR4FontSize.Text = "0.8x";
+            // 
+            // menuSettingsLbR4ControlL
+            // 
+            menuSettingsLbR4ControlL.Anchor = AnchorStyles.Right;
+            menuSettingsLbR4ControlL.AutoSize = true;
+            menuSettingsLbR4ControlL.Font = new Font("Segoe UI Semibold", 24F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsLbR4ControlL.ForeColor = Color.FromArgb(130, 160, 200);
+            menuSettingsLbR4ControlL.Location = new Point(222, 12);
+            menuSettingsLbR4ControlL.Margin = new Padding(0);
+            menuSettingsLbR4ControlL.Name = "menuSettingsLbR4ControlL";
+            menuSettingsLbR4ControlL.Padding = new Padding(5);
+            menuSettingsLbR4ControlL.Size = new Size(59, 55);
+            menuSettingsLbR4ControlL.TabIndex = 0;
+            menuSettingsLbR4ControlL.Text = "◀";
+            menuSettingsLbR4ControlL.Click += buttonClicked;
             // 
             // menuSettingsBtBack
             // 
             menuSettingsBtBack.Anchor = AnchorStyles.Top;
             menuSettingsBtBack.BackColor = Color.White;
-            menuSettingsBtBack.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            menuSettingsBtBack.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuSettingsBtBack.ForeColor = Color.FromArgb(68, 101, 147);
             menuSettingsBtBack.Location = new Point(597, 711);
             menuSettingsBtBack.Margin = new Padding(3, 21, 3, 3);
@@ -1305,7 +1389,7 @@
             label1.Location = new Point(100, 0);
             label1.Margin = new Padding(100, 0, 0, 0);
             label1.Name = "label1";
-            label1.Size = new Size(79, 96);
+            label1.Size = new Size(71, 32);
             label1.TabIndex = 7;
             label1.Text = "A / D";
             // 
@@ -1344,7 +1428,7 @@
             label8.Location = new Point(100, 0);
             label8.Margin = new Padding(100, 0, 0, 0);
             label8.Name = "label8";
-            label8.Size = new Size(79, 20);
+            label8.Size = new Size(71, 20);
             label8.TabIndex = 7;
             label8.Text = "A / D";
             // 
@@ -1383,7 +1467,7 @@
             label10.Location = new Point(100, 0);
             label10.Margin = new Padding(100, 0, 0, 0);
             label10.Name = "label10";
-            label10.Size = new Size(79, 20);
+            label10.Size = new Size(71, 20);
             label10.TabIndex = 7;
             label10.Text = "A / D";
             // 
@@ -1422,7 +1506,7 @@
             label12.Location = new Point(100, 0);
             label12.Margin = new Padding(100, 0, 0, 0);
             label12.Name = "label12";
-            label12.Size = new Size(79, 20);
+            label12.Size = new Size(71, 20);
             label12.TabIndex = 7;
             label12.Text = "A / D";
             // 
@@ -1458,10 +1542,10 @@
             label14.AutoSize = true;
             label14.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
             label14.ForeColor = Color.FromArgb(68, 101, 147);
-            label14.Location = new Point(15, 26);
+            label14.Location = new Point(49, 34);
             label14.Margin = new Padding(0);
             label14.Name = "label14";
-            label14.Size = new Size(105, 48);
+            label14.Size = new Size(71, 32);
             label14.TabIndex = 7;
             label14.Text = "A / D";
             // 
@@ -1517,8 +1601,7 @@
             // 
             // MainWindow
             // 
-            AutoScaleDimensions = new SizeF(144F, 144F);
-            AutoScaleMode = AutoScaleMode.Dpi;
+            AutoScaleMode = AutoScaleMode.Inherit;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BackColor = Color.FromArgb(15, 21, 39);
             ClientSize = new Size(1536, 864);
@@ -1583,6 +1666,8 @@
             menuSettingsLbR2Container.PerformLayout();
             menuSettingsLbR3Container.ResumeLayout(false);
             menuSettingsLbR3Container.PerformLayout();
+            menuSettingsLbR4Container.ResumeLayout(false);
+            menuSettingsLbR4Container.PerformLayout();
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             tableLayoutPanel3.ResumeLayout(false);
@@ -1706,5 +1791,10 @@
         private PictureBox pbXbox2;
         private PictureBox pbXbox3;
         private PictureBox pbPlaystation6;
+        private Label menuSettingsLbL4;
+        private TableLayoutPanel menuSettingsLbR4Container;
+        private Label menuSettingsLbR4ControlR;
+        private Label menuSettingsLbR4FontSize;
+        private Label menuSettingsLbR4ControlL;
     }
 }

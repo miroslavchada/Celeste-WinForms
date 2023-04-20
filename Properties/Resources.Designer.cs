@@ -311,9 +311,9 @@ namespace Celeste_WinForms.Properties {
         ///Hlasitost	Volume
         ///Jazyk	Language
         ///Zvuky	Sound
-        ///Klávesnice	Keyboard
-        ///Ovladač	Controller
-        /// [zbytek řetězce byl zkrácen];.
+        ///Zvětšení textu	Text size
+        ///\\ Contols
+        ///OVL [zbytek řetězce byl zkrácen];.
         /// </summary>
         internal static string texts {
             get {

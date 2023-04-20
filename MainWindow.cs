@@ -59,6 +59,7 @@ public partial class MainWindow : Form
     string settingsOpenedFrom = "mainmenu";
     string controlsOpenedFrom = "mainmenu";
     int langIndex = 0;
+    int textScaleIndex = 0;
 
     /// Level
     int currentLevel = 1;
@@ -113,6 +114,7 @@ public partial class MainWindow : Form
         InitializeComponent();
 
         LoadTexts(0);
+        AdjustFontSize(0);
         Level1();
 
         FindControllers();
@@ -792,7 +794,7 @@ public partial class MainWindow : Form
 
         foreach (Terrain vytah in terrainArray.Where(vytah => vytah.pb.Tag.ToString().Contains("vytah")))
         {
-            if ((player.Bounds.IntersectsWith(vytah.pb.Bounds) || (vytah.onBlockLeftExclusive || vytah.onBlockRightExclusive))&& !vytah.moving)
+            if ((player.Bounds.IntersectsWith(vytah.pb.Bounds) || (vytah.onBlockLeftExclusive || vytah.onBlockRightExclusive)) && !vytah.moving)
             {
                 vytah.moving = true;
             }
@@ -1241,6 +1243,24 @@ public partial class MainWindow : Form
                     LoadTexts(0);
                 }
                 break;
+
+            case "menuSettingsLbR4ControlL":   // Volba vstupu (zpìt)
+                if (!(textScaleIndex <= 0))
+                {
+                    textScaleIndex--;
+                    LoadTexts(0);
+                    AdjustFontSize(textScaleIndex);
+                }
+                break;
+
+            case "menuSettingsLbR4ControlR":   // Volba vstupu (další)
+                if (!(textScaleIndex >= fontSizeList.Count() - 1))
+                {
+                    textScaleIndex++;
+                    LoadTexts(0);
+                    AdjustFontSize(textScaleIndex);
+                }
+                break;
         }
 
         Focus();
@@ -1513,6 +1533,12 @@ public partial class MainWindow : Form
         "Vypnuto\tOff"
     };
 
+    List<string> fontSizeList = new List<string>()
+    {
+        "0,8x\t0.8x",
+        "1x\t1x"
+    };
+
     private void LoadTexts(int shift)
     {
         langIndex += shift;
@@ -1553,31 +1579,72 @@ public partial class MainWindow : Form
             menuSettingsLbR3ControlR.ForeColor = Color.FromArgb(130, 160, 200);
 
 
+        menuSettingsLbL4.Text = texts[17].Split('\t')[langIndex];
+
+        menuSettingsLbR4FontSize.Text = fontSizeList[textScaleIndex].Split('\t')[langIndex];
+
+        foreach (Control text in menuSettingsLbR4Container.Controls)
+            text.ForeColor = Color.FromArgb(68, 101, 147);
+
+        if (textScaleIndex <= 0)
+            menuSettingsLbR4ControlL.ForeColor = Color.FromArgb(130, 160, 200);
+
+        if (textScaleIndex >= fontSizeList.Count() - 1)
+            menuSettingsLbR4ControlR.ForeColor = Color.FromArgb(130, 160, 200);
+
+
         menuSettingsBtBack.Text = texts[5].Split('\t')[langIndex];
 
         // Ovládání
-        menuControlsLbTitle.Text = texts[20].Split('\t')[langIndex];
-        menuControlsLbL1.Text = texts[21].Split('\t')[langIndex];
-        menuControlsLbL2.Text = texts[22].Split('\t')[langIndex];
-        menuControlsLbL3.Text = texts[23].Split('\t')[langIndex];
-        menuControlsLbL4.Text = texts[24].Split('\t')[langIndex];
-        menuControlsLbL5.Text = texts[25].Split('\t')[langIndex];
-        menuControlsLbL6.Text = texts[26].Split('\t')[langIndex];
-        lbKeyboard1.Text = texts[27].Split('\t')[langIndex];
-        lbKeyboard2.Text = texts[28].Split('\t')[langIndex];
-        lbKeyboard3.Text = texts[29].Split('\t')[langIndex];
-        lbKeyboard4.Text = texts[30].Split('\t')[langIndex];
-        lbKeyboard5.Text = texts[31].Split('\t')[langIndex];
-        lbKeyboard6.Text = texts[32].Split('\t')[langIndex];
+        menuControlsLbTitle.Text = texts[19].Split('\t')[langIndex];
+        menuControlsLbL1.Text = texts[20].Split('\t')[langIndex];
+        menuControlsLbL2.Text = texts[21].Split('\t')[langIndex];
+        menuControlsLbL3.Text = texts[22].Split('\t')[langIndex];
+        menuControlsLbL4.Text = texts[23].Split('\t')[langIndex];
+        menuControlsLbL5.Text = texts[24].Split('\t')[langIndex];
+        menuControlsLbL6.Text = texts[25].Split('\t')[langIndex];
+        lbKeyboard1.Text = texts[26].Split('\t')[langIndex];
+        lbKeyboard2.Text = texts[27].Split('\t')[langIndex];
+        lbKeyboard3.Text = texts[28].Split('\t')[langIndex];
+        lbKeyboard4.Text = texts[29].Split('\t')[langIndex];
+        lbKeyboard5.Text = texts[30].Split('\t')[langIndex];
+        lbKeyboard6.Text = texts[31].Split('\t')[langIndex];
         menuControlsBtBack.Text = texts[5].Split('\t')[langIndex];
 
         // Pauza
-        menuEscapeLbTitle.Text = texts[34].Split('\t')[langIndex];
+        menuEscapeLbTitle.Text = texts[33].Split('\t')[langIndex];
         menuEscapeBtContinue.Text = texts[6].Split('\t')[langIndex];
         menuEscapeBtScreenReset.Text = texts[7].Split('\t')[langIndex];
         menuEscapeBtSettings.Text = texts[3].Split('\t')[langIndex];
         menuEscapeBtControls.Text = texts[8].Split('\t')[langIndex];
         menuEscapeBtMainMenu.Text = texts[9].Split('\t')[langIndex];
+    }
+
+    private void AdjustFontSize(int index)
+    {
+        menuMainLbTitle.Font = new Font("Segoe UI", (index == 0 ? 62 : 84), FontStyle.Bold);
+        menuMainLbSubtitle.Font = new Font("Segoe UI", (index == 0 ? 20 : 26), FontStyle.Bold);
+
+        Label[] titles = new Label[] { menuSettingsLbTitle, menuControlsLbTitle, menuEscapeLbTitle };
+        Label[] menuText = new Label[] { menuSettingsLbL1, menuSettingsLbL2, menuSettingsLbL3, menuSettingsLbL4, menuSettingsLbVolumeR1, menuSettingsLbR2ControlL, menuSettingsLbR2Language, menuSettingsLbR2ControlR, menuSettingsLbR3ControlL, menuSettingsLbR3Input, menuSettingsLbR3ControlR, menuSettingsLbR4ControlL, menuSettingsLbR4FontSize, menuSettingsLbR4ControlR, menuControlsLbL1, menuControlsLbL2, menuControlsLbL3, menuControlsLbL4, menuControlsLbL5, menuControlsLbL6, lbKeyboard1, lbKeyboard2, lbKeyboard3, lbKeyboard4, lbKeyboard5, lbKeyboard6 };
+        Label[] text = new Label[] { menuMainLbAuthor };
+        Label[] smallText = new Label[] { mainLbInfo };
+        Button[] buttons = new Button[] { menuMainBtPlay, menuMainBtSettings, menuMainBtControls, menuMainBtClose, menuSettingsBtBack, menuControlsBtBack, menuEscapeBtContinue, menuEscapeBtScreenReset, menuEscapeBtSettings, menuEscapeBtControls, menuEscapeBtMainMenu };
+
+        foreach (Label item in titles)
+            item.Font = new Font("Segoe UI", (index == 0 ? 28 : 36), FontStyle.Bold);
+
+        foreach (Label item in menuText)
+            item.Font = new Font("Segoe UI Semibold", (index == 0 ? 18 : 24));
+
+        foreach (Label item in text)
+            item.Font = new Font("Segoe UI Semibold", (index == 0 ? 15 : 18));
+
+        foreach (Label item in smallText)
+            item.Font = new Font("Segoe UI", (index == 0 ? 11 : 12), FontStyle.Regular);
+
+        foreach (Button item in buttons)
+            item.Font = new Font("Segoe UI", (index == 0 ? 14 : 18), FontStyle.Bold);
     }
 
     #endregion Texty

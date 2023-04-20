@@ -15,8 +15,7 @@ NASTAVENÍ	SETTINGS
 Hlasitost	Volume
 Jazyk	Language
 Zvuky	Sound
-Klávesnice	Keyboard
-Ovladaè	Controller
+Zvìtšení textu	Text size
 \\ Contols
 OVLÁDÁNÍ	CONTROLS
 Doleva / Doprava	Left / Right
