@@ -4,6 +4,7 @@ using System.Diagnostics;
 using XInputDotNetPure;
 using ButtonState = XInputDotNetPure.ButtonState;
 using SharpDX.DirectInput;
+using System;
 
 namespace Celeste_WinForms;
 
@@ -103,6 +104,11 @@ public partial class MainWindow : Form
 
     bool developerKeys;   // NumPad0 stisknuta
 
+    // Ošetøení timerù pøi pauze
+    bool tTimerJumpCooldown;
+    bool tTimerJumpHeadBumpCooldown;
+    bool tTimerGrabAfterJumpCooldown;
+
     /// Tagy <summary>
     /// "collision" - na objekt se vztahují kolize
     /// "spring" - pružina
@@ -113,8 +119,8 @@ public partial class MainWindow : Form
     {
         InitializeComponent();
 
-        LoadTexts(0);
-        AdjustFontSize(0);
+        ConfigFileUpdate(0, "load");
+        SettingsUpdate();
         Level1();
 
         FindControllers();
@@ -1072,6 +1078,8 @@ public partial class MainWindow : Form
                 gameScreen.Enabled = false; gameScreen.Visible = false;
                 timer1.Enabled = false;
                 inputEnabled = false;
+
+                TimerHandler("Pause");
             }
         }
 
@@ -1121,6 +1129,8 @@ public partial class MainWindow : Form
     {
         volume = (float)(menuSettingsTrackR1.Value * 0.05);
         menuSettingsLbVolumeR1.Text = Math.Floor(volume * 100).ToString();
+
+        ConfigFileUpdate(1, menuSettingsLbVolumeR1.Text);
     }
 
     private void buttonClicked(object sender, EventArgs e)
@@ -1140,6 +1150,8 @@ public partial class MainWindow : Form
 
                 timer1.Enabled = true;
                 inputEnabled = true;
+
+                TimerHandler("Play");
                 break;
 
             case "menuMainBtSettings":
@@ -1162,13 +1174,17 @@ public partial class MainWindow : Form
 
             case "menuEscapeBtContinue":    // Pokraèování ve høe z Escape menu
                 menuEscapeContinue(false);
+
+                TimerHandler("Play");
                 break;
 
             case "menuEscapeBtScreenReset":    // Reset obrazovky z Escape menu
                 menuEscapeContinue(true);
+
+                TimerHandler("Reset");
                 break;
 
-            case "menuEscapeBtSettings":
+            case "menuEscapeBtSettings":    // Zobrazení nastavení v Escape menu
                 menuEscapeContainer.Enabled = false; menuEscapeContainer.Visible = false;
                 menuSettingsContainer.Enabled = true; menuSettingsContainer.Visible = true;
 
@@ -1220,19 +1236,25 @@ public partial class MainWindow : Form
 
             case "menuSettingsLbR2ControlL":   // Volba jazyka (zpìt)
                 if (!(langIndex <= 0))
-                    LoadTexts(-1);
+                {
+                    langIndex--;
+                    SettingsUpdate();
+                }
                 break;
 
             case "menuSettingsLbR2ControlR":   // Volba jazyka (další)
                 if (!(langIndex >= languages.Count() - 1))
-                    LoadTexts(1);
+                {
+                    langIndex++;
+                    SettingsUpdate();
+                }
                 break;
 
             case "menuSettingsLbR3ControlL":   // Volba vstupu (zpìt)
                 if (!(soundOutputType <= 0))
                 {
                     soundOutputType--;
-                    LoadTexts(0);
+                    SettingsUpdate();
                 }
                 break;
 
@@ -1240,7 +1262,7 @@ public partial class MainWindow : Form
                 if (!(soundOutputType >= soundOutputTypeList.Count() - 1))
                 {
                     soundOutputType++;
-                    LoadTexts(0);
+                    SettingsUpdate();
                 }
                 break;
 
@@ -1248,7 +1270,7 @@ public partial class MainWindow : Form
                 if (!(textScaleIndex <= 0))
                 {
                     textScaleIndex--;
-                    LoadTexts(0);
+                    SettingsUpdate();
                     AdjustFontSize(textScaleIndex);
                 }
                 break;
@@ -1257,7 +1279,7 @@ public partial class MainWindow : Form
                 if (!(textScaleIndex >= fontSizeList.Count() - 1))
                 {
                     textScaleIndex++;
-                    LoadTexts(0);
+                    SettingsUpdate();
                     AdjustFontSize(textScaleIndex);
                 }
                 break;
@@ -1465,14 +1487,14 @@ public partial class MainWindow : Form
         switch (sound)
         {
             case "jumped":
-                soundJumped.PlaySound(0);
+                soundJumped.PlaySound(0, volume);
                 break;
 
             case "landed":
                 switch (lastMaterial)
                 {
                     case "ice":
-                        soundLandedIce.PlaySound(landVariant);
+                        soundLandedIce.PlaySound(landVariant, volume);
 
                         if (landVariant >= 5)
                             landVariant = 1;
@@ -1482,7 +1504,7 @@ public partial class MainWindow : Form
                 break;
 
             case "spring":
-                soundSpring.PlaySound(0);
+                soundSpring.PlaySound(0, volume);
                 break;
 
             case "grabOn":
@@ -1491,7 +1513,7 @@ public partial class MainWindow : Form
                     switch (lastMaterial)
                     {
                         case "ice":
-                            soundGrabOnIce.PlaySound(grabOnVariant);
+                            soundGrabOnIce.PlaySound(grabOnVariant, volume);
 
                             if (grabOnVariant >= 5)
                                 grabOnVariant = 1;
@@ -1505,20 +1527,20 @@ public partial class MainWindow : Form
             case "grabOff":
                 if (grabbedOn)
                 {
-                    soundGrabOff.PlaySound(0);
+                    soundGrabOff.PlaySound(0, volume);
                 }
                 grabbedOn = false;
                 break;
 
             case "dash":
-                soundDash.PlaySound(0);
+                soundDash.PlaySound(0, volume);
                 break;
         }
     }
 
     #endregion Sound design
 
-    #region Texty
+    #region Config
 
     List<string> languages = new List<string>()
     {
@@ -1539,9 +1561,22 @@ public partial class MainWindow : Form
         "1x\t1x"
     };
 
-    private void LoadTexts(int shift)
+    private void SettingsUpdate()
     {
-        langIndex += shift;
+        // Hlavní menu
+        menuMainBtPlay.Text = texts[2].Split('\t')[langIndex];
+        menuMainBtSettings.Text = texts[3].Split('\t')[langIndex];
+        menuMainBtControls.Text = texts[8].Split('\t')[langIndex];
+        menuMainBtClose.Text = texts[4].Split('\t')[langIndex];
+        mainLbInfo.Text = texts[11].Split('\t')[langIndex];
+
+        // Nastavení
+        menuSettingsLbTitle.Text = texts[13].Split('\t')[langIndex];
+        menuSettingsLbL1.Text = texts[14].Split('\t')[langIndex];
+
+        /// Jazyk
+        menuSettingsLbL2.Text = texts[15].Split('\t')[langIndex];
+
         menuSettingsLbR2Language.Text = languages[langIndex];
 
         foreach (Control text in menuSettingsLbR2Container.Controls)
@@ -1553,18 +1588,10 @@ public partial class MainWindow : Form
         if (langIndex >= languages.Count() - 1)
             menuSettingsLbR2ControlR.ForeColor = Color.FromArgb(130, 160, 200);
 
+        ConfigFileUpdate(2, menuSettingsLbR2Language.Text);
 
-        // Hlavní menu
-        menuMainBtPlay.Text = texts[2].Split('\t')[langIndex];
-        menuMainBtSettings.Text = texts[3].Split('\t')[langIndex];
-        menuMainBtControls.Text = texts[8].Split('\t')[langIndex];
-        menuMainBtClose.Text = texts[4].Split('\t')[langIndex];
-        mainLbInfo.Text = texts[11].Split('\t')[langIndex];
 
-        // Nastavení
-        menuSettingsLbTitle.Text = texts[13].Split('\t')[langIndex];
-        menuSettingsLbL1.Text = texts[14].Split('\t')[langIndex];
-        menuSettingsLbL2.Text = texts[15].Split('\t')[langIndex];
+        /// Sound output
         menuSettingsLbL3.Text = texts[16].Split('\t')[langIndex];
 
         menuSettingsLbR3Input.Text = soundOutputTypeList[soundOutputType].Split('\t')[langIndex];
@@ -1572,13 +1599,34 @@ public partial class MainWindow : Form
         foreach (Control text in menuSettingsLbR3Container.Controls)
             text.ForeColor = Color.FromArgb(68, 101, 147);
 
-        if (soundOutputType <= 0)
-            menuSettingsLbR3ControlL.ForeColor = Color.FromArgb(130, 160, 200);
+        switch (soundOutputType)
+        {
+            case 0:
+                menuSettingsLbR3ControlL.ForeColor = Color.FromArgb(130, 160, 200);
+                SoundManager.bannedSound = false;
+                SoundManager.bannedMusic = false;
 
-        if (soundOutputType >= soundOutputTypeList.Count() - 1)
-            menuSettingsLbR3ControlR.ForeColor = Color.FromArgb(130, 160, 200);
+                ConfigFileUpdate(3, "Off");
+                break;
+
+            case 1:
+                SoundManager.bannedSound = false;
+                SoundManager.bannedMusic = true;
+
+                ConfigFileUpdate(3, "Sound");
+                break;
+
+            case 2:
+                menuSettingsLbR3ControlR.ForeColor = Color.FromArgb(130, 160, 200);
+                SoundManager.bannedSound = true;
+                SoundManager.bannedMusic = true;
+
+                ConfigFileUpdate(3, "Music");
+                break;
+        }
 
 
+        /// Font size
         menuSettingsLbL4.Text = texts[17].Split('\t')[langIndex];
 
         menuSettingsLbR4FontSize.Text = fontSizeList[textScaleIndex].Split('\t')[langIndex];
@@ -1645,7 +1693,132 @@ public partial class MainWindow : Form
 
         foreach (Button item in buttons)
             item.Font = new Font("Segoe UI", (index == 0 ? 14 : 18), FontStyle.Bold);
+
+        ConfigFileUpdate(4, index.ToString());
     }
 
-    #endregion Texty
+    private void ConfigFileUpdate(int record, string data)
+    {
+        string[] config = new string[0];
+
+        try
+        {
+            config = File.ReadAllLines("config.txt");
+        }
+        catch (Exception)
+        {
+            DialogResult dialogResult = MessageBox.Show("Nebylo možné uložit zmìny", "Chyba", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+            if (dialogResult == DialogResult.Retry)
+            {
+                ConfigFileUpdate(record, data);
+            }
+            else
+            {
+                ConfigFileUpdate(0, "load");
+            }
+        }
+
+        // 1 - Zmìna hlasitosti
+        // 2 - Zmìna jazyka
+        // 3 - Volba typu výstupu(hudba, zvuky, off)
+        // 4 - Zvìtšení textu
+
+
+        if (record != 0)
+        {
+            config[record] = data;
+
+            try
+            {
+                File.WriteAllLines("config.txt", config);
+            }
+            catch (Exception)
+            {
+                DialogResult dialogResult = MessageBox.Show("Nebylo možné uložit zmìny", "Chyba", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                if (dialogResult == DialogResult.Retry)
+                {
+                    ConfigFileUpdate(record, data);
+                }
+                else
+                {
+                    ConfigFileUpdate(0, "load");
+                }
+            }
+        }
+        else if (data == "load")
+        {
+            AdjustFontSize(0);
+
+            // Naètení hlasitosti
+            volume = (float)(Convert.ToInt32(config[1]) * 0.01);
+            menuSettingsLbVolumeR1.Text = Math.Floor(volume * 100).ToString();
+            menuSettingsTrackR1.Value = (int)(volume * 20);
+
+            // Naètení jazyka
+            switch (config[2])
+            {
+                case "Èesky":
+                    langIndex = 0;
+                    break;
+
+                case "English":
+                    langIndex = 1;
+                    break;
+            }
+
+            // Naètení typu výstupu
+            switch (config[3])
+            {
+                case "Off":
+                    soundOutputType = 0;
+                    break;
+
+                case "Sound":
+                    soundOutputType = 1;
+                    break;
+
+                case "Music":
+                    soundOutputType = 2;
+                    break;
+            }
+
+            // Naètení zvìtšení textu
+            textScaleIndex = Convert.ToInt32(config[4]);
+            AdjustFontSize(textScaleIndex);
+        }
+    }
+
+    private void TimerHandler(string action)
+    {
+        switch (action)
+        {
+            case "Pause":
+                if (timerJumpCooldown.Enabled) tTimerJumpCooldown = true;
+                if (timerJumpHeadBumpCooldown.Enabled) tTimerJumpHeadBumpCooldown = true;
+                if (timerGrabAfterJumpCooldown.Enabled) tTimerGrabAfterJumpCooldown = true;
+
+                timerJumpCooldown.Stop();
+                timerJumpHeadBumpCooldown.Stop();
+                timerGrabAfterJumpCooldown.Stop();
+                break;
+
+            case "Play":
+                if (tTimerJumpCooldown) timerJumpCooldown.Start();
+                if (tTimerJumpHeadBumpCooldown) timerJumpHeadBumpCooldown.Start();
+                if (tTimerGrabAfterJumpCooldown) timerGrabAfterJumpCooldown.Start();
+
+                tTimerJumpCooldown = false;
+                tTimerJumpHeadBumpCooldown = false;
+                tTimerGrabAfterJumpCooldown = false;
+                break;
+
+            case "Reset":
+                tTimerJumpCooldown = false;
+                tTimerJumpHeadBumpCooldown = false;
+                tTimerGrabAfterJumpCooldown = false;
+                break;
+        }
+    }
+
+    #endregion Config
 }

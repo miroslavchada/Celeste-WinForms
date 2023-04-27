@@ -11,6 +11,7 @@ namespace Celeste_WinForms
         private readonly string file;
         private WaveFileReader reader;
         public static bool bannedSound = false;
+        public static bool bannedMusic = false;
 
         public SoundManager(string _file, bool variants)
         {
@@ -21,11 +22,12 @@ namespace Celeste_WinForms
             waveOut.Init(reader);
         }
 
-        public void PlaySound(int variant)
+        public void PlaySound(int variant, float volume)
         {
             if (!bannedSound)
             {
                 reader.Position = 0;
+                waveOut.Volume = volume;
                 waveOut.Play();
             }
         }
