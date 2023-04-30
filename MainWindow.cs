@@ -1,20 +1,17 @@
 using Celeste_WinForms.Properties;
-using System.ComponentModel;
-using System.Diagnostics;
 using XInputDotNetPure;
 using ButtonState = XInputDotNetPure.ButtonState;
 using SharpDX.DirectInput;
-using System;
 
 namespace Celeste_WinForms;
 
 public partial class MainWindow : Form
 {
-    // Globální promìnné
-    /// Texty programu
+    // Global variables
+    /// List of texts
     List<string> texts = Resources.texts.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
-    /// Hráè
+    /// Player
     bool inputEnabled = false;
 
     bool left, right;
@@ -24,6 +21,7 @@ public partial class MainWindow : Form
     bool jump, jumpInput, spaceReleased = true;
     bool slide;
     bool grab, grabInput;
+    bool grabFirstTimeSupport;  // Pomoc pøi trackování pøichycení
 
     string facing = "", lastStraightFacing = "Right";
     bool midAir;
@@ -51,7 +49,7 @@ public partial class MainWindow : Form
     int playerLeftOffset, playerRightOffset;
 
     /// Výtah
-    bool rodeOnVytah;
+    bool rodeOnElevator;
 
     /// Interface
     string playingOn;
@@ -66,25 +64,26 @@ public partial class MainWindow : Form
     int currentLevel = 1;
 
     Terrain[] terrainArray;
+    Strawberry[] strawberryArray;
 
-    /// Zvuky
+    /// Sound
     public int soundOutputType = 0;
     float volume = 0.7f;
     bool grabbedOn = false;
     bool touchedGround = true;
 
-    /// Kamera
+    /// Camera
     int cameraMovementSpeed, cameraMovementSpeedTarget;
     int playerCenterY;
 
-    // Herní ovladaèe
-    /// Sjednocené
+    // Gaming controllers
+    /// Unified inputs
     bool cA, cB, cX, cY;
     bool cLeft, cRight, cUp, cDown;
     bool cTrigger;
     bool cOptions;
 
-    /// Xbox
+    /// Xbox controller
     private GamePadState previousXboxState;
     GamePadState xboxState;
     bool xboxA, xboxB, xboxX, xboxY;
@@ -92,7 +91,7 @@ public partial class MainWindow : Form
     bool xboxTrigger;
     bool xboxOptions;
 
-    /// PlayStation
+    /// PlayStation controller
     Joystick joystick;
     bool psControllerConnected;
     bool[]? previousButtons;
@@ -102,18 +101,12 @@ public partial class MainWindow : Form
     bool psTrigger;
     bool psOptions;
 
-    bool developerKeys;   // NumPad0 stisknuta
+    bool developerKeys;   // NumPad0 pressed
 
-    // Ošetøení timerù pøi pauze
+    // Protect timers from pause (if paused, timers will reset on continue)
     bool tTimerJumpCooldown;
     bool tTimerJumpHeadBumpCooldown;
     bool tTimerGrabAfterJumpCooldown;
-
-    /// Tagy <summary>
-    /// "collision" - na objekt se vztahují kolize
-    /// "spring" - pružina
-    /// jump-through - proskoèitelná platforma
-    /// </summary>
 
     public MainWindow()
     {
@@ -129,14 +122,15 @@ public partial class MainWindow : Form
         PlayingOnInfo("keyboard");
     }
 
-    #region Herní ovladaèe
+    #region Gaming controllers
 
     private void timerControllers_Tick(object sender, EventArgs e)
     {
-        // Reset inputù
+        // Input reset
         xboxA = false; xboxB = false; xboxX = false; xboxY = false;
         xboxLeft = false; xboxRight = false; xboxUp = false; xboxDown = false;
         xboxTrigger = false; xboxOptions = false;
+
         psA = false; psB = false; psX = false; psY = false;
         psLeft = false; psRight = false; psUp = false; psDown = false;
         psTrigger = false; psOptions = false;
@@ -173,7 +167,7 @@ public partial class MainWindow : Form
             xboxOptions = xboxState.Buttons.Start == ButtonState.Pressed &&
                 previousXboxState.Buttons.Start == ButtonState.Released;
 
-            #region Hraje na Xbox, pokud se dotknul
+            #region Input is "xbox" if controller is touched
 
             if (xboxState.Buttons.A != previousXboxState.Buttons.A ||
                 xboxState.Buttons.B != previousXboxState.Buttons.B ||
@@ -262,7 +256,7 @@ public partial class MainWindow : Form
 
                 psOptions = buttons[9] && !previousButtons[9];
 
-                #region Hraje na PS, pokud se dotknul
+                #region Input is "xbox" if controller is touched
 
                 for (int i = 0; i <= 13; i++)
                 {
@@ -291,7 +285,7 @@ public partial class MainWindow : Form
             return;
         }
 
-        // Sjednocení vstupù PS a Xbox
+        // Unifying Xbox and PlayStation inputs
         cA = xboxA || psA;
         cB = xboxB || psB;
         cX = xboxX || psX;
@@ -307,12 +301,13 @@ public partial class MainWindow : Form
             Escape("controller");
         }
 
-        // Kurzor
+        // Mouse cursor
         previousCursor = cursor;
         cursor = PointToClient(Cursor.Position);
 
         if (cursor != previousCursor)
         {
+            // Input is "keyboard" if mouse is moved
             PlayingOnInfo("keyboard");
         }
     }
@@ -321,10 +316,7 @@ public partial class MainWindow : Form
 
     private void timer1_Tick(object sender, EventArgs e)
     {
-
-        // Movement
-
-        // Základní hodnoty
+        // Default values
         playerLeftOffset = player.Left + 0;
         playerRightOffset = player.Right - 0;
         playerCenterY = player.Top + player.Height / 2;
@@ -339,6 +331,9 @@ public partial class MainWindow : Form
         slide = false;
         grab = false;
 
+
+        #region Movement
+
         foreach (Terrain item in terrainArray)
         {
             item.onBlockLeftExclusive = false; item.onBlockRightExclusive = false;
@@ -347,8 +342,8 @@ public partial class MainWindow : Form
 
         updateCamera();
 
-        // Pohyb
-        /// Inputy
+        // Movement
+        /// Inputs
         if (leftInput || cLeft)
         {
             left = true;
@@ -375,12 +370,12 @@ public partial class MainWindow : Form
         if (facing == "")
             facing = lastStraightFacing;
 
-        // Interakce s bloky
+        // Interacton with blocks
         foreach (Terrain block in terrainArray.Where(block => block.pb.Tag != null))
         {
             if (!block.pb.Tag.ToString().Contains("jump-through"))
             {
-                // Postranní kolize
+                // Side collisions
                 if (block.pb.Tag.ToString().Contains("collision") && player.Bounds.IntersectsWith(block.pb.Bounds))
                 {
                     if (playerLeftOffset < block.pb.Right && player.Right > block.pb.Left + player.Width / 2 &&
@@ -398,7 +393,7 @@ public partial class MainWindow : Form
                     }
                 }
 
-                // Pokud je hráè blízko k bloku, pøiblíží se pouze o rozdíl mezi hranou hráèe a bloku (proti bugùm)
+                // If the player is close to the block, it will only get closer by the difference between the edge of the player and the block (against bugs)
                 if (block.pb.Tag.ToString().Contains("collision"))
                 {
                     if (playerLeftOffset - block.pb.Right < (Math.Abs(movementSpeed) < movementSpeedMax ? movementSpeedMax : Math.Abs(movementSpeed)) && playerLeftOffset - block.pb.Right >= 0 &&
@@ -434,18 +429,25 @@ public partial class MainWindow : Form
                     }
                 }
 
-                // Slide aktivace
+                // Slide activation
                 if (((onBlockLeft && (leftInput || cLeft)) || (onBlockRight && (rightInput || cRight))) && force < 0)
                 {
                     slide = true;
                     midAir = false;
                 }
 
-                // Grab aktivace
+                // Grab activation
                 if ((grabInput || cTrigger) && (onBlockLeft || onBlockRight))
                 {
                     grab = true;
                     midAir = false;
+
+                    // If grabbed, move 1 pixel up (against bugs)
+                    if (!grabFirstTimeSupport)
+                    {
+                        player.Top -= 1;
+                        grabFirstTimeSupport = true;
+                    }
 
                     lastGrabbedOn = onBlockLeft ? "Left" : onBlockRight ? "Right" : "";
                 }
@@ -459,27 +461,22 @@ public partial class MainWindow : Form
             }
         }
 
-        // Hráè drží mezerník
+        // User holds Space/Jump
         if ((jumpInput || (cA || cY)) && !midAir && !jumpCooldown && !grabAfterJumpCooldown)
         {
             jump = true;
             force = 15;
             PlaySound("jumped");
 
-            if ((onBlockLeft || onBlockRight) && !onBlockDown)
+            if (((onBlockLeft || onBlockRight) && !onBlockDown) ||  // Touching block mid-air
+                slide)  // Sliding on block
             {
                 movementSpeed = onBlockLeft ? movementSpeedMax * 2 : onBlockRight ? -movementSpeedMax * 2 : 0;
 
                 force = 11;
             }
 
-            if (slide)
-            {
-                movementSpeed = onBlockLeft ? movementSpeedMax * 2 : onBlockRight ? -movementSpeedMax * 2 : 0;
-
-                force = 11;
-            }
-
+            // Grabbed on block
             if (grab)
             {
                 if (onBlockLeft && facing.Contains("Right") || onBlockRight && facing.Contains("Left"))
@@ -498,7 +495,7 @@ public partial class MainWindow : Form
             timerJumpCooldown.Enabled = true;
         }
 
-        // Grab - Výskok na horní hranì bloku (<25px spodek hráèe - vršek bloku)
+        // Grab - Jump on top of block (<25px: bottom of player - top of block)
         if (grab && !grabAfterJumpCooldown)
         {
             if (playerBlockHeightDiff < 25)
@@ -518,7 +515,7 @@ public partial class MainWindow : Form
             lastGrabbedOn = "";
         }
 
-        // Funkce Dash
+        // Dash ability
         if ((dashInput || (cB || cX)) && !dashed)
         {
             switch (facing)
@@ -595,7 +592,7 @@ public partial class MainWindow : Form
             dashed = true;
         }
 
-        // Funkce Grab
+        // Grab ability
         if (grab && !grabAfterJumpCooldown && Math.Abs(movementSpeed) < movementSpeedMax)
         {
             PlaySound("grabOn");
@@ -624,7 +621,7 @@ public partial class MainWindow : Form
 
             player.Top -= force;
         }
-        else  // Gravitace
+        else  // Gravity
         {
             if (closeToBlockDown)
             {
@@ -650,7 +647,8 @@ public partial class MainWindow : Form
 
         foreach (PictureBox block in gameScreen.Controls.OfType<PictureBox>().Where(block => block.Tag != null))
         {
-            // Pokud je hráè blízko k bloku, pøiblíží se pouze o rozdíl mezi hranou hráèe a bloku (proti bugùm)
+            // If the player is close to the block, it only gets closer by the difference between the edge of the player and the block (against bugs)
+            // From block top
             if (block.Tag.ToString().Contains("collision"))
             {
                 if (block.Top + 1 - player.Bottom <= -force + 1 &&
@@ -662,19 +660,20 @@ public partial class MainWindow : Form
                 }
             }
 
-            // Interakce s bloky
+            // Interaction with blocks
             if (block.Tag.ToString().Contains("collision") && player.Bounds.IntersectsWith(block.Bounds) &&
                 playerLeftOffset < block.Right &&
                 playerRightOffset > block.Left)
             {
-                // Vrchní kolize
-                if (player.Bottom == block.Top + 1 && player.Top < block.Top) /// Zeshora
+                // Bottom collision (top of block)
+                if (player.Bottom == block.Top + 1 && player.Top < block.Top)
                 {
                     player.Top = block.Top - player.Height + 1;
                     force = 0;
                     jump = false;
 
                     onBlockDown = true;
+                    grabFirstTimeSupport = false;
 
                     foreach (Terrain item in terrainArray)
                     {
@@ -692,7 +691,8 @@ public partial class MainWindow : Form
                     }
                 }
 
-                // Pokud je hráè blízko k bloku, pøiblíží se pouze o rozdíl mezi hranou hráèe a bloku (proti bugùm)
+                // If the player is close to the block, it only gets closer by the difference between the edge of the player and the block (against bugs)
+                // From block bottom
                 if (block.Tag.ToString().Contains("collision") && !block.Tag.ToString().Contains("jump-through"))
                 {
                     if (player.Top - block.Bottom <= force + 1 &&
@@ -709,7 +709,7 @@ public partial class MainWindow : Form
                     }
                 }
 
-                // Spodní kolize
+                // Top collision (bottom of block)
                 if ((player.Top < block.Bottom && player.Bottom > block.Bottom) && !block.Tag.ToString().Contains("jump-through")) /// Zespodu
                 {
                     if (force > 3)
@@ -735,7 +735,7 @@ public partial class MainWindow : Form
             }
         }
 
-        // Pohyb do stran
+        // Sideways movement
         if (left ^ right && !slide && !grab)
         {
             if (left)
@@ -796,35 +796,35 @@ public partial class MainWindow : Form
         }
         player.Left += movementSpeed;
 
-        #region Výtah
+        #endregion Movement
 
-        foreach (Terrain vytah in terrainArray.Where(vytah => vytah.pb.Tag.ToString().Contains("vytah")))
+        #region Elevators
+
+        foreach (Terrain elevator in terrainArray.Where(elevator => elevator.pb.Tag.ToString().Contains("elevator")))
         {
-            if ((player.Bounds.IntersectsWith(vytah.pb.Bounds) || (vytah.onBlockLeftExclusive || vytah.onBlockRightExclusive)) && !vytah.moving)
+            if ((player.Bounds.IntersectsWith(elevator.pb.Bounds) || (elevator.onBlockLeftExclusive || elevator.onBlockRightExclusive)) && !elevator.moving)
+                elevator.moving = true;
+
+            elevator.pb.BackColor = Color.Black;
+
+            if (elevator.moving)
             {
-                vytah.moving = true;
-            }
+                elevator.pb.BackColor = Color.White;
 
-            vytah.pb.BackColor = Color.Black;
+                elevator.ElevatorAnimation(player, grabbedOn, playerLeftOffset, playerRightOffset, movementSpeed);
 
-            if (vytah.moving)
-            {
-                vytah.pb.BackColor = Color.White;
-
-                vytah.VytahAnimation(player, grabbedOn, playerLeftOffset, playerRightOffset, movementSpeed);
-
-                if (player.Bounds.IntersectsWith(vytah.pb.Bounds) || (vytah.onBlockLeftExclusive || vytah.onBlockRightExclusive))
+                if (player.Bounds.IntersectsWith(elevator.pb.Bounds) || (elevator.onBlockLeftExclusive || elevator.onBlockRightExclusive))
                 {
-                    rodeOnVytah = true;
+                    rodeOnElevator = true;
                 }
 
-                if (!((player.Bounds.IntersectsWith(vytah.pb.Bounds) || (vytah.onBlockLeftExclusive || vytah.onBlockRightExclusive))) && vytah.moving && rodeOnVytah)  // Pokud seskoèí za jízdy
+                if (!((player.Bounds.IntersectsWith(elevator.pb.Bounds) || (elevator.onBlockLeftExclusive || elevator.onBlockRightExclusive))) && elevator.moving && rodeOnElevator)  // Pokud seskoèí za jízdy
                 {
-                    movementSpeed = vytah.vytahMovementSpeed + movementSpeed;
-                    rodeOnVytah = false;
+                    movementSpeed = elevator.elevatorMovementSpeed + movementSpeed;
+                    rodeOnElevator = false;
                 }
 
-                if (vytah.resetForce)
+                if (elevator.resetForce)
                 {
                     force = 0;
                 }
@@ -833,7 +833,22 @@ public partial class MainWindow : Form
 
         #endregion
 
-        // Vývojáøské statistiky [F3]
+        #region Strawberries
+
+        foreach (Strawberry strawberry in strawberryArray)
+        {
+            if (player.Bounds.IntersectsWith(strawberry.pb.Bounds))
+                strawberry.tracking = true;
+
+            if (strawberry.tracking)
+            {
+
+            }
+        }
+
+        #endregion
+
+        // Developer stats [F3]
         lbDeveloperStats.Text =
             $"Cursor: [{cursor.X}; {cursor.Y}]" +
             $"\r\nPlayer: [{player.Left}; {player.Bottom}]" +
@@ -868,14 +883,14 @@ public partial class MainWindow : Form
         if (!onBlockDown)
             touchedGround = false;
 
-        // Reset hry, pokud se dostane hráè mimo hrací plochu
+        // Reset the game if the player gets off the screen
         if (player.Bottom < gameScreen.Top || player.Left > gameScreen.Right || player.Top > gameScreen.Bottom + gameScreen.Height - 864 || player.Right < gameScreen.Left)
         {
             menuEscapeContinue(true);
         }
     }
 
-    #region Kamera
+    #region Camera
 
     private void updateCamera()
     {
@@ -904,7 +919,7 @@ public partial class MainWindow : Form
             }
         }
 
-        // Fix na hranì obrazovky proti viditelnému zaseknutí
+        // Fix on the edge of the screen against spawn delays
         if (cameraMovementSpeedTarget > 0 && gameScreen.Top >= 0 - cameraMovementSpeed && playerCenterY < 432)
         {
             gameScreen.Top = 0;
@@ -919,7 +934,7 @@ public partial class MainWindow : Form
         }
     }
 
-    // Zamìøí kameru nahoru
+    // Focuses the camera on the selected location
     private void CameraFocus(string focus)
     {
         switch (focus)
@@ -930,11 +945,11 @@ public partial class MainWindow : Form
         }
     }
 
-    #endregion Kamera
+    #endregion Camera
 
-    #region Cooldowny
+    #region Cooldowns
 
-    //// Cooldown 30ms na výskok po výskoku
+    //// Jump cooldown after jumping - 30ms
     private void timerJumpCooldown_Tick(object sender, EventArgs e)
     {
         jumpInput = false;
@@ -942,30 +957,30 @@ public partial class MainWindow : Form
         timerJumpCooldown.Enabled = false;
     }
 
-    //// Cooldown 300ms na skok pokud se bouchne hlavou o spodek bloku
+    //// Jump cooldown if player hits his head on the bottom of the block - 300ms
     private void timerJumpHeadBumpCooldown_Tick(object sender, EventArgs e)
     {
         jumpCooldown = false;
         timerJumpHeadBumpCooldown.Enabled = false;
     }
 
-    //// Cooldown 280ms na Grab po výskoku z Grabu
+    //// Grab cooldown after jumping from Grab - 280ms
     private void timerGrabCooldown_Tick(object sender, EventArgs e)
     {
         grabAfterJumpCooldown = false;
         timerGrabAfterJumpCooldown.Enabled = false;
     }
 
-    //// Vypnutí gravitace na 100ms po Dashi (pokud nedashnul vertikálnì)
+    //// Turning off gravity after Dash (if didn't dashed vertical) - 100ms
     private void timerDashedNonVertical_Tick(object sender, EventArgs e)
     {
         dashedNonVertical = false;
         timerDashedNonVertical.Enabled = false;
     }
 
-    #endregion Cooldowny
+    #endregion Cooldowns
 
-    #region Vstupy
+    #region Inputs
 
     private void MainWindow_KeyDown(object sender, KeyEventArgs e)
     {
@@ -1028,7 +1043,7 @@ public partial class MainWindow : Form
                 break;
         }
 
-        // Funkce pro testování
+        // Testing functions
         if (developerKeys)
         {
             switch (e.KeyCode)
@@ -1056,23 +1071,23 @@ public partial class MainWindow : Form
     {
         if (!menuMainContainer.Enabled)
         {
-            if (menuEscapeContainer.Enabled)   // Pokud je na obrazovce pauza
+            if (menuEscapeContainer.Enabled)   // If on pause screen
             {
                 menuEscapeBtContinue.PerformClick();
             }
-            else if (menuSettingsContainer.Enabled) // Pokud je v nastavení
+            else if (menuSettingsContainer.Enabled) // If in settings
             {
                 menuSettingsBtBack.PerformClick();
                 if (escInputType == "controller")
                     menuEscapeBtContinue.PerformClick();
             }
-            else if (menuControlsContainer.Enabled)   // Pokud je na obrazovce ovládání
+            else if (menuControlsContainer.Enabled)   // If in controlls
             {
                 menuControlsBtBack.PerformClick();
                 if (escInputType == "controller")
                     menuEscapeBtContinue.PerformClick();
             }
-            else   // Pokud je ve høe
+            else   // If in game
             {
                 menuEscapeContainer.Enabled = true; menuEscapeContainer.Visible = true;
                 gameScreen.Enabled = false; gameScreen.Visible = false;
@@ -1139,7 +1154,7 @@ public partial class MainWindow : Form
 
         switch (clickedControl.Name)
         {
-            case "menuMainBtPlay":    // Zapnutí hry ze Start menu
+            case "menuMainBtPlay":    // Starting the game from Start menu
                 FindControllers();
 
                 movementSpeed = 0; force = 0;
@@ -1154,51 +1169,51 @@ public partial class MainWindow : Form
                 TimerHandler("Play");
                 break;
 
-            case "menuMainBtSettings":
+            case "menuMainBtSettings":  // Settings from Start menu
                 menuMainContainer.Enabled = false; menuMainContainer.Visible = false;
                 menuSettingsContainer.Enabled = true; menuSettingsContainer.Visible = true;
 
                 settingsOpenedFrom = "mainmenu";
                 break;
 
-            case "menuMainBtControls":
+            case "menuMainBtControls":  // Controlls from Start menu
                 menuMainContainer.Enabled = false; menuMainContainer.Visible = false;
                 menuControlsContainer.Enabled = true; menuControlsContainer.Visible = true;
 
                 controlsOpenedFrom = "mainmenu";
                 break;
 
-            case "menuMainBtClose":    // Vypnutí hry ze Start menu
+            case "menuMainBtClose":    // Closing the game from Start menu
                 Close();
                 break;
 
-            case "menuEscapeBtContinue":    // Pokraèování ve høe z Escape menu
+            case "menuEscapeBtContinue":    // Continue from Escape menu
                 menuEscapeContinue(false);
 
                 TimerHandler("Play");
                 break;
 
-            case "menuEscapeBtScreenReset":    // Reset obrazovky z Escape menu
+            case "menuEscapeBtScreenReset":    // Screen reset from Escape menu
                 menuEscapeContinue(true);
 
                 TimerHandler("Reset");
                 break;
 
-            case "menuEscapeBtSettings":    // Zobrazení nastavení v Escape menu
+            case "menuEscapeBtSettings":    // Settings from Escape menu
                 menuEscapeContainer.Enabled = false; menuEscapeContainer.Visible = false;
                 menuSettingsContainer.Enabled = true; menuSettingsContainer.Visible = true;
 
                 settingsOpenedFrom = "pause";
                 break;
 
-            case "menuEscapeBtControls":    // Zobrazení ovládání v Escape menu
+            case "menuEscapeBtControls":    // Controlls from Escape menu
                 menuEscapeContainer.Enabled = false; menuEscapeContainer.Visible = false;
                 menuControlsContainer.Enabled = true; menuControlsContainer.Visible = true;
 
                 controlsOpenedFrom = "pause";
                 break;
 
-            case "menuControlsBtBack":    // Odchod do Escape menu ze zobrazení ovládání
+            case "menuControlsBtBack":    // Escape menu from Controlls
                 menuControlsContainer.Enabled = false; menuControlsContainer.Visible = false;
                 if (controlsOpenedFrom == "mainmenu")
                 {
@@ -1210,7 +1225,7 @@ public partial class MainWindow : Form
                 }
                 break;
 
-            case "menuEscapeBtMainMenu":    // Odchod do Start menu z Escape menu
+            case "menuEscapeBtMainMenu":    // Start menu from Escape menu
                 menuControlsContainer.Enabled = false; menuControlsContainer.Visible = false;
                 menuEscapeContainer.Enabled = false; menuEscapeContainer.Visible = false;
 
@@ -1222,19 +1237,19 @@ public partial class MainWindow : Form
                 menuMainContainer.Visible = true;
                 break;
 
-            case "menuSettingsBtBack":  // Odchod z Nastavení
+            case "menuSettingsBtBack":  // Leaving settings
                 menuSettingsContainer.Enabled = false; menuSettingsContainer.Visible = false;
-                if (settingsOpenedFrom == "mainmenu")
+                if (settingsOpenedFrom == "mainmenu")   // from Main menu
                 {
                     menuMainContainer.Visible = true; menuMainContainer.Enabled = true;
                 }
-                else if (settingsOpenedFrom == "pause")
+                else if (settingsOpenedFrom == "pause") // from Escape menu
                 {
                     menuEscapeContainer.Visible = true; menuEscapeContainer.Enabled = true;
                 }
                 break;
 
-            case "menuSettingsLbR2ControlL":   // Volba jazyka (zpìt)
+            case "menuSettingsLbR2ControlL":   // Language selection (back)
                 if (!(langIndex <= 0))
                 {
                     langIndex--;
@@ -1242,7 +1257,7 @@ public partial class MainWindow : Form
                 }
                 break;
 
-            case "menuSettingsLbR2ControlR":   // Volba jazyka (další)
+            case "menuSettingsLbR2ControlR":   // Language selection (foward)
                 if (!(langIndex >= languages.Count() - 1))
                 {
                     langIndex++;
@@ -1250,7 +1265,7 @@ public partial class MainWindow : Form
                 }
                 break;
 
-            case "menuSettingsLbR3ControlL":   // Volba vstupu (zpìt)
+            case "menuSettingsLbR3ControlL":   // Sound selection (back)
                 if (!(soundOutputType <= 0))
                 {
                     soundOutputType--;
@@ -1258,7 +1273,7 @@ public partial class MainWindow : Form
                 }
                 break;
 
-            case "menuSettingsLbR3ControlR":   // Volba vstupu (další)
+            case "menuSettingsLbR3ControlR":   // Sound selection (foward)
                 if (!(soundOutputType >= soundOutputTypeList.Count() - 1))
                 {
                     soundOutputType++;
@@ -1266,7 +1281,7 @@ public partial class MainWindow : Form
                 }
                 break;
 
-            case "menuSettingsLbR4ControlL":   // Volba vstupu (zpìt)
+            case "menuSettingsLbR4ControlL":   // Text scale selection (back)
                 if (!(textScaleIndex <= 0))
                 {
                     textScaleIndex--;
@@ -1275,7 +1290,7 @@ public partial class MainWindow : Form
                 }
                 break;
 
-            case "menuSettingsLbR4ControlR":   // Volba vstupu (další)
+            case "menuSettingsLbR4ControlR":   // Text scale selection (foward)
                 if (!(textScaleIndex >= fontSizeList.Count() - 1))
                 {
                     textScaleIndex++;
@@ -1313,7 +1328,7 @@ public partial class MainWindow : Form
 
         foreach (var deviceInstance in input.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AllDevices))
         {
-            if (!(deviceInstance.Type == DeviceType.Gamepad))   // Nepøidá Xbox
+            if (!(deviceInstance.Type == DeviceType.Gamepad))   // Doesn't add Xbox
                 joystickGuid = deviceInstance.InstanceGuid;
         }
 
@@ -1355,7 +1370,7 @@ public partial class MainWindow : Form
         }
     }
 
-    #endregion Vstupy
+    #endregion Inputs
 
     #region Level design
 
@@ -1377,6 +1392,7 @@ public partial class MainWindow : Form
         Terrain pictureBox12 = new(470, 111, 397, 55, 0, 0, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
 
         terrainArray = new Terrain[] { pictureBox1, pictureBox2, pictureBox3, pictureBox4, pictureBox5, pictureBox6, pictureBox7, pictureBox8, pictureBox9, pictureBox10, pictureBox11, pictureBox12, };
+        strawberryArray = new Strawberry[] { };
 
         player.Left = 186;
         player.Top = 701;
@@ -1421,6 +1437,7 @@ public partial class MainWindow : Form
         Terrain pictureBox2 = new(16, 1519, 476, 52, 0, 0, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
 
         terrainArray = new Terrain[] { pictureBox31, pictureBox30, pictureBox29, pictureBox28, pictureBox27, pictureBox23, pictureBox22, pictureBox26, pictureBox25, pictureBox24, pictureBox21, pictureBox20, pictureBox19, pictureBox18, pictureBox17, pictureBox16, pictureBox15, pictureBox14, pictureBox13, pictureBox12, pictureBox11, pictureBox10, pictureBox9, pictureBox8, pictureBox7, pictureBox6, pictureBox5, pictureBox4, pictureBox3, pictureBox1, pictureBox2, };
+        strawberryArray = new Strawberry[] { };
 
         player.Left = 86;
         player.Top = 1453;
@@ -1432,10 +1449,12 @@ public partial class MainWindow : Form
     {
         gameScreen.Height = 864;
 
-        Terrain vytah1 = new(500, 600, 150, 180, 1200, 600, "collision vytah", Color.FromArgb(68, 101, 147), false, Resources.blank, gameScreen);
+        Terrain elevator1 = new(900, 600, 150, 180, 1200, 550, "collision elevator", Color.FromArgb(68, 101, 147), false, Resources.blank, gameScreen);
         Terrain pictureBox1 = new(0, 800, 1536, 64, 0, 0, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
+        Strawberry strawberry1 = new(450, 400, gameScreen);
 
-        terrainArray = new Terrain[] { pictureBox1, vytah1 };
+        terrainArray = new Terrain[] { pictureBox1, elevator1 };
+        strawberryArray = new Strawberry[] { strawberry1 };
 
         player.Left = 186;
         player.Top = 733;
@@ -1563,18 +1582,18 @@ public partial class MainWindow : Form
 
     private void SettingsUpdate()
     {
-        // Hlavní menu
+        // Start menu
         menuMainBtPlay.Text = texts[2].Split('\t')[langIndex];
         menuMainBtSettings.Text = texts[3].Split('\t')[langIndex];
         menuMainBtControls.Text = texts[8].Split('\t')[langIndex];
         menuMainBtClose.Text = texts[4].Split('\t')[langIndex];
         mainLbInfo.Text = texts[11].Split('\t')[langIndex];
 
-        // Nastavení
+        // Settings
         menuSettingsLbTitle.Text = texts[13].Split('\t')[langIndex];
         menuSettingsLbL1.Text = texts[14].Split('\t')[langIndex];
 
-        /// Jazyk
+        /// Language
         menuSettingsLbL2.Text = texts[15].Split('\t')[langIndex];
 
         menuSettingsLbR2Language.Text = languages[langIndex];
@@ -1591,7 +1610,7 @@ public partial class MainWindow : Form
         ConfigFileUpdate(2, menuSettingsLbR2Language.Text);
 
 
-        /// Sound output
+        /// Sound selection
         menuSettingsLbL3.Text = texts[16].Split('\t')[langIndex];
 
         menuSettingsLbR3Input.Text = soundOutputTypeList[soundOutputType].Split('\t')[langIndex];
@@ -1606,7 +1625,7 @@ public partial class MainWindow : Form
                 SoundManager.bannedSound = false;
                 SoundManager.bannedMusic = false;
 
-                ConfigFileUpdate(3, "Off");
+                ConfigFileUpdate(3, "Music");
                 break;
 
             case 1:
@@ -1621,12 +1640,12 @@ public partial class MainWindow : Form
                 SoundManager.bannedSound = true;
                 SoundManager.bannedMusic = true;
 
-                ConfigFileUpdate(3, "Music");
+                ConfigFileUpdate(3, "Off");
                 break;
         }
 
 
-        /// Font size
+        /// Font scale selection
         menuSettingsLbL4.Text = texts[17].Split('\t')[langIndex];
 
         menuSettingsLbR4FontSize.Text = fontSizeList[textScaleIndex].Split('\t')[langIndex];
@@ -1643,7 +1662,7 @@ public partial class MainWindow : Form
 
         menuSettingsBtBack.Text = texts[5].Split('\t')[langIndex];
 
-        // Ovládání
+        // Controlls
         menuControlsLbTitle.Text = texts[19].Split('\t')[langIndex];
         menuControlsLbL1.Text = texts[20].Split('\t')[langIndex];
         menuControlsLbL2.Text = texts[21].Split('\t')[langIndex];
@@ -1659,7 +1678,7 @@ public partial class MainWindow : Form
         lbKeyboard6.Text = texts[31].Split('\t')[langIndex];
         menuControlsBtBack.Text = texts[5].Split('\t')[langIndex];
 
-        // Pauza
+        // Escape menu
         menuEscapeLbTitle.Text = texts[33].Split('\t')[langIndex];
         menuEscapeBtContinue.Text = texts[6].Split('\t')[langIndex];
         menuEscapeBtScreenReset.Text = texts[7].Split('\t')[langIndex];
@@ -1718,10 +1737,10 @@ public partial class MainWindow : Form
             }
         }
 
-        // 1 - Zmìna hlasitosti
-        // 2 - Zmìna jazyka
-        // 3 - Volba typu výstupu(hudba, zvuky, off)
-        // 4 - Zvìtšení textu
+        // 1 - Volume change
+        // 2 - Language change
+        // 3 - Sound type (music & sounds, sounds, off)
+        // 4 - Text scale
 
 
         if (record != 0)
@@ -1749,12 +1768,12 @@ public partial class MainWindow : Form
         {
             AdjustFontSize(0);
 
-            // Naètení hlasitosti
+            // Load volume
             volume = (float)(Convert.ToInt32(config[1]) * 0.01);
             menuSettingsLbVolumeR1.Text = Math.Floor(volume * 100).ToString();
             menuSettingsTrackR1.Value = (int)(volume * 20);
 
-            // Naètení jazyka
+            // Load language
             switch (config[2])
             {
                 case "Èesky":
@@ -1766,7 +1785,7 @@ public partial class MainWindow : Form
                     break;
             }
 
-            // Naètení typu výstupu
+            // Load output type
             switch (config[3])
             {
                 case "Off":
@@ -1782,12 +1801,13 @@ public partial class MainWindow : Form
                     break;
             }
 
-            // Naètení zvìtšení textu
+            // Load text scale
             textScaleIndex = Convert.ToInt32(config[4]);
             AdjustFontSize(textScaleIndex);
         }
     }
 
+    // Protect timers from pause (if paused, timers will reset on continue)
     private void TimerHandler(string action)
     {
         switch (action)
