@@ -9,6 +9,7 @@ class Terrain
     public bool moving;
 
     public bool resetForce;
+    public bool playerKill;
 
     int fromX;
     int fromY;
@@ -155,20 +156,36 @@ class Terrain
         pb.Left = (int)elevatorXdouble;
         pb.Top = (int)elevatorYdouble;
 
-        #region Pokud v bloku, teleport na blok
+        #region If in block, teleport on block
 
         if (playerLeftOffset + elevatorMovementSpeed < pb.Right && player.Right > pb.Left + player.Width / 2 &&
-        player.Bottom > pb.Top + 1 && player.Top < pb.Bottom)
+            player.Bottom > pb.Top + 1 && player.Top < pb.Bottom)
         {
-            player.Top = (int)Math.Ceiling(elevatorYdouble) - player.Height;
-            resetForce = true;
+            // Kill player if he is under the block
+            if (pb.Bottom - player.Top < 20)
+            {
+                playerKill = true;
+            }
+            else
+            {
+                player.Top = (int)Math.Ceiling(elevatorYdouble) - player.Height;
+                resetForce = true;
+            }
         }
 
         if (playerRightOffset - elevatorMovementSpeed > pb.Left && player.Left < pb.Right - player.Width / 2 &&
             player.Bottom > pb.Top + 1 && player.Top < pb.Bottom)
         {
-            player.Top = (int)Math.Ceiling(elevatorYdouble) - player.Height;
-            resetForce = true;
+            // Kill player if he is under the block
+            if (pb.Bottom - player.Top < 20)
+            {
+                playerKill = true;
+            }
+            else
+            {
+                player.Top = (int)Math.Ceiling(elevatorYdouble) - player.Height;
+                resetForce = true;
+            }
         }
 
         #endregion
@@ -179,7 +196,7 @@ class Terrain
     // Collision when travelling with a player
     private void CheckCollision(double vytahXdouble, double vytahYdouble, PictureBox player, int playerLeftOffset, int playerRightOffset, bool grabbed, int movementSpeed)
     {
-        if ((player.Bottom > pb.Top + 2) && (player.Top < pb.Bottom) && !grabbed)
+        if ((player.Bottom > pb.Top + 2) && (player.Top < vytahYdouble + pb.Height) && !grabbed)
         {
             int playerWidthOffset = playerLeftOffset - playerRightOffset;
 

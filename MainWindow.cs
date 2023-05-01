@@ -825,6 +825,12 @@ public partial class MainWindow : Form
 
                 if (elevator.resetForce)
                     force = 0;
+
+                if (elevator.playerKill)
+                {
+                    elevator.playerKill = false;
+                    SpawnLevel(currentLevel);
+                }
             }
         }
 
@@ -1061,15 +1067,15 @@ public partial class MainWindow : Form
                     break;
 
                 case Keys.NumPad1:
-                    spawnLevel(1);
+                    SpawnLevel(1);
                     break;
 
                 case Keys.NumPad2:
-                    spawnLevel(2);
+                    SpawnLevel(2);
                     break;
 
                 case Keys.NumPad3:
-                    spawnLevel(3);
+                    SpawnLevel(3);
                     break;
             }
         }
@@ -1166,7 +1172,7 @@ public partial class MainWindow : Form
                 FindControllers();
 
                 movementSpeed = 0; force = 0;
-                spawnLevel(1);
+                SpawnLevel(1);
 
                 menuMainContainer.Enabled = false; menuMainContainer.Visible = false;
                 gameScreen.Enabled = true; gameScreen.Visible = true;
@@ -1318,7 +1324,7 @@ public partial class MainWindow : Form
         if (restart)
         {
             movementSpeed = 0; force = 0;
-            spawnLevel(currentLevel);
+            SpawnLevel(currentLevel);
         }
 
         menuControlsContainer.Enabled = false; menuControlsContainer.Visible = false;
@@ -1479,13 +1485,16 @@ public partial class MainWindow : Form
         }
     }
 
-    private void spawnLevel(int level)
+    private void SpawnLevel(int level)
     {
+        // Destroy old level
         foreach (Terrain terrain in terrainArray)
-        {
             DestroyAll(terrain.pb, gameScreen);
-        }
 
+        foreach (Strawberry strawberry in strawberryArray)
+            DestroyAll(strawberry.pb, gameScreen);
+
+        // Spawn new level
         switch (level)
         {
             case 1: Level1(); break;

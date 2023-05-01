@@ -108,15 +108,11 @@ internal class Strawberry
 
         switch (idleAnimIndex)
         {
-            case 0:
-            case 1:
+            case 0 or 1:
                 pb.Top += moveByDistance;
                 break;
 
-            case 4:
-            case 5:
-            case 6:
-            case 7:
+            case 4 or 5 or 6 or 7:
                 pb.Top -= moveByDistance;
                 break;
 
