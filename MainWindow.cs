@@ -814,20 +814,17 @@ public partial class MainWindow : Form
                 elevator.ElevatorAnimation(player, grabbedOn, playerLeftOffset, playerRightOffset, movementSpeed);
 
                 if (player.Bounds.IntersectsWith(elevator.pb.Bounds) || (elevator.onBlockLeftExclusive || elevator.onBlockRightExclusive))
-                {
                     rodeOnElevator = true;
-                }
 
                 if (!((player.Bounds.IntersectsWith(elevator.pb.Bounds) || (elevator.onBlockLeftExclusive || elevator.onBlockRightExclusive))) && elevator.moving && rodeOnElevator)  // Pokud seskoèí za jízdy
                 {
-                    movementSpeed = elevator.elevatorMovementSpeed + movementSpeed;
+                    movementSpeed += (int)(elevator.elevatorMovementSpeed * elevator.multiplierX);
+                    force += (int)(elevator.elevatorMovementSpeed * elevator.multiplierY);
                     rodeOnElevator = false;
                 }
 
                 if (elevator.resetForce)
-                {
                     force = 0;
-                }
             }
         }
 
@@ -842,7 +839,18 @@ public partial class MainWindow : Form
 
             if (strawberry.tracking)
             {
+                strawberry.TrackTarget(player);
 
+                // If player is on ground, start CollectingTime timer
+                if (onBlockDown && !strawberry.collectingTime.Enabled)
+                {
+                    strawberry.collectingTime.Enabled = true;
+
+                }
+                else if (!onBlockDown && strawberry.collectingTime.Enabled)
+                {
+                    strawberry.collectingTime.Enabled = false;
+                }
             }
         }
 
@@ -1452,6 +1460,7 @@ public partial class MainWindow : Form
         Terrain elevator1 = new(900, 600, 150, 180, 1200, 550, "collision elevator", Color.FromArgb(68, 101, 147), false, Resources.blank, gameScreen);
         Terrain pictureBox1 = new(0, 800, 1536, 64, 0, 0, "collision", Color.FromArgb(72, 55, 34), false, Resources.blank, gameScreen);
         Strawberry strawberry1 = new(450, 400, gameScreen);
+        strawberry1.pb.Click += StrawberryClick;
 
         terrainArray = new Terrain[] { pictureBox1, elevator1 };
         strawberryArray = new Strawberry[] { strawberry1 };
@@ -1460,6 +1469,14 @@ public partial class MainWindow : Form
         player.Top = 733;
 
         CameraFocus("Bottom");
+    }
+
+    private void StrawberryClick(object sender, EventArgs e)
+    {
+        foreach (Strawberry strawberry in strawberryArray)
+        {
+            strawberry.Collect();
+        }
     }
 
     private void spawnLevel(int level)

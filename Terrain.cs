@@ -14,8 +14,8 @@ class Terrain
     int fromY;
     int toX;
     int toY;
-    double multiplierX;
-    double multiplierY;
+    public double multiplierX;
+    public double multiplierY;
 
     double elevatorXdouble;
     double elevatorYdouble;
