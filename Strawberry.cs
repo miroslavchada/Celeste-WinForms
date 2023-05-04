@@ -14,6 +14,15 @@ internal class Strawberry
     // Idle animation
     int idleAnimIndex = 0;
 
+    // Tracking
+    int allowedDistance = 20;
+
+    int strawberryMovementSpeedHorizontalTarget = 0;
+    int strawberryMovementSpeedHorizontal = 0;
+
+    int strawberryMovementSpeedVerticalTarget = 0;
+    int strawberryMovementSpeedVertical = 0;
+
     // Collecting animation
     private void WhitenImage(Image img, float tintAmount)
     {
@@ -51,7 +60,7 @@ internal class Strawberry
         {
             Left = posX,
             Top = posY,
-            Width = (int)(60 * strawberryScale),
+            Width = (int)(60 * strawberryScale),    // Default image resolution * scale
             Height = (int)(78 * strawberryScale),
             BackColor = Color.Transparent,
             Image = Resources.Strawberry_idle,
@@ -69,7 +78,6 @@ internal class Strawberry
         idleAnimationTimer.Tick += IdleAnimate;
 
         #endregion Idle
-
 
         #region Collecting
 
@@ -97,6 +105,24 @@ internal class Strawberry
 
     public void TrackTarget(PictureBox target)
     {
+        bool inReachLeft = target.Left - pb.Right > allowedDistance;    // If the strawberry is in the "safezone" from: target's left
+        bool inReachRight = pb.Left - target.Right > allowedDistance;   // target's right
+        bool inReachTop = target.Top - pb.Bottom > allowedDistance;     // target's top
+        bool inReachBottom = pb.Top - target.Bottom > allowedDistance;  // target's bottom
+
+        if (!inReachLeft || !inReachRight || !inReachTop || !inReachBottom)
+        {
+            if (!inReachLeft || !inReachRight)
+            {
+
+            }
+
+            if (!inReachTop || !inReachBottom)
+            {
+
+            }
+        }
+
         // Turn off idle animation
         if (idleAnimationTimer.Enabled)
             idleAnimationTimer.Enabled = false;
@@ -145,16 +171,13 @@ internal class Strawberry
             pb.Top += 5;
 
             if (pb.Height < 50)
-            {
                 WhitenImage(pb.Image, 0.5f);
-            }
         }
         else
         {
             collectAnimationTimer.Enabled = false;
             pb.Dispose();
         }
-
     }
 
     #region Event handlers for timers
