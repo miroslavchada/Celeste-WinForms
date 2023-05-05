@@ -2,4 +2,4 @@ CONFIG - DO NOT EDIT
 30
 Česky
 Sound
-0
+1

@@ -12,6 +12,7 @@ internal class Strawberry
     private System.Windows.Forms.Timer collectAnimationTimer;
 
     // Idle animation
+    int initialY;
     int idleAnimIndex = 0;
 
     // Tracking
@@ -69,6 +70,9 @@ internal class Strawberry
 
         #region Idle
 
+        // Storing default vertical position (against animation drift)
+        initialY = posY;
+
         // Idle animation tick
         idleAnimationTimer = new System.Windows.Forms.Timer
         {
@@ -110,18 +114,27 @@ internal class Strawberry
         bool inReachTop = target.Top - pb.Bottom > allowedDistance;     // target's top
         bool inReachBottom = pb.Top - target.Bottom > allowedDistance;  // target's bottom
 
-        if (!inReachLeft || !inReachRight || !inReachTop || !inReachBottom)
+        if (!inReachLeft || !inReachRight)
         {
-            if (!inReachLeft || !inReachRight)
-            {
-
-            }
-
-            if (!inReachTop || !inReachBottom)
-            {
-
-            }
+        
         }
+        else
+        {
+            strawberryMovementSpeedHorizontal -= strawberryMovementSpeedHorizontal > 0 ? 1 : -1;
+        }
+
+        if (!inReachTop || !inReachBottom)
+        {
+
+        }
+        else
+        {
+            strawberryMovementSpeedVertical -= strawberryMovementSpeedVertical > 0 ? 1 : -1;
+        }
+
+        // Move strawberry by movementSpeed
+        pb.Top += strawberryMovementSpeedVertical;
+        pb.Left += strawberryMovementSpeedHorizontal;
 
         // Turn off idle animation
         if (idleAnimationTimer.Enabled)
@@ -147,8 +160,8 @@ internal class Strawberry
                 break;
 
             case 11:
-                pb.Top += moveByDistance;
-                idleAnimIndex = 0;
+                pb.Top = initialY;
+                idleAnimIndex = -1;
                 break;
         }
 
