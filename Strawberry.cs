@@ -114,23 +114,51 @@ internal class Strawberry
         bool inReachTop = target.Top - pb.Bottom > allowedDistance;     // target's top
         bool inReachBottom = pb.Top - target.Bottom > allowedDistance;  // target's bottom
 
+        int movementSpeedRatio = 5;
+
         if (!inReachLeft || !inReachRight)
         {
-        
+            int targetLeftDist = Math.Abs(target.Left - pb.Right);
+            int targetRightDist = Math.Abs(target.Right - pb.Left);
+
+            // Comparing distances which one is smaller, to get direction
+            if (targetLeftDist < targetRightDist)   // Strawberry is on the left
+            {
+                strawberryMovementSpeedHorizontalTarget = targetLeftDist / movementSpeedRatio;
+            }
+            else   // Strawberry is on the right
+            {
+                strawberryMovementSpeedHorizontalTarget = -targetLeftDist / movementSpeedRatio;
+            }
         }
         else
         {
-            strawberryMovementSpeedHorizontal -= strawberryMovementSpeedHorizontal > 0 ? 1 : -1;
+            strawberryMovementSpeedHorizontalTarget = 0;
         }
 
         if (!inReachTop || !inReachBottom)
         {
+            int targetTopDist = Math.Abs(target.Left - pb.Right);
+            int targetBottomDist = Math.Abs(target.Right - pb.Left);
 
+            // Comparing distances which one is smaller, to get direction
+            if (targetTopDist < targetBottomDist)   // Strawberry is up
+            {
+                strawberryMovementSpeedHorizontalTarget = -targetTopDist / movementSpeedRatio;
+            }
+            else   // Strawberry is down
+            {
+                strawberryMovementSpeedHorizontalTarget = targetBottomDist / movementSpeedRatio;
+            }
         }
         else
         {
-            strawberryMovementSpeedVertical -= strawberryMovementSpeedVertical > 0 ? 1 : -1;
+            strawberryMovementSpeedVerticalTarget = 0;
         }
+
+        // Balancing movement speed to movement speed target for smooth movement
+        strawberryMovementSpeedHorizontal += strawberryMovementSpeedHorizontal < strawberryMovementSpeedHorizontalTarget ? 1 : -1;
+        strawberryMovementSpeedVertical += strawberryMovementSpeedVertical < strawberryMovementSpeedVerticalTarget ? 1 : -1;
 
         // Move strawberry by movementSpeed
         pb.Top += strawberryMovementSpeedVertical;

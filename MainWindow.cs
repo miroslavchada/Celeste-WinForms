@@ -295,8 +295,9 @@ public partial class MainWindow : Form
         cUp = xboxUp || psUp;
         cDown = xboxDown || psDown;
         cTrigger = xboxTrigger || psTrigger;
+        cOptions = xboxOptions || psOptions;
 
-        if (xboxOptions || psOptions)
+        if (cOptions)
         {
             Escape("controller");
         }
