@@ -28,7 +28,7 @@ class Terrain
 
     public PictureBox pb;
 
-    public Terrain(int posX, int posY, int width, int height, int _toX, int _toY, string tag, Color color, bool hasTexture, Image texture, Panel panel)
+    public Terrain(int posX, int posY, int width, int height, int _toX, int _toY, string tag, Color? color, Image? texture, Panel panel)
     {
         pb = new PictureBox
         {
@@ -37,8 +37,8 @@ class Terrain
             Width = width,
             Height = height,
             Tag = tag,
-            BackColor = color,
-            Image = hasTexture ? texture : null,
+            BackColor = color != null ? (Color)color : Color.Magenta,
+            Image = texture,
             SizeMode = PictureBoxSizeMode.StretchImage
         };
 

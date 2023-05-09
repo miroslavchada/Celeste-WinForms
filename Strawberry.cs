@@ -18,39 +18,6 @@ internal class Strawberry
     // Tracking
     int allowedDistance = 20;
 
-    int strawberryMovementSpeedHorizontalTarget = 0;
-    int strawberryMovementSpeedHorizontal = 0;
-
-    int strawberryMovementSpeedVerticalTarget = 0;
-    int strawberryMovementSpeedVertical = 0;
-
-    // Collecting animation
-    private void WhitenImage(Image img, float tintAmount)
-    {
-        // Get bitmap of strawberry
-        Bitmap bmp = new Bitmap(img);
-
-        // tintAmount - the amount of tint to apply (between 0 and 1)
-        // Apply a partial white tint to the bitmap
-        Color tint = Color.FromArgb(128, 255, 255, 255);    // the tint color (semi-transparent white)
-        for (int x = 0; x < bmp.Width; x++)
-        {
-            for (int y = 0; y < bmp.Height; y++)
-            {
-                Color pixelColor = bmp.GetPixel(x, y);
-                Color blendedColor = Color.FromArgb(
-                    pixelColor.A,
-                    (int)(pixelColor.R * (1 - tintAmount) + tint.R * tintAmount),
-                    (int)(pixelColor.G * (1 - tintAmount) + tint.G * tintAmount),
-                    (int)(pixelColor.B * (1 - tintAmount) + tint.B * tintAmount)
-                );
-                bmp.SetPixel(x, y, blendedColor);
-            }
-        }
-
-        pb.Image = bmp;
-    }
-
     double strawberryScale = 0.8;
 
     public PictureBox pb;
@@ -96,7 +63,7 @@ internal class Strawberry
         // Collecting animation tick
         collectAnimationTimer = new System.Windows.Forms.Timer
         {
-            Interval = 30,
+            Interval = 80,
             Enabled = false
         };
         collectAnimationTimer.Tick += CollectAnimate;
@@ -109,60 +76,30 @@ internal class Strawberry
 
     public void TrackTarget(PictureBox target)
     {
-        bool inReachLeft = target.Left - pb.Right > allowedDistance;    // If the strawberry is in the "safezone" from: target's left
-        bool inReachRight = pb.Left - target.Right > allowedDistance;   // target's right
-        bool inReachTop = target.Top - pb.Bottom > allowedDistance;     // target's top
-        bool inReachBottom = pb.Top - target.Bottom > allowedDistance;  // target's bottom
+        bool awayLeft = target.Left - pb.Right > allowedDistance;    // If the strawberry is in the "safezone" from: target's left
+        bool awayRight = pb.Left - target.Right > allowedDistance;   // target's right
+        bool awayTop = target.Top - pb.Bottom > allowedDistance;     // target's top
+        bool awayBottom = pb.Top - target.Bottom > allowedDistance;  // target's bottom
 
-        int movementSpeedRatio = 5;
+        int movementSpeedRatio = 20;
 
-        if (!inReachLeft || !inReachRight)
+        if (awayLeft)   // Strawberry is on the left
         {
-            int targetLeftDist = Math.Abs(target.Left - pb.Right);
-            int targetRightDist = Math.Abs(target.Right - pb.Left);
-
-            // Comparing distances which one is smaller, to get direction
-            if (targetLeftDist < targetRightDist)   // Strawberry is on the left
-            {
-                strawberryMovementSpeedHorizontalTarget = targetLeftDist / movementSpeedRatio;
-            }
-            else   // Strawberry is on the right
-            {
-                strawberryMovementSpeedHorizontalTarget = -targetLeftDist / movementSpeedRatio;
-            }
+            pb.Left += (Math.Abs(target.Left - allowedDistance) - pb.Right) / movementSpeedRatio;
         }
-        else
+        else if (awayRight)   // Strawberry is on the right
         {
-            strawberryMovementSpeedHorizontalTarget = 0;
+            pb.Left += (Math.Abs(target.Right + allowedDistance) - pb.Left) / movementSpeedRatio;
         }
 
-        if (!inReachTop || !inReachBottom)
+        if (awayTop)   // Strawberry is up
         {
-            int targetTopDist = Math.Abs(target.Left - pb.Right);
-            int targetBottomDist = Math.Abs(target.Right - pb.Left);
-
-            // Comparing distances which one is smaller, to get direction
-            if (targetTopDist < targetBottomDist)   // Strawberry is up
-            {
-                strawberryMovementSpeedHorizontalTarget = -targetTopDist / movementSpeedRatio;
-            }
-            else   // Strawberry is down
-            {
-                strawberryMovementSpeedHorizontalTarget = targetBottomDist / movementSpeedRatio;
-            }
+            pb.Top += (Math.Abs(target.Top + allowedDistance) - pb.Bottom) / movementSpeedRatio;
         }
-        else
+        else if (awayBottom)  // Strawberry is down
         {
-            strawberryMovementSpeedVerticalTarget = 0;
+            pb.Top += (Math.Abs(target.Bottom - allowedDistance) - pb.Top) / movementSpeedRatio;
         }
-
-        // Balancing movement speed to movement speed target for smooth movement
-        strawberryMovementSpeedHorizontal += strawberryMovementSpeedHorizontal < strawberryMovementSpeedHorizontalTarget ? 1 : -1;
-        strawberryMovementSpeedVertical += strawberryMovementSpeedVertical < strawberryMovementSpeedVerticalTarget ? 1 : -1;
-
-        // Move strawberry by movementSpeed
-        pb.Top += strawberryMovementSpeedVertical;
-        pb.Left += strawberryMovementSpeedHorizontal;
 
         // Turn off idle animation
         if (idleAnimationTimer.Enabled)
@@ -201,6 +138,7 @@ internal class Strawberry
         // Start animation
         if (!collectAnimationTimer.Enabled)
         {
+            tracking = false;
             collectingTime.Enabled = false;
             collectAnimationTimer.Enabled = true;
         }
@@ -208,11 +146,8 @@ internal class Strawberry
         // Flattening
         if (pb.Height > 0)
         {
-            pb.Height -= 10;
-            pb.Top += 5;
-
-            if (pb.Height < 50)
-                WhitenImage(pb.Image, 0.5f);
+            pb.Height -= 20;
+            pb.Top += 10;
         }
         else
         {
