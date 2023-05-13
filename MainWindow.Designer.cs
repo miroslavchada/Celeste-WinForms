@@ -35,14 +35,13 @@
             lbDeveloperStats = new Label();
             menuMainContainer = new Panel();
             menuMainTableLP = new TableLayoutPanel();
-            menuMainLbTitle = new Label();
-            menuMainLbSubtitle = new Label();
             menuMainBtPlay = new Button();
             menuMainBtSettings = new Button();
             menuMainBtControls = new Button();
             menuMainBtClose = new Button();
             mainLbInfo = new Label();
             menuMainLbAuthor = new Label();
+            pictureBox1 = new PictureBox();
             menuEscapeContainer = new Panel();
             menuEscapeTableLP = new TableLayoutPanel();
             menuEscapeLbTitle = new Label();
@@ -137,6 +136,7 @@
             ((System.ComponentModel.ISupportInitialize)player).BeginInit();
             menuMainContainer.SuspendLayout();
             menuMainTableLP.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuEscapeContainer.SuspendLayout();
             menuEscapeTableLP.SuspendLayout();
             menuControlsContainer.SuspendLayout();
@@ -232,54 +232,27 @@
             menuMainTableLP.BackColor = Color.Transparent;
             menuMainTableLP.ColumnCount = 1;
             menuMainTableLP.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            menuMainTableLP.Controls.Add(menuMainLbTitle, 0, 0);
-            menuMainTableLP.Controls.Add(menuMainLbSubtitle, 0, 1);
-            menuMainTableLP.Controls.Add(menuMainBtPlay, 0, 3);
-            menuMainTableLP.Controls.Add(menuMainBtSettings, 0, 4);
-            menuMainTableLP.Controls.Add(menuMainBtControls, 0, 5);
-            menuMainTableLP.Controls.Add(menuMainBtClose, 0, 6);
-            menuMainTableLP.Controls.Add(mainLbInfo, 0, 8);
-            menuMainTableLP.Controls.Add(menuMainLbAuthor, 0, 7);
+            menuMainTableLP.Controls.Add(menuMainBtPlay, 0, 2);
+            menuMainTableLP.Controls.Add(menuMainBtSettings, 0, 3);
+            menuMainTableLP.Controls.Add(menuMainBtControls, 0, 4);
+            menuMainTableLP.Controls.Add(menuMainBtClose, 0, 5);
+            menuMainTableLP.Controls.Add(mainLbInfo, 0, 7);
+            menuMainTableLP.Controls.Add(menuMainLbAuthor, 0, 6);
+            menuMainTableLP.Controls.Add(pictureBox1, 0, 0);
             menuMainTableLP.Dock = DockStyle.Fill;
             menuMainTableLP.Location = new Point(0, 0);
             menuMainTableLP.Name = "menuMainTableLP";
-            menuMainTableLP.RowCount = 9;
-            menuMainTableLP.RowStyles.Add(new RowStyle(SizeType.Absolute, 236F));
-            menuMainTableLP.RowStyles.Add(new RowStyle());
-            menuMainTableLP.RowStyles.Add(new RowStyle(SizeType.Absolute, 157F));
-            menuMainTableLP.RowStyles.Add(new RowStyle());
-            menuMainTableLP.RowStyles.Add(new RowStyle());
-            menuMainTableLP.RowStyles.Add(new RowStyle());
-            menuMainTableLP.RowStyles.Add(new RowStyle());
+            menuMainTableLP.RowCount = 8;
+            menuMainTableLP.RowStyles.Add(new RowStyle(SizeType.Absolute, 428F));
             menuMainTableLP.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             menuMainTableLP.RowStyles.Add(new RowStyle());
-            menuMainTableLP.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            menuMainTableLP.RowStyles.Add(new RowStyle());
+            menuMainTableLP.RowStyles.Add(new RowStyle());
+            menuMainTableLP.RowStyles.Add(new RowStyle());
+            menuMainTableLP.RowStyles.Add(new RowStyle());
+            menuMainTableLP.RowStyles.Add(new RowStyle());
             menuMainTableLP.Size = new Size(1536, 864);
             menuMainTableLP.TabIndex = 0;
-            // 
-            // menuMainLbTitle
-            // 
-            menuMainLbTitle.Anchor = AnchorStyles.Bottom;
-            menuMainLbTitle.AutoSize = true;
-            menuMainLbTitle.Font = new Font("Segoe UI", 84F, FontStyle.Bold, GraphicsUnit.Point);
-            menuMainLbTitle.ForeColor = Color.FromArgb(68, 101, 147);
-            menuMainLbTitle.Location = new Point(396, 14);
-            menuMainLbTitle.Name = "menuMainLbTitle";
-            menuMainLbTitle.Size = new Size(743, 222);
-            menuMainLbTitle.TabIndex = 0;
-            menuMainLbTitle.Text = "CELESTE";
-            // 
-            // menuMainLbSubtitle
-            // 
-            menuMainLbSubtitle.Anchor = AnchorStyles.Top;
-            menuMainLbSubtitle.AutoSize = true;
-            menuMainLbSubtitle.Font = new Font("Segoe UI", 26F, FontStyle.Bold, GraphicsUnit.Point);
-            menuMainLbSubtitle.ForeColor = Color.FromArgb(68, 101, 147);
-            menuMainLbSubtitle.Location = new Point(525, 236);
-            menuMainLbSubtitle.Name = "menuMainLbSubtitle";
-            menuMainLbSubtitle.Size = new Size(486, 70);
-            menuMainLbSubtitle.TabIndex = 4;
-            menuMainLbSubtitle.Text = "WinForms Remake";
             // 
             // menuMainBtPlay
             // 
@@ -287,7 +260,7 @@
             menuMainBtPlay.BackColor = Color.White;
             menuMainBtPlay.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuMainBtPlay.ForeColor = Color.FromArgb(68, 101, 147);
-            menuMainBtPlay.Location = new Point(543, 466);
+            menuMainBtPlay.Location = new Point(543, 453);
             menuMainBtPlay.Name = "menuMainBtPlay";
             menuMainBtPlay.Size = new Size(450, 70);
             menuMainBtPlay.TabIndex = 1;
@@ -301,7 +274,7 @@
             menuMainBtSettings.BackColor = Color.White;
             menuMainBtSettings.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuMainBtSettings.ForeColor = Color.FromArgb(68, 101, 147);
-            menuMainBtSettings.Location = new Point(543, 542);
+            menuMainBtSettings.Location = new Point(543, 529);
             menuMainBtSettings.Name = "menuMainBtSettings";
             menuMainBtSettings.Size = new Size(450, 70);
             menuMainBtSettings.TabIndex = 2;
@@ -315,7 +288,7 @@
             menuMainBtControls.BackColor = Color.White;
             menuMainBtControls.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuMainBtControls.ForeColor = Color.FromArgb(68, 101, 147);
-            menuMainBtControls.Location = new Point(543, 618);
+            menuMainBtControls.Location = new Point(543, 605);
             menuMainBtControls.Name = "menuMainBtControls";
             menuMainBtControls.Size = new Size(450, 70);
             menuMainBtControls.TabIndex = 7;
@@ -329,7 +302,7 @@
             menuMainBtClose.BackColor = Color.White;
             menuMainBtClose.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuMainBtClose.ForeColor = Color.FromArgb(193, 54, 54);
-            menuMainBtClose.Location = new Point(543, 694);
+            menuMainBtClose.Location = new Point(543, 681);
             menuMainBtClose.Name = "menuMainBtClose";
             menuMainBtClose.Size = new Size(450, 70);
             menuMainBtClose.TabIndex = 3;
@@ -358,10 +331,22 @@
             menuMainLbAuthor.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point);
             menuMainLbAuthor.ForeColor = Color.FromArgb(68, 101, 147);
             menuMainLbAuthor.Location = new Point(587, 772);
+            menuMainLbAuthor.Margin = new Padding(3, 18, 3, 0);
             menuMainLbAuthor.Name = "menuMainLbAuthor";
             menuMainLbAuthor.Size = new Size(362, 48);
             menuMainLbAuthor.TabIndex = 5;
             menuMainLbAuthor.Text = "Miroslav Chada 2023";
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Anchor = AnchorStyles.Bottom;
+            pictureBox1.Image = Properties.Resources.CelesteLogo;
+            pictureBox1.Location = new Point(282, 49);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(972, 376);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 8;
+            pictureBox1.TabStop = false;
             // 
             // menuEscapeContainer
             // 
@@ -1628,6 +1613,7 @@
             menuMainContainer.ResumeLayout(false);
             menuMainTableLP.ResumeLayout(false);
             menuMainTableLP.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             menuEscapeContainer.ResumeLayout(false);
             menuEscapeTableLP.ResumeLayout(false);
             menuEscapeTableLP.PerformLayout();
@@ -1694,7 +1680,6 @@
         private System.Windows.Forms.Timer timerJumpHeadBumpCooldown;
         private Panel menuMainContainer;
         private TableLayoutPanel menuMainTableLP;
-        private Label menuMainLbTitle;
         private Button menuMainBtPlay;
         private Button menuMainBtSettings;
         private Button menuMainBtClose;
@@ -1703,7 +1688,6 @@
         private TableLayoutPanel menuEscapeTableLP;
         private Button menuEscapeBtContinue;
         private Button menuEscapeBtMainMenu;
-        private Label menuMainLbSubtitle;
         private Button menuEscapeBtControls;
         private Panel menuControlsContainer;
         private TableLayoutPanel menuControlsTableLP;
@@ -1796,5 +1780,6 @@
         private Label menuSettingsLbR4ControlR;
         private Label menuSettingsLbR4FontSize;
         private Label menuSettingsLbR4ControlL;
+        private PictureBox pictureBox1;
     }
 }

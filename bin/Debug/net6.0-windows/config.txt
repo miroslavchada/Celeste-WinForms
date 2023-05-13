@@ -1,5 +1,5 @@
 CONFIG - DO NOT EDIT
-30
+25
 Česky
 Sound
 0

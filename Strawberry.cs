@@ -3,13 +3,13 @@ using System.Diagnostics;
 
 namespace Celeste_WinForms;
 
-internal class Strawberry
+internal class Strawberry : IDisposable
 {
     public bool tracking = false;
-    public System.Windows.Forms.Timer collectingTime;
+    public System.Windows.Forms.Timer timerCollectingTime;
 
-    private System.Windows.Forms.Timer idleAnimationTimer;
-    private System.Windows.Forms.Timer collectAnimationTimer;
+    private System.Windows.Forms.Timer timerIdleAnimation;
+    private System.Windows.Forms.Timer timerCollectAnimation;
 
     // Idle animation
     int initialY;
@@ -41,32 +41,32 @@ internal class Strawberry
         initialY = posY;
 
         // Idle animation tick
-        idleAnimationTimer = new System.Windows.Forms.Timer
+        timerIdleAnimation = new System.Windows.Forms.Timer
         {
             Interval = 150,
             Enabled = true
         };
-        idleAnimationTimer.Tick += IdleAnimate;
+        timerIdleAnimation.Tick += IdleAnimate;
 
         #endregion Idle
 
         #region Collecting
 
         // Delay between landing and collecting strawberry
-        collectingTime = new System.Windows.Forms.Timer
+        timerCollectingTime = new System.Windows.Forms.Timer
         {
             Interval = 300,
             Enabled = false
         };
-        collectingTime.Tick += TimerCollect;
+        timerCollectingTime.Tick += TimerCollect;
 
         // Collecting animation tick
-        collectAnimationTimer = new System.Windows.Forms.Timer
+        timerCollectAnimation = new System.Windows.Forms.Timer
         {
             Interval = 80,
             Enabled = false
         };
-        collectAnimationTimer.Tick += CollectAnimate;
+        timerCollectAnimation.Tick += CollectAnimate;
 
         #endregion Collecting
 
@@ -102,8 +102,8 @@ internal class Strawberry
         }
 
         // Turn off idle animation
-        if (idleAnimationTimer.Enabled)
-            idleAnimationTimer.Enabled = false;
+        if (timerIdleAnimation.Enabled)
+            timerIdleAnimation.Enabled = false;
     }
 
     public void IdleAnimation() // Animation for staying in place
@@ -136,11 +136,11 @@ internal class Strawberry
     public void Collect()   // Collecting animation
     {
         // Start animation
-        if (!collectAnimationTimer.Enabled)
+        if (!timerCollectAnimation.Enabled)
         {
             tracking = false;
-            collectingTime.Enabled = false;
-            collectAnimationTimer.Enabled = true;
+            timerCollectingTime.Enabled = false;
+            timerCollectAnimation.Enabled = true;
         }
 
         // Flattening
@@ -151,27 +151,41 @@ internal class Strawberry
         }
         else
         {
-            collectAnimationTimer.Enabled = false;
-            pb.Dispose();
+            Dispose();
         }
+    }
+
+    public void Dispose()
+    {
+        timerIdleAnimation.Tick -= IdleAnimate;
+        timerIdleAnimation.Dispose();
+
+        timerCollectAnimation.Tick -= CollectAnimate;
+        timerCollectingTime.Dispose();
+
+        timerCollectingTime.Tick -= TimerCollect;
+        timerCollectingTime.Dispose();
+
+        pb.Parent.Controls.Remove(pb);
+        pb.Dispose();
     }
 
     #region Event handlers for timers
 
-    // Event handler for idleAnimationTimer.Tick
+    // Event handler for timerIdleAnimation.Tick
     private void IdleAnimate(object sender, EventArgs e)
     {
         IdleAnimation();
     }
 
-    // Event handler for collectingTime.Tick
+    // Event handler for timerCollectingTime.Tick
     private void TimerCollect(object sender, EventArgs e)
     {
-        collectingTime.Enabled = false;
+        timerCollectingTime.Enabled = false;
         Collect();
     }
 
-    // Event handler for collectAnimationTimer.Tick
+    // Event handler for timerCollectAnimation.Tick
     private void CollectAnimate(object sender, EventArgs e)
     {
         Collect();

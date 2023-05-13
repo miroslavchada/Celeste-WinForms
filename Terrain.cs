@@ -2,15 +2,23 @@
 
 class Terrain
 {
-    public int elevatorMovementSpeed = 5;
-    public int animIndex = 0;
-    int phase = 0;
-    int animDelay = 50;
-    public bool moving;
-
     public bool resetForce;
     public bool playerKill;
 
+    // For falling block
+    public bool falling;
+    public bool fallen;
+    public int fallingForce = 0;
+    int fallingForceMax = 16;
+
+    public bool onFallingBlock;
+
+    int fallAnimIndex = 0;
+    int fallAnimDelay = 100;
+
+    public int closestGroundIn;
+
+    // For elevator
     int fromX;
     int fromY;
     int toX;
@@ -20,6 +28,12 @@ class Terrain
 
     double elevatorXdouble;
     double elevatorYdouble;
+
+    public int elevatorAnimIndex = 0;
+    int elevatorAnimDelay = 50;
+    public int elevatorMovementSpeed = 5;
+    int elevatorPhase = 0;
+    public bool moving;
 
     public bool onBlockLeftExclusive;
     public bool onBlockRightExclusive;
@@ -42,6 +56,10 @@ class Terrain
             SizeMode = PictureBoxSizeMode.StretchImage
         };
 
+        // For falling block
+        closestGroundIn = MainWindow.closestGround(pb);
+
+        // For elevator
         elevatorXdouble = posX;
         elevatorYdouble = posY;
 
@@ -62,12 +80,59 @@ class Terrain
         pb.BringToFront();
     }
 
+    #region Falling block
+
+    public void FallingAnimation(PictureBox player, bool grabbed, int playerLeftOffset, int playerRightOffset)
+    {
+        // Check if isn't the block already on the ground
+        falling = closestGroundIn <= 0 ? false : true;
+
+        // Falling
+        if (fallAnimIndex > fallAnimDelay && falling)
+        {
+
+            if (fallingForce < fallingForceMax)
+            {
+                fallingForce++;
+            }
+
+            if (fallingForce > closestGroundIn)
+            {
+                pb.Top += closestGroundIn;
+                falling = false;
+                fallen = true;
+
+                if (onFallingBlock)
+                {
+                    player.Top += closestGroundIn;
+                }
+            }
+            else
+            {
+                pb.Top += fallingForce;
+                closestGroundIn -= fallingForce;
+
+                if (onFallingBlock)
+                {
+                    player.Top += fallingForce;
+                }
+            }
+        }
+
+        fallAnimIndex++;
+    }
+
+    #endregion Falling block
+
+    #region Elevator
+
     public void ElevatorAnimation(PictureBox player, bool grabbed, int playerLeftOffset, int playerRightOffset, int movementSpeed)
     {
+        elevatorAnimDelay = 50;
         resetForce = false;
 
         // Foward
-        if (animIndex > animDelay && phase == 0)
+        if (elevatorAnimIndex > elevatorAnimDelay && elevatorPhase == 0)
         {
             if (!(elevatorMovementSpeed * multiplierX > Math.Abs(toX - pb.Left) ||
                 elevatorMovementSpeed * multiplierY > Math.Abs(toY - pb.Top)))    // If it's not close to the target yet
@@ -98,18 +163,18 @@ class Terrain
                 pb.Left = toX;
                 pb.Top = toY;
                 elevatorMovementSpeed = 0;
-                animIndex = 0;
-                phase = 1;
+                elevatorAnimIndex = 0;
+                elevatorPhase = 1;
             }
 
-            if (Math.Abs(elevatorMovementSpeed) < 40 && animIndex % 2 == 0)
+            if (Math.Abs(elevatorMovementSpeed) < 40 && elevatorAnimIndex % 2 == 0)
             {
                 elevatorMovementSpeed++;
             }
         }
 
         // Backwards
-        if (animIndex > animDelay && phase == 1)
+        if (elevatorAnimIndex > elevatorAnimDelay && elevatorPhase == 1)
         {
             elevatorMovementSpeed = 3;
 
@@ -147,8 +212,8 @@ class Terrain
                 pb.Left = fromX;
                 pb.Top = fromY;
                 elevatorMovementSpeed = 0;
-                animIndex = 0;
-                phase = 0;
+                elevatorAnimIndex = 0;
+                elevatorPhase = 0;
                 moving = false;
             }
         }
@@ -190,7 +255,7 @@ class Terrain
 
         #endregion
 
-        animIndex++;
+        elevatorAnimIndex++;
     }
 
     // Collision when travelling with a player
@@ -221,4 +286,6 @@ class Terrain
             }
         }
     }
+
+    #endregion Elevator
 }

@@ -73,6 +73,16 @@ namespace Celeste_WinForms.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CelesteLogo {
+            get {
+                object obj = ResourceManager.GetObject("CelesteLogo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ctrlsPlaystationDash {
             get {
                 object obj = ResourceManager.GetObject("ctrlsPlaystationDash", resourceCulture);
