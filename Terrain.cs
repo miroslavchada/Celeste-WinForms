@@ -11,12 +11,13 @@ class Terrain
     public int fallingForce = 0;
     int fallingForceMax = 16;
 
+    public bool fallingOnGround;
+    public int fallingGroundedPos;    // Y coords of falling block' bottom
+
     public bool onFallingBlock;
 
     int fallAnimIndex = 0;
     int fallAnimDelay = 100;
-
-    public int closestGroundIn;
 
     // For elevator
     int fromX;
@@ -56,9 +57,6 @@ class Terrain
             SizeMode = PictureBoxSizeMode.StretchImage
         };
 
-        // For falling block
-        closestGroundIn = MainWindow.closestGround(pb);
-
         // For elevator
         elevatorXdouble = posX;
         elevatorYdouble = posY;
@@ -82,40 +80,29 @@ class Terrain
 
     #region Falling block
 
-    public void FallingAnimation(PictureBox player, bool grabbed, int playerLeftOffset, int playerRightOffset)
+    public void FallingAnimation(PictureBox player)
     {
-        // Check if isn't the block already on the ground
-        falling = closestGroundIn <= 0 ? false : true;
-
         // Falling
         if (fallAnimIndex > fallAnimDelay && falling)
         {
-
             if (fallingForce < fallingForceMax)
-            {
                 fallingForce++;
-            }
 
-            if (fallingForce > closestGroundIn)
+            if (fallingOnGround)
             {
-                pb.Top += closestGroundIn;
                 falling = false;
                 fallen = true;
+                pb.Top = fallingGroundedPos;
 
                 if (onFallingBlock)
-                {
-                    player.Top += closestGroundIn;
-                }
+                    player.Top = fallingGroundedPos - player.Height;
             }
             else
             {
                 pb.Top += fallingForce;
-                closestGroundIn -= fallingForce;
 
                 if (onFallingBlock)
-                {
                     player.Top += fallingForce;
-                }
             }
         }
 

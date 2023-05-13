@@ -866,7 +866,17 @@ public partial class MainWindow : Form
                     fallingBlock.onFallingBlock = false;
                 }
 
-                fallingBlock.FallingAnimation(player, grabbedOn, playerLeftOffset, playerRightOffset);
+                foreach (Terrain terrain in terrainArray.Where(terrain => terrain.pb.Tag.ToString().Contains("collision")))
+                {
+                    if (fallingBlock.pb.Bounds.IntersectsWith(terrain.pb.Bounds) &&
+                        terrain != fallingBlock)
+                    {
+                        fallingBlock.fallingOnGround = true;
+                        fallingBlock.fallingGroundedPos = terrain.pb.Top - fallingBlock.pb.Height;
+                    }
+                }
+
+                fallingBlock.FallingAnimation(player);
 
                 // Player jumps off when in motion
                 if (!((player.Bounds.IntersectsWith(fallingBlock.pb.Bounds) || (fallingBlock.onBlockLeftExclusive || fallingBlock.onBlockRightExclusive))) && fallingBlock.moving && rodeOnFallingBlock)
@@ -1507,7 +1517,7 @@ public partial class MainWindow : Form
         gameScreen.Height = 864;
 
         Terrain pictureBox1 = new(0, 800, 1536, 64, 0, 0, "collision", Color.FromArgb(72, 55, 34), null, gameScreen);
-        Terrain falling1 = new(720, 230, 100, 180, 0, 0, "collision falling", Color.FromArgb(72, 55, 34), Resources.mario_, gameScreen);
+        Terrain falling1 = new(720, 235, 100, 180, 0, 0, "collision falling", Color.FromArgb(72, 55, 34), Resources.mario_, gameScreen);
         Terrain elevator1 = new(900, 600, 150, 180, 1200, 550, "collision elevator", Color.FromArgb(68, 101, 147), null, gameScreen);
         Strawberry strawberry1 = new(450, 400, gameScreen);
 
@@ -1545,33 +1555,6 @@ public partial class MainWindow : Form
         pb.Bounds = Rectangle.Empty;
         panel.Controls.Remove(pb);
         pb.Dispose();
-    }
-
-    // Falling block - check nearest ground (distance in px)
-    public static int closestGround(PictureBox fallingBlock)
-    {
-        int? closestBlock = null;
-        int blockDistance;
-
-        //foreach (Terrain block in terrainArray)
-        //{
-        //    if (block.pb.Tag.ToString().Contains("collision") &&
-        //        fallingBlock.Left > block.pb.Right &&
-        //        fallingBlock.Right < block.pb.Left)
-        //    {
-        //        blockDistance = block.pb.Top - fallingBlock.Bottom;
-
-        //        if (blockDistance >= 0)   // Only if block is under the falling block
-        //        {
-        //            if (closestBlock == null)   // Set first distance for comparing
-        //                closestBlock = blockDistance;
-        //            else   // New closest block if is closer
-        //                closestBlock = blockDistance < closestBlock ? blockDistance : closestBlock;
-        //        }
-        //    }
-        //}
-
-        return (int)(closestBlock == null ? 400 : closestBlock);
     }
 
     #endregion Level design
