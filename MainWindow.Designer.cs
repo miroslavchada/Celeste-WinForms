@@ -1,7 +1,5 @@
-﻿namespace Celeste_WinForms
-{
-    partial class MainWindow
-    {
+﻿namespace Celeste_WinForms {
+    partial class MainWindow {
         /// <summary>
         ///  Required designer variable.
         /// </summary>
@@ -11,10 +9,8 @@
         ///  Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing && (components != null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -26,13 +22,14 @@
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             gameScreen = new Panel();
-            player = new PictureBox();
             lbDeveloperStats = new Label();
+            player = new PictureBox();
+            tableLPEndscreen = new TableLayoutPanel();
+            lbEndContinue = new Label();
             menuMainContainer = new Panel();
             menuMainTableLP = new TableLayoutPanel();
             menuMainBtPlay = new Button();
@@ -41,7 +38,7 @@
             menuMainBtClose = new Button();
             mainLbInfo = new Label();
             menuMainLbAuthor = new Label();
-            pictureBox1 = new PictureBox();
+            pbLogo = new PictureBox();
             menuEscapeContainer = new Panel();
             menuEscapeTableLP = new TableLayoutPanel();
             menuEscapeLbTitle = new Label();
@@ -132,11 +129,13 @@
             tableLayoutPanel2 = new TableLayoutPanel();
             pictureBox4 = new PictureBox();
             pictureBox5 = new PictureBox();
+            timerEndAnim = new System.Windows.Forms.Timer(components);
             gameScreen.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)player).BeginInit();
+            tableLPEndscreen.SuspendLayout();
             menuMainContainer.SuspendLayout();
             menuMainTableLP.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbLogo).BeginInit();
             menuEscapeContainer.SuspendLayout();
             menuEscapeTableLP.SuspendLayout();
             menuControlsContainer.SuspendLayout();
@@ -181,7 +180,9 @@
             // 
             gameScreen.BackColor = Color.FromArgb(21, 23, 45);
             gameScreen.BackgroundImageLayout = ImageLayout.Stretch;
+            gameScreen.Controls.Add(lbDeveloperStats);
             gameScreen.Controls.Add(player);
+            gameScreen.Controls.Add(tableLPEndscreen);
             gameScreen.Enabled = false;
             gameScreen.Location = new Point(0, 900);
             gameScreen.Margin = new Padding(2);
@@ -189,6 +190,21 @@
             gameScreen.Size = new Size(1536, 864);
             gameScreen.TabIndex = 0;
             gameScreen.Visible = false;
+            // 
+            // lbDeveloperStats
+            // 
+            lbDeveloperStats.AutoSize = true;
+            lbDeveloperStats.BackColor = Color.FromArgb(200, 215, 235);
+            lbDeveloperStats.Font = new Font("Cascadia Code", 8F, FontStyle.Regular, GraphicsUnit.Point);
+            lbDeveloperStats.ForeColor = Color.Black;
+            lbDeveloperStats.Location = new Point(20, 20);
+            lbDeveloperStats.Margin = new Padding(2, 0, 2, 0);
+            lbDeveloperStats.Name = "lbDeveloperStats";
+            lbDeveloperStats.Padding = new Padding(2, 4, 2, 4);
+            lbDeveloperStats.Size = new Size(86, 29);
+            lbDeveloperStats.TabIndex = 0;
+            lbDeveloperStats.Text = "F3 STATS";
+            lbDeveloperStats.Visible = false;
             // 
             // player
             // 
@@ -202,19 +218,37 @@
             player.TabIndex = 0;
             player.TabStop = false;
             // 
-            // lbDeveloperStats
+            // tableLPEndscreen
             // 
-            lbDeveloperStats.AutoSize = true;
-            lbDeveloperStats.BackColor = Color.Black;
-            lbDeveloperStats.Font = new Font("Cascadia Code", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            lbDeveloperStats.ForeColor = Color.Yellow;
-            lbDeveloperStats.Location = new Point(15, 10);
-            lbDeveloperStats.Margin = new Padding(2, 0, 2, 0);
-            lbDeveloperStats.Name = "lbDeveloperStats";
-            lbDeveloperStats.Padding = new Padding(2, 4, 2, 4);
-            lbDeveloperStats.Size = new Size(102, 32);
-            lbDeveloperStats.TabIndex = 0;
-            lbDeveloperStats.Text = "F3 STATS";
+            tableLPEndscreen.BackColor = Color.Black;
+            tableLPEndscreen.BackgroundImage = Properties.Resources.elevator4_green;
+            tableLPEndscreen.BackgroundImageLayout = ImageLayout.Zoom;
+            tableLPEndscreen.ColumnCount = 1;
+            tableLPEndscreen.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLPEndscreen.Controls.Add(lbEndContinue, 0, 1);
+            tableLPEndscreen.Location = new Point(0, 0);
+            tableLPEndscreen.Name = "tableLPEndscreen";
+            tableLPEndscreen.RowCount = 2;
+            tableLPEndscreen.RowStyles.Add(new RowStyle(SizeType.Percent, 80F));
+            tableLPEndscreen.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            tableLPEndscreen.Size = new Size(1536, 864);
+            tableLPEndscreen.TabIndex = 1;
+            tableLPEndscreen.Visible = false;
+            // 
+            // lbEndContinue
+            // 
+            lbEndContinue.Anchor = AnchorStyles.Top;
+            lbEndContinue.AutoSize = true;
+            lbEndContinue.BackColor = Color.Transparent;
+            lbEndContinue.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold, GraphicsUnit.Point);
+            lbEndContinue.ForeColor = Color.White;
+            lbEndContinue.Location = new Point(380, 691);
+            lbEndContinue.Margin = new Padding(0);
+            lbEndContinue.Name = "lbEndContinue";
+            lbEndContinue.Size = new Size(776, 54);
+            lbEndContinue.TabIndex = 0;
+            lbEndContinue.Text = "Pro pokračování stiskněte jakékoli tlačítko";
+            lbEndContinue.Visible = false;
             // 
             // menuMainContainer
             // 
@@ -238,7 +272,7 @@
             menuMainTableLP.Controls.Add(menuMainBtClose, 0, 5);
             menuMainTableLP.Controls.Add(mainLbInfo, 0, 7);
             menuMainTableLP.Controls.Add(menuMainLbAuthor, 0, 6);
-            menuMainTableLP.Controls.Add(pictureBox1, 0, 0);
+            menuMainTableLP.Controls.Add(pbLogo, 0, 0);
             menuMainTableLP.Dock = DockStyle.Fill;
             menuMainTableLP.Location = new Point(0, 0);
             menuMainTableLP.Name = "menuMainTableLP";
@@ -337,16 +371,16 @@
             menuMainLbAuthor.TabIndex = 5;
             menuMainLbAuthor.Text = "Miroslav Chada 2023";
             // 
-            // pictureBox1
+            // pbLogo
             // 
-            pictureBox1.Anchor = AnchorStyles.Bottom;
-            pictureBox1.Image = Properties.Resources.CelesteLogo;
-            pictureBox1.Location = new Point(282, 49);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(972, 376);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 8;
-            pictureBox1.TabStop = false;
+            pbLogo.Anchor = AnchorStyles.Bottom;
+            pbLogo.Image = Properties.Resources.CelesteLogo;
+            pbLogo.Location = new Point(282, 49);
+            pbLogo.Name = "pbLogo";
+            pbLogo.Size = new Size(972, 376);
+            pbLogo.SizeMode = PictureBoxSizeMode.Zoom;
+            pbLogo.TabIndex = 8;
+            pbLogo.TabStop = false;
             // 
             // menuEscapeContainer
             // 
@@ -1584,13 +1618,17 @@
             pictureBox5.TabIndex = 1;
             pictureBox5.TabStop = false;
             // 
+            // timerEndAnim
+            // 
+            timerEndAnim.Interval = 1;
+            timerEndAnim.Tick += timerEndAnim_Tick;
+            // 
             // MainWindow
             // 
             AutoScaleMode = AutoScaleMode.Inherit;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BackColor = Color.FromArgb(15, 21, 39);
             ClientSize = new Size(1536, 864);
-            Controls.Add(lbDeveloperStats);
             Controls.Add(gameScreen);
             Controls.Add(menuMainContainer);
             Controls.Add(menuSettingsContainer);
@@ -1609,11 +1647,14 @@
             KeyDown += MainWindow_KeyDown;
             KeyUp += MainWindow_KeyUp;
             gameScreen.ResumeLayout(false);
+            gameScreen.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)player).EndInit();
+            tableLPEndscreen.ResumeLayout(false);
+            tableLPEndscreen.PerformLayout();
             menuMainContainer.ResumeLayout(false);
             menuMainTableLP.ResumeLayout(false);
             menuMainTableLP.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbLogo).EndInit();
             menuEscapeContainer.ResumeLayout(false);
             menuEscapeTableLP.ResumeLayout(false);
             menuEscapeTableLP.PerformLayout();
@@ -1668,7 +1709,6 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -1780,6 +1820,10 @@
         private Label menuSettingsLbR4ControlR;
         private Label menuSettingsLbR4FontSize;
         private Label menuSettingsLbR4ControlL;
-        private PictureBox pictureBox1;
+        private PictureBox pbLogo;
+        private System.Windows.Forms.Timer timerEndAnim;
+        private Panel bigArtContainer;
+        private TableLayoutPanel tableLPEndscreen;
+        private Label lbEndContinue;
     }
 }

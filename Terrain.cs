@@ -1,7 +1,8 @@
-﻿namespace Celeste_WinForms;
+﻿using Celeste_WinForms.Properties;
 
-class Terrain
-{
+namespace Celeste_WinForms;
+
+class Terrain {
     public bool resetForce;
     public bool playerKill;
 
@@ -17,7 +18,7 @@ class Terrain
     public bool onFallingBlock;
 
     int fallAnimIndex = 0;
-    int fallAnimDelay = 100;
+    int fallAnimDelay = 40;
 
     // For elevator
     int fromX;
@@ -34,27 +35,27 @@ class Terrain
     int elevatorAnimDelay = 50;
     public int elevatorMovementSpeed = 5;
     int elevatorPhase = 0;
+    public int elevatorTexturePhase = 0;    // 0 - red, 1 - green, 2 - yellow
     public bool moving;
 
     public bool onBlockLeftExclusive;
     public bool onBlockRightExclusive;
     public bool onBlockDown;
+    bool rodeOnElevator;
     public int movementSpeed;
 
     public PictureBox pb;
 
-    public Terrain(int posX, int posY, int width, int height, int _toX, int _toY, string tag, Color? color, Image? texture, Panel panel)
-    {
-        pb = new PictureBox
-        {
+    public Terrain(int posX, int posY, int width, int height, int _toX, int _toY, string tag, Color? color, Image? texture, Panel panel) {
+        pb = new PictureBox {
             Left = posX,
             Top = posY,
             Width = width,
             Height = height,
             Tag = tag,
-            BackColor = color != null ? (Color)color : Color.Magenta,
-            Image = texture,
-            SizeMode = PictureBoxSizeMode.StretchImage
+            BackColor = color != null ? (Color)color : Color.Transparent,
+            BackgroundImage = texture,
+            BackgroundImageLayout = tag.Contains("spikes") ? ImageLayout.Tile : ImageLayout.Stretch
         };
 
         // For elevator
@@ -80,25 +81,20 @@ class Terrain
 
     #region Falling block
 
-    public void FallingAnimation(PictureBox player)
-    {
+    public void FallingAnimation(PictureBox player) {
         // Falling
-        if (fallAnimIndex > fallAnimDelay && falling)
-        {
+        if (fallAnimIndex > fallAnimDelay && falling) {
             if (fallingForce < fallingForceMax)
                 fallingForce++;
 
-            if (fallingOnGround)
-            {
+            if (fallingOnGround) {
                 falling = false;
                 fallen = true;
                 pb.Top = fallingGroundedPos;
 
                 if (onFallingBlock)
                     player.Top = fallingGroundedPos - player.Height;
-            }
-            else
-            {
+            } else {
                 pb.Top += fallingForce;
 
                 if (onFallingBlock)
@@ -113,14 +109,12 @@ class Terrain
 
     #region Elevator
 
-    public void ElevatorAnimation(PictureBox player, bool grabbed, int playerLeftOffset, int playerRightOffset, int movementSpeed)
-    {
-        elevatorAnimDelay = 50;
+    public void ElevatorAnimation(PictureBox player, bool grabbed, int playerLeftOffset, int playerRightOffset, int movementSpeed) {
+        elevatorAnimDelay = 20;
         resetForce = false;
 
         // Foward
-        if (elevatorAnimIndex > elevatorAnimDelay && elevatorPhase == 0)
-        {
+        if (elevatorAnimIndex > elevatorAnimDelay && elevatorPhase == 0) {
             if (!(elevatorMovementSpeed * multiplierX > Math.Abs(toX - pb.Left) ||
                 elevatorMovementSpeed * multiplierY > Math.Abs(toY - pb.Top)))    // If it's not close to the target yet
             {
@@ -129,8 +123,7 @@ class Terrain
 
                 CheckCollision(elevatorXdouble, elevatorYdouble, player, playerLeftOffset, playerRightOffset, grabbed, movementSpeed);
 
-                if (player.Bounds.IntersectsWith(pb.Bounds) || ((onBlockLeftExclusive || onBlockRightExclusive) && grabbed))
-                {
+                if (player.Bounds.IntersectsWith(pb.Bounds) || ((onBlockLeftExclusive || onBlockRightExclusive) && grabbed)) {
                     player.Left += (int)(elevatorXdouble - pb.Left);
 
                     if (onBlockDown)
@@ -138,11 +131,8 @@ class Terrain
                     else
                         player.Top += (int)(elevatorYdouble - pb.Top);
                 }
-            }
-            else
-            {
-                if (player.Bounds.IntersectsWith(pb.Bounds) || ((onBlockLeftExclusive || onBlockRightExclusive) && grabbed))
-                {
+            } else {
+                if (player.Bounds.IntersectsWith(pb.Bounds) || ((onBlockLeftExclusive || onBlockRightExclusive) && grabbed)) {
                     player.Left += (int)(elevatorXdouble - pb.Left);
                     player.Top += (int)(elevatorYdouble - pb.Top);
                 }
@@ -154,16 +144,15 @@ class Terrain
                 elevatorPhase = 1;
             }
 
-            if (Math.Abs(elevatorMovementSpeed) < 40 && elevatorAnimIndex % 2 == 0)
-            {
+            if (Math.Abs(elevatorMovementSpeed) < 40 && elevatorAnimIndex % 2 == 0) {
                 elevatorMovementSpeed++;
             }
         }
 
         // Backwards
-        if (elevatorAnimIndex > elevatorAnimDelay && elevatorPhase == 1)
-        {
+        if (elevatorAnimIndex > elevatorAnimDelay + 40 && elevatorPhase == 1) {
             elevatorMovementSpeed = 3;
+            elevatorTexturePhase = 2;
 
             if (!(elevatorMovementSpeed * multiplierX > Math.Abs(fromX - pb.Left) ||
                 elevatorMovementSpeed * multiplierY > Math.Abs(fromY - pb.Top)))    // If it's not close to the target yet
@@ -173,25 +162,19 @@ class Terrain
 
                 CheckCollision(elevatorXdouble, elevatorYdouble, player, playerLeftOffset, playerRightOffset, grabbed, movementSpeed);
 
-                if (player.Bounds.IntersectsWith(pb.Bounds) || (player.Bottom <= pb.Top && player.Bottom > pb.Top - 2) || ((onBlockLeftExclusive || onBlockRightExclusive) && grabbed))
-                {
-                    player.Top += (int)(elevatorYdouble - pb.Top + ((player.Bottom <= pb.Top && player.Bottom > pb.Top - 2) ? pb.Top - player.Bottom + 1 : 0));
+                if (player.Bounds.IntersectsWith(pb.Bounds) || (player.Bottom <= pb.Top && player.Bottom > pb.Top - 2) || ((onBlockLeftExclusive || onBlockRightExclusive) && grabbed)) {
+                    player.Top += (int)(elevatorYdouble - player.Bottom + 1);
 
-                    if (player.Bounds.IntersectsWith(pb.Bounds))
-                    {
-                        player.Left += (int)(elevatorXdouble - pb.Left - (1 / (multiplierX * 11 / 8)));
+                    if (player.Bounds.IntersectsWith(pb.Bounds)) {
+                        player.Left += (int)(elevatorXdouble - pb.Left - (multiplierX > 0.05 ? (1 / (multiplierX * 11 / 8)) : 0));
                     }
 
-                    if (onBlockLeftExclusive || onBlockRightExclusive)
-                    {
+                    if (onBlockLeftExclusive || onBlockRightExclusive) {
                         player.Left += (int)Math.Floor(elevatorXdouble - pb.Left);
                     }
                 }
-            }
-            else
-            {
-                if (player.Bounds.IntersectsWith(pb.Bounds) || ((onBlockLeftExclusive || onBlockRightExclusive) && grabbed))
-                {
+            } else {
+                if (player.Bounds.IntersectsWith(pb.Bounds) || ((onBlockLeftExclusive || onBlockRightExclusive) && grabbed)) {
                     player.Left += (int)(elevatorXdouble - pb.Left);
                     player.Top += (int)(elevatorYdouble - pb.Top);
                 }
@@ -201,6 +184,7 @@ class Terrain
                 elevatorMovementSpeed = 0;
                 elevatorAnimIndex = 0;
                 elevatorPhase = 0;
+                elevatorTexturePhase = 0;
                 moving = false;
             }
         }
@@ -211,30 +195,22 @@ class Terrain
         #region If in block, teleport on block
 
         if (playerLeftOffset + elevatorMovementSpeed < pb.Right && player.Right > pb.Left + player.Width / 2 &&
-            player.Bottom > pb.Top + 1 && player.Top < pb.Bottom)
-        {
+            player.Bottom > pb.Top + 1 && player.Top < pb.Bottom) {
             // Kill player if he is under the block
-            if (pb.Bottom - player.Top < 20)
-            {
+            if (pb.Bottom - player.Top < 20) {
                 playerKill = true;
-            }
-            else
-            {
+            } else {
                 player.Top = (int)Math.Ceiling(elevatorYdouble) - player.Height;
                 resetForce = true;
             }
         }
 
         if (playerRightOffset - elevatorMovementSpeed > pb.Left && player.Left < pb.Right - player.Width / 2 &&
-            player.Bottom > pb.Top + 1 && player.Top < pb.Bottom)
-        {
+            player.Bottom > pb.Top + 1 && player.Top < pb.Bottom) {
             // Kill player if he is under the block
-            if (pb.Bottom - player.Top < 20)
-            {
+            if (pb.Bottom - player.Top < 20) {
                 playerKill = true;
-            }
-            else
-            {
+            } else {
                 player.Top = (int)Math.Ceiling(elevatorYdouble) - player.Height;
                 resetForce = true;
             }
@@ -242,35 +218,43 @@ class Terrain
 
         #endregion
 
+        CheckJumpedOff(player);
+
         elevatorAnimIndex++;
     }
 
-    // Collision when travelling with a player
-    private void CheckCollision(double vytahXdouble, double vytahYdouble, PictureBox player, int playerLeftOffset, int playerRightOffset, bool grabbed, int movementSpeed)
-    {
-        if ((player.Bottom > pb.Top + 2) && (player.Top < vytahYdouble + pb.Height) && !grabbed)
-        {
+    // Collision with player when travelling
+    private void CheckCollision(double vytahXdouble, double vytahYdouble, PictureBox player, int playerLeftOffset, int playerRightOffset, bool grabbed, int movementSpeed) {
+        if ((player.Bottom > pb.Top + 2) && (player.Top < vytahYdouble + pb.Height) && !grabbed) {
             int playerWidthOffset = playerLeftOffset - playerRightOffset;
 
             // Left side of the block
-            if (playerRightOffset > (int)vytahXdouble && player.Left < (int)vytahXdouble)
-            {
+            if (playerRightOffset > (int)vytahXdouble && player.Left < (int)vytahXdouble) {
                 // If the player does not move faster than the elevator
-                if (!(movementSpeed < -elevatorMovementSpeed))
-                {
+                if (!(movementSpeed < -elevatorMovementSpeed)) {
                     player.Left = (int)vytahXdouble - player.Width;
                 }
             }
 
             // Right side of the block
-            if (playerLeftOffset < ((int)vytahXdouble + pb.Width) && player.Right > ((int)vytahXdouble + pb.Width))
-            {
+            if (playerLeftOffset < ((int)vytahXdouble + pb.Width) && player.Right > ((int)vytahXdouble + pb.Width)) {
                 // If the player does not move faster than the elevator
-                if (!(movementSpeed > elevatorMovementSpeed))
-                {
+                if (!(movementSpeed > elevatorMovementSpeed)) {
                     player.Left = ((int)vytahXdouble + pb.Width) + ((player.Width + playerWidthOffset) / 2);
                 }
             }
+        }
+    }
+
+    private void CheckJumpedOff(PictureBox player) {
+        if (player.Bounds.IntersectsWith(pb.Bounds) || (onBlockLeftExclusive || onBlockRightExclusive))
+            rodeOnElevator = true;
+
+        // Player jumps off when in motion
+        if (!(player.Bounds.IntersectsWith(pb.Bounds) || (onBlockLeftExclusive || onBlockRightExclusive)) && moving && rodeOnElevator) {
+            rodeOnElevator = false;
+
+            MainWindow.ElevatorJumpedOff(movementSpeed, multiplierX, multiplierY);
         }
     }
 

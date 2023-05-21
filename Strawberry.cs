@@ -1,10 +1,8 @@
 ﻿using Celeste_WinForms.Properties;
-using System.Diagnostics;
 
 namespace Celeste_WinForms;
 
-internal class Strawberry : IDisposable
-{
+internal class Strawberry : IDisposable {
     public bool tracking = false;
     public System.Windows.Forms.Timer timerCollectingTime;
 
@@ -22,16 +20,14 @@ internal class Strawberry : IDisposable
 
     public PictureBox pb;
 
-    public Strawberry(int posX, int posY, Panel panel)
-    {
-        pb = new PictureBox
-        {
+    public Strawberry(int posX, int posY, Panel panel) {
+        pb = new PictureBox {
             Left = posX,
             Top = posY,
             Width = (int)(60 * strawberryScale),    // Default image resolution * scale
             Height = (int)(78 * strawberryScale),
             BackColor = Color.Transparent,
-            Image = Resources.Strawberry_idle,
+            Image = Resources.strawberry,
             SizeMode = PictureBoxSizeMode.StretchImage
         };
 
@@ -41,8 +37,7 @@ internal class Strawberry : IDisposable
         initialY = posY;
 
         // Idle animation tick
-        timerIdleAnimation = new System.Windows.Forms.Timer
-        {
+        timerIdleAnimation = new System.Windows.Forms.Timer {
             Interval = 150,
             Enabled = true
         };
@@ -53,16 +48,14 @@ internal class Strawberry : IDisposable
         #region Collecting
 
         // Delay between landing and collecting strawberry
-        timerCollectingTime = new System.Windows.Forms.Timer
-        {
+        timerCollectingTime = new System.Windows.Forms.Timer {
             Interval = 300,
             Enabled = false
         };
         timerCollectingTime.Tick += TimerCollect;
 
         // Collecting animation tick
-        timerCollectAnimation = new System.Windows.Forms.Timer
-        {
+        timerCollectAnimation = new System.Windows.Forms.Timer {
             Interval = 80,
             Enabled = false
         };
@@ -74,8 +67,7 @@ internal class Strawberry : IDisposable
         pb.BringToFront();
     }
 
-    public void TrackTarget(PictureBox target)
-    {
+    public void TrackTarget(PictureBox target) {
         bool awayLeft = target.Left - pb.Right > allowedDistance;    // If the strawberry is in the "safezone" from: target's left
         bool awayRight = pb.Left - target.Right > allowedDistance;   // target's right
         bool awayTop = target.Top - pb.Bottom > allowedDistance;     // target's top
@@ -86,8 +78,7 @@ internal class Strawberry : IDisposable
         if (awayLeft)   // Strawberry is on the left
         {
             pb.Left += (Math.Abs(target.Left - allowedDistance) - pb.Right) / movementSpeedRatio;
-        }
-        else if (awayRight)   // Strawberry is on the right
+        } else if (awayRight)   // Strawberry is on the right
         {
             pb.Left += (Math.Abs(target.Right + allowedDistance) - pb.Left) / movementSpeedRatio;
         }
@@ -95,8 +86,7 @@ internal class Strawberry : IDisposable
         if (awayTop)   // Strawberry is up
         {
             pb.Top += (Math.Abs(target.Top + allowedDistance) - pb.Bottom) / movementSpeedRatio;
-        }
-        else if (awayBottom)  // Strawberry is down
+        } else if (awayBottom)  // Strawberry is down
         {
             pb.Top += (Math.Abs(target.Bottom - allowedDistance) - pb.Top) / movementSpeedRatio;
         }
@@ -110,8 +100,7 @@ internal class Strawberry : IDisposable
     {
         int moveByDistance = 7;
 
-        switch (idleAnimIndex)
-        {
+        switch (idleAnimIndex) {
             case 0 or 1:
                 pb.Top += moveByDistance;
                 break;
@@ -136,27 +125,22 @@ internal class Strawberry : IDisposable
     public void Collect()   // Collecting animation
     {
         // Start animation
-        if (!timerCollectAnimation.Enabled)
-        {
+        if (!timerCollectAnimation.Enabled) {
             tracking = false;
             timerCollectingTime.Enabled = false;
             timerCollectAnimation.Enabled = true;
         }
 
         // Flattening
-        if (pb.Height > 0)
-        {
+        if (pb.Height > 0) {
             pb.Height -= 20;
             pb.Top += 10;
-        }
-        else
-        {
+        } else {
             Dispose();
         }
     }
 
-    public void Dispose()
-    {
+    public void Dispose() {
         timerIdleAnimation.Tick -= IdleAnimate;
         timerIdleAnimation.Dispose();
 
@@ -166,28 +150,25 @@ internal class Strawberry : IDisposable
         timerCollectingTime.Tick -= TimerCollect;
         timerCollectingTime.Dispose();
 
-        pb.Parent.Controls.Remove(pb);
+        pb.Parent?.Controls.Remove(pb);
         pb.Dispose();
     }
 
     #region Event handlers for timers
 
     // Event handler for timerIdleAnimation.Tick
-    private void IdleAnimate(object sender, EventArgs e)
-    {
+    private void IdleAnimate(object sender, EventArgs e) {
         IdleAnimation();
     }
 
     // Event handler for timerCollectingTime.Tick
-    private void TimerCollect(object sender, EventArgs e)
-    {
+    private void TimerCollect(object sender, EventArgs e) {
         timerCollectingTime.Enabled = false;
         Collect();
     }
 
     // Event handler for timerCollectAnimation.Tick
-    private void CollectAnimate(object sender, EventArgs e)
-    {
+    private void CollectAnimate(object sender, EventArgs e) {
         Collect();
     }
 

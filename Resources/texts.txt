@@ -32,3 +32,4 @@ Shift	Shift
 Esc	Esc
 \\ Pause
 PAUZA	PAUSED
+Pro pokraèování stisknìte jakékoli tlaèítko	Press any button to continue
