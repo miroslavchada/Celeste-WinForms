@@ -449,9 +449,239 @@ namespace Celeste_WinForms.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap mario_ {
+        internal static System.Drawing.Bitmap player_climb_dl {
             get {
-                object obj = ResourceManager.GetObject("mario_", resourceCulture);
+                object obj = ResourceManager.GetObject("player_climb_dl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_climb_dr {
+            get {
+                object obj = ResourceManager.GetObject("player_climb_dr", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_climb_nl {
+            get {
+                object obj = ResourceManager.GetObject("player_climb_nl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_climb_nr {
+            get {
+                object obj = ResourceManager.GetObject("player_climb_nr", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_dangling_dl {
+            get {
+                object obj = ResourceManager.GetObject("player_dangling_dl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_dangling_dr {
+            get {
+                object obj = ResourceManager.GetObject("player_dangling_dr", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_dangling_nl {
+            get {
+                object obj = ResourceManager.GetObject("player_dangling_nl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_dangling_nr {
+            get {
+                object obj = ResourceManager.GetObject("player_dangling_nr", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_dash_dl {
+            get {
+                object obj = ResourceManager.GetObject("player_dash_dl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_dash_dr {
+            get {
+                object obj = ResourceManager.GetObject("player_dash_dr", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_fall_dl {
+            get {
+                object obj = ResourceManager.GetObject("player_fall_dl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_fall_dr {
+            get {
+                object obj = ResourceManager.GetObject("player_fall_dr", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_fall_nl {
+            get {
+                object obj = ResourceManager.GetObject("player_fall_nl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_fall_nr {
+            get {
+                object obj = ResourceManager.GetObject("player_fall_nr", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_idle_dl {
+            get {
+                object obj = ResourceManager.GetObject("player_idle_dl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_idle_dr {
+            get {
+                object obj = ResourceManager.GetObject("player_idle_dr", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_idle_nl {
+            get {
+                object obj = ResourceManager.GetObject("player_idle_nl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_idle_nr {
+            get {
+                object obj = ResourceManager.GetObject("player_idle_nr", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_jump_nl {
+            get {
+                object obj = ResourceManager.GetObject("player_jump_nl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_jump_nr {
+            get {
+                object obj = ResourceManager.GetObject("player_jump_nr", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_walk_dl {
+            get {
+                object obj = ResourceManager.GetObject("player_walk_dl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_walk_dr {
+            get {
+                object obj = ResourceManager.GetObject("player_walk_dr", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_walk_nl {
+            get {
+                object obj = ResourceManager.GetObject("player_walk_nl", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap player_walk_nr {
+            get {
+                object obj = ResourceManager.GetObject("player_walk_nr", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -506,6 +736,24 @@ namespace Celeste_WinForms.Properties {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný A / D;A / D.
+        /// </summary>
+        internal static string strAD {
+            get {
+                return ResourceManager.GetString("strAD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Alt;Alt.
+        /// </summary>
+        internal static string strAlt {
+            get {
+                return ResourceManager.GetString("strAlt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap strawberry {
@@ -534,30 +782,227 @@ namespace Celeste_WinForms.Properties {
         }
         
         /// <summary>
-        ///   Vyhledá lokalizovaný řetězec podobný Čeština	English
-        ///\\ Buttons
-        ///HRÁT	PLAY
-        ///NASTAVENÍ	SETTINGS
-        ///ZAVŘÍT	CLOSE
-        ///ZPĚT	BACK
-        ///POKRAČOVAT	CONTINUE
-        ///RESET OBRAZOVKY	SCREEN RESET
-        ///OVLÁDÁNÍ	CONTROLS
-        ///HLAVNÍ NABÍDKA	MAIN MENU
-        ///\\ Main menu
-        ///Hra vznikla v rámci ročníkové práce ve druhém ročníku na Střední průmyslové škole Ostrov	This game was created as an second-year subject-specific project at the Secondary Technical School Ostrov
-        ///\\ Settings
-        ///NASTAVENÍ	SETTINGS
-        ///Hlasitost	Volume
-        ///Jazyk	Language
-        ///Zvuky	Sound
-        ///Zvětšení textu	Text size
-        ///\\ Contols
-        ///OVL [zbytek řetězce byl zkrácen];.
+        ///   Vyhledá lokalizovaný řetězec podobný Zpět;Back.
         /// </summary>
-        internal static string texts {
+        internal static string strBack {
             get {
-                return ResourceManager.GetString("texts", resourceCulture);
+                return ResourceManager.GetString("strBack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Zavřít;Close.
+        /// </summary>
+        internal static string strClose {
+            get {
+                return ResourceManager.GetString("strClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Pokračovat;Continue.
+        /// </summary>
+        internal static string strContinue {
+            get {
+                return ResourceManager.GetString("strContinue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Ovládání;Controls.
+        /// </summary>
+        internal static string strControls {
+            get {
+                return ResourceManager.GetString("strControls", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Dash;Dash.
+        /// </summary>
+        internal static string strDash {
+            get {
+                return ResourceManager.GetString("strDash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Pro pokračování stiskněte jakékoli tlačítko;Press any button to continue.
+        /// </summary>
+        internal static string strEndContinue {
+            get {
+                return ResourceManager.GetString("strEndContinue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Esc;Esc.
+        /// </summary>
+        internal static string strEsc {
+            get {
+                return ResourceManager.GetString("strEsc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Držení;Grab.
+        /// </summary>
+        internal static string strGrab {
+            get {
+                return ResourceManager.GetString("strGrab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Skok;Jump.
+        /// </summary>
+        internal static string strJump {
+            get {
+                return ResourceManager.GetString("strJump", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Jazyk;Language.
+        /// </summary>
+        internal static string strLanguage {
+            get {
+                return ResourceManager.GetString("strLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Doleva / Doprava;Left / Right.
+        /// </summary>
+        internal static string strLeftRight {
+            get {
+                return ResourceManager.GetString("strLeftRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Hlavní nabídka;Main menu.
+        /// </summary>
+        internal static string strMainMenu {
+            get {
+                return ResourceManager.GetString("strMainMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Pauza;Pause.
+        /// </summary>
+        internal static string strPause {
+            get {
+                return ResourceManager.GetString("strPause", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Pauza;Paused.
+        /// </summary>
+        internal static string strPaused {
+            get {
+                return ResourceManager.GetString("strPaused", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Hrát;Play.
+        /// </summary>
+        internal static string strPlay {
+            get {
+                return ResourceManager.GetString("strPlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Hra vznikla v rámci ročníkové práce ve druhém ročníku na Střední průmyslové škole Ostrov;This game was created as an second-year subject-specific project at the Secondary Technical School Ostrov.
+        /// </summary>
+        internal static string strProjectInfo {
+            get {
+                return ResourceManager.GetString("strProjectInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Reset obrazovky;Screen reset.
+        /// </summary>
+        internal static string strScreenReset {
+            get {
+                return ResourceManager.GetString("strScreenReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Nastavení;Settings.
+        /// </summary>
+        internal static string strSettings {
+            get {
+                return ResourceManager.GetString("strSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Shift;Shift.
+        /// </summary>
+        internal static string strShift {
+            get {
+                return ResourceManager.GetString("strShift", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Zvuk;Sound.
+        /// </summary>
+        internal static string strSounds {
+            get {
+                return ResourceManager.GetString("strSounds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Mezerník;Space.
+        /// </summary>
+        internal static string strSpace {
+            get {
+                return ResourceManager.GetString("strSpace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Zvětšení textu;Text size.
+        /// </summary>
+        internal static string strTextSize {
+            get {
+                return ResourceManager.GetString("strTextSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Nahoru / Dolu;Up / Down.
+        /// </summary>
+        internal static string strUpDown {
+            get {
+                return ResourceManager.GetString("strUpDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Hlasitost;Volume.
+        /// </summary>
+        internal static string strVolume {
+            get {
+                return ResourceManager.GetString("strVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný W / S;W / S.
+        /// </summary>
+        internal static string strWS {
+            get {
+                return ResourceManager.GetString("strWS", resourceCulture);
             }
         }
         

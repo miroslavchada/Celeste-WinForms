@@ -182,13 +182,13 @@
     <value>..\Resources\elevator4_yellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="elevator5_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\elevator5_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\..\..\..\..\..\Projekty\Projekt Celeste - WinForms Remake\Textury\Bloky\Elevator\elevator5_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="elevator5_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\elevator5_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\..\..\..\..\..\Projekty\Projekt Celeste - WinForms Remake\Textury\Bloky\Elevator\elevator5_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="elevator5_yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\elevator5_yellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\..\..\..\..\..\Projekty\Projekt Celeste - WinForms Remake\Textury\Bloky\Elevator\elevator5_yellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="grab_ice_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\grab_ice_01.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -238,8 +238,77 @@
   <data name="land_ice_05" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\land_ice_05.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="mario_" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mario_.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="player_climb_dl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_climb_dl.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_climb_dr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_climb_dr.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_climb_nl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_climb_nl.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_climb_nr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_climb_nr.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_dangling_dl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_dangling_dl.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_dangling_dr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_dangling_dr.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_dangling_nl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_dangling_nl.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_dangling_nr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_dangling_nr.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_dash_dl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_dash_dl.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_dash_dr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_dash_dr.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_fall_dl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_fall_dl.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_fall_dr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_fall_dr.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_fall_nl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_fall_nl.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_fall_nr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_fall_nr.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_idle_dl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_idle_dl.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_idle_dr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_idle_dr.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_idle_nl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_idle_nl.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_idle_nr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_idle_nr.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_jump_nl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_jump_nl.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_jump_nr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_jump_nr.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_walk_dl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_walk_dl.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_walk_dr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_walk_dr.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_walk_nl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_walk_nl.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="player_walk_nr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_walk_nr.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="spike_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\spike_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -256,6 +325,12 @@
   <data name="spring" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\spring.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="strAD" xml:space="preserve">
+    <value>A / D;A / D</value>
+  </data>
+  <data name="strAlt" xml:space="preserve">
+    <value>Alt;Alt</value>
+  </data>
   <data name="strawberry" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\strawberry.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -265,8 +340,80 @@
   <data name="strawberry_touch" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\strawberry_touch.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="texts" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\texts.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
+  <data name="strBack" xml:space="preserve">
+    <value>Zpět;Back</value>
+  </data>
+  <data name="strClose" xml:space="preserve">
+    <value>Zavřít;Close</value>
+  </data>
+  <data name="strContinue" xml:space="preserve">
+    <value>Pokračovat;Continue</value>
+  </data>
+  <data name="strControls" xml:space="preserve">
+    <value>Ovládání;Controls</value>
+  </data>
+  <data name="strDash" xml:space="preserve">
+    <value>Dash;Dash</value>
+  </data>
+  <data name="strEndContinue" xml:space="preserve">
+    <value>Pro pokračování stiskněte jakékoli tlačítko;Press any button to continue</value>
+  </data>
+  <data name="strEsc" xml:space="preserve">
+    <value>Esc;Esc</value>
+  </data>
+  <data name="strGrab" xml:space="preserve">
+    <value>Držení;Grab</value>
+  </data>
+  <data name="strJump" xml:space="preserve">
+    <value>Skok;Jump</value>
+  </data>
+  <data name="strLanguage" xml:space="preserve">
+    <value>Jazyk;Language</value>
+  </data>
+  <data name="strLeftRight" xml:space="preserve">
+    <value>Doleva / Doprava;Left / Right</value>
+  </data>
+  <data name="strMainMenu" xml:space="preserve">
+    <value>Hlavní nabídka;Main menu</value>
+  </data>
+  <data name="strPause" xml:space="preserve">
+    <value>Pauza;Pause</value>
+  </data>
+  <data name="strPaused" xml:space="preserve">
+    <value>Pauza;Paused</value>
+  </data>
+  <data name="strPlay" xml:space="preserve">
+    <value>Hrát;Play</value>
+  </data>
+  <data name="strProjectInfo" xml:space="preserve">
+    <value>Hra vznikla v rámci ročníkové práce ve druhém ročníku na Střední průmyslové škole Ostrov;This game was created as an second-year subject-specific project at the Secondary Technical School Ostrov</value>
+  </data>
+  <data name="strScreenReset" xml:space="preserve">
+    <value>Reset obrazovky;Screen reset</value>
+  </data>
+  <data name="strSettings" xml:space="preserve">
+    <value>Nastavení;Settings</value>
+  </data>
+  <data name="strShift" xml:space="preserve">
+    <value>Shift;Shift</value>
+  </data>
+  <data name="strSounds" xml:space="preserve">
+    <value>Zvuk;Sound</value>
+  </data>
+  <data name="strSpace" xml:space="preserve">
+    <value>Mezerník;Space</value>
+  </data>
+  <data name="strTextSize" xml:space="preserve">
+    <value>Zvětšení textu;Text size</value>
+  </data>
+  <data name="strUpDown" xml:space="preserve">
+    <value>Nahoru / Dolu;Up / Down</value>
+  </data>
+  <data name="strVolume" xml:space="preserve">
+    <value>Hlasitost;Volume</value>
+  </data>
+  <data name="strWS" xml:space="preserve">
+    <value>W / S;W / S</value>
   </data>
   <data name="wow_so_secret" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\wow_so_secret.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

@@ -9,9 +9,6 @@ namespace Celeste_WinForms;
 
 public partial class MainWindow : Form {
     // Global variables
-    /// List of texts
-    List<string> texts = Resources.texts.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
-
     /// Player
     bool inputEnabled = false;
 
@@ -24,7 +21,7 @@ public partial class MainWindow : Form {
     bool grab, grabInput;
     bool grabFirstTimeSupport;  // Pomoc pøi trackování pøichycení
 
-    string facing = "", lastStraightFacing = "Right";
+    string facing = "", lastStraightFacing = "Right", lastStraightFacingBefore;
     bool midAir;
     bool jumpCooldown = false;
     bool grabAfterJumpCooldown = false;
@@ -44,10 +41,15 @@ public partial class MainWindow : Form {
     string lastGrabbedOn = "";
 
     bool dashInput, ctrlReleased = true;
-    bool dashed;
+    bool dashed, dashedBefore;
     bool dashedNonVertical;
 
     int playerLeftOffset, playerRightOffset;
+
+    enum PlayerAnim { Climb, Dangling, Dash, Fall, Idle, Jump, Walk }
+    PlayerAnim playerAnimNow;
+    PlayerAnim playerAnimBefore;
+    PlayerAnim playerAnimQueue;
 
     /// Falling block
     bool rodeOnFallingBlock;
@@ -325,6 +327,10 @@ public partial class MainWindow : Form {
         slide = false;
         grab = false;
 
+        playerAnimBefore = playerAnimNow;
+        dashedBefore = dashed;
+        lastStraightFacingBefore = lastStraightFacing;
+
 
         #region Movement
 
@@ -441,6 +447,7 @@ public partial class MainWindow : Form {
             jump = true;
             force = 15;
             PlaySound("jumped");
+            PlayerAnimationChanged(PlayerAnim.Jump);
 
             if (((onBlockLeft || onBlockRight) && !onBlockDown) ||  // Touching block mid-air
                 slide)  // Sliding on block
@@ -561,6 +568,8 @@ public partial class MainWindow : Form {
             }
 
             PlaySound("dash");
+            timerDashCooldown.Enabled = true;
+            PlayerAnimationChanged(PlayerAnim.Dash);
             dashed = true;
         }
 
@@ -640,7 +649,8 @@ public partial class MainWindow : Form {
                     }
 
                     closeToBlockDown = false;
-                    dashed = false;
+                    if (!timerDashCooldown.Enabled)
+                        dashed = false;
 
                     if (!block.Tag.ToString().Contains("spring")) {
                         if (!touchedGround)
@@ -908,6 +918,37 @@ public partial class MainWindow : Form {
 
         #endregion
 
+        #region Player texture
+
+        if (onBlockDown) {
+            if (Math.Abs(movementSpeed) > 0) {
+                playerAnimNow = PlayerAnim.Walk;
+            } else {
+                playerAnimNow = PlayerAnim.Idle;
+            }
+        }
+
+        if (midAir) {
+            playerAnimNow = PlayerAnim.Fall;
+        }
+
+        if (grabbedOn) {
+            if (Math.Abs(force) > 0) {
+                playerAnimNow = PlayerAnim.Climb;
+            } else {
+                playerAnimNow = PlayerAnim.Dangling;
+            }
+        }
+
+        // If state changed, change texture
+        if (playerAnimBefore != playerAnimNow ||
+            (dashed != dashedBefore && dashed) ||
+            lastStraightFacingBefore != lastStraightFacing) {
+            PlayerAnimationChanged(playerAnimNow);
+        }
+
+        #endregion
+
         // Developer stats [F3]
         lbDeveloperStats.Text =
             $"Cursor: [{cursor.X}; {cursor.Y}]" +
@@ -950,6 +991,112 @@ public partial class MainWindow : Form {
         }
     }
 
+    #region Player textures Update
+
+    // Player textures
+    private void PlayerAnimationChanged(PlayerAnim animation) {
+
+        if (animation == PlayerAnim.Dash) {
+            timerOneTimePlayerAnimation.Enabled = false;
+            timerOneTimePlayerAnimation.Enabled = true;
+
+            if (lastStraightFacing == "Left")
+                player.Image = Resources.player_dash_dl;
+            else if (lastStraightFacing == "Right")
+                player.Image = Resources.player_dash_dr;
+        }
+
+        if (animation == PlayerAnim.Jump) {
+            timerOneTimePlayerAnimation.Enabled = false;
+            timerOneTimePlayerAnimation.Enabled = true;
+
+            if (lastStraightFacing == "Left")
+                player.Image = Resources.player_jump_nl;
+            else if (lastStraightFacing == "Right")
+                player.Image = Resources.player_jump_nr;
+        }
+
+        if (!timerOneTimePlayerAnimation.Enabled) {
+            if (!dashed) {
+                switch (animation) {
+                    case PlayerAnim.Climb:
+                        if (lastGrabbedOn == "Left")
+                            player.Image = Resources.player_climb_nl;
+                        else if (lastGrabbedOn == "Right")
+                            player.Image = Resources.player_climb_nr;
+                        break;
+                    case PlayerAnim.Dangling:
+                        if (lastGrabbedOn == "Left")
+                            player.Image = Resources.player_dangling_nl;
+                        else if (lastGrabbedOn == "Right")
+                            player.Image = Resources.player_dangling_nr;
+                        break;
+                    case PlayerAnim.Fall:
+                        if (lastStraightFacing == "Left")
+                            player.Image = Resources.player_fall_nl;
+                        else if (lastStraightFacing == "Right")
+                            player.Image = Resources.player_fall_nr;
+                        break;
+                    case PlayerAnim.Idle:
+                        if (lastStraightFacing == "Left")
+                            player.Image = Resources.player_idle_nl;
+                        else if (lastStraightFacing == "Right")
+                            player.Image = Resources.player_idle_nr;
+                        break;
+                    case PlayerAnim.Walk:
+                        if (lastStraightFacing == "Left")
+                            player.Image = Resources.player_walk_nl;
+                        else if (lastStraightFacing == "Right")
+                            player.Image = Resources.player_walk_nr;
+                        break;
+                }
+            }
+            else {
+                switch (animation) {
+                    case PlayerAnim.Climb:
+                        if (lastGrabbedOn == "Left")
+                            player.Image = Resources.player_climb_dl;
+                        else if (lastGrabbedOn == "Right")
+                            player.Image = Resources.player_climb_dr;
+                        break;
+                    case PlayerAnim.Dangling:
+                        if (lastGrabbedOn == "Left")
+                            player.Image = Resources.player_dangling_dl;
+                        else if (lastGrabbedOn == "Right")
+                            player.Image = Resources.player_dangling_dr;
+                        break;
+                    case PlayerAnim.Fall:
+                        if (lastStraightFacing == "Left")
+                            player.Image = Resources.player_fall_dl;
+                        else if (lastStraightFacing == "Right")
+                            player.Image = Resources.player_fall_dr;
+                        break;
+                    case PlayerAnim.Idle:
+                        if (lastStraightFacing == "Left")
+                            player.Image = Resources.player_idle_dl;
+                        else if (lastStraightFacing == "Right")
+                            player.Image = Resources.player_idle_dr;
+                        break;
+                    case PlayerAnim.Walk:
+                        if (lastStraightFacing == "Left")
+                            player.Image = Resources.player_walk_dl;
+                        else if (lastStraightFacing == "Right")
+                            player.Image = Resources.player_walk_dr;
+                        break;
+                }
+            }
+        } else {
+            playerAnimQueue = animation;
+        }
+    }
+
+    #endregion Player textures
+
+    private void timerOneTimePlayerAnimation_Tick(object sender, EventArgs e) {
+        timerOneTimePlayerAnimation.Enabled = false;
+        PlayerAnimationChanged(playerAnimQueue);
+    }
+
     // Elevator
     public static void ElevatorJumpedOff(int elevatorMovementSpeed, double multiplierX, double multiplierY) {
         movementSpeed += (int)(elevatorMovementSpeed * multiplierX * 2);
@@ -990,6 +1137,10 @@ public partial class MainWindow : Form {
 
             lbEndContinue.Visible = true;
         }
+    }
+
+    private void timerDashCooldown_Tick(object sender, EventArgs e) {
+        timerDashCooldown.Enabled = false;
     }
 
     #region Camera
@@ -2042,6 +2193,8 @@ public partial class MainWindow : Form {
         }
 
         player.BringToFront();
+        lbDeveloperStats.BringToFront();
+
         currentLevel = level;
     }
 
@@ -2141,18 +2294,18 @@ public partial class MainWindow : Form {
 
     private void SettingsUpdate() {
         // Start menu
-        menuMainBtPlay.Text = texts[2].Split('\t')[langIndex];
-        menuMainBtSettings.Text = texts[3].Split('\t')[langIndex];
-        menuMainBtControls.Text = texts[8].Split('\t')[langIndex];
-        menuMainBtClose.Text = texts[4].Split('\t')[langIndex];
-        mainLbInfo.Text = texts[11].Split('\t')[langIndex];
+        menuMainBtPlay.Text = Resources.strPlay.Split(';')[langIndex].ToUpper();
+        menuMainBtSettings.Text = Resources.strSettings.Split(';')[langIndex].ToUpper();
+        menuMainBtControls.Text = Resources.strControls.Split(';')[langIndex].ToUpper();
+        menuMainBtClose.Text = Resources.strClose.Split(';')[langIndex].ToUpper();
+        mainLbInfo.Text = Resources.strProjectInfo.Split(';')[langIndex];
 
         // Settings
-        menuSettingsLbTitle.Text = texts[13].Split('\t')[langIndex];
-        menuSettingsLbL1.Text = texts[14].Split('\t')[langIndex];
+        menuSettingsLbTitle.Text = Resources.strSettings.Split(';')[langIndex].ToUpper();
+        menuSettingsLbL1.Text = Resources.strVolume.Split(';')[langIndex];
 
         /// Language
-        menuSettingsLbL2.Text = texts[15].Split('\t')[langIndex];
+        menuSettingsLbL2.Text = Resources.strLanguage.Split(';')[langIndex];
 
         menuSettingsLbR2Language.Text = languages[langIndex];
 
@@ -2169,7 +2322,7 @@ public partial class MainWindow : Form {
 
 
         /// Sound selection
-        menuSettingsLbL3.Text = texts[16].Split('\t')[langIndex];
+        menuSettingsLbL3.Text = Resources.strSounds.Split(';')[langIndex];
 
         menuSettingsLbR3Input.Text = soundOutputTypeList[soundOutputType].Split('\t')[langIndex];
 
@@ -2203,7 +2356,7 @@ public partial class MainWindow : Form {
 
 
         /// Font scale selection
-        menuSettingsLbL4.Text = texts[17].Split('\t')[langIndex];
+        menuSettingsLbL4.Text = Resources.strTextSize.Split(';')[langIndex];
 
         menuSettingsLbR4FontSize.Text = fontSizeList[textScaleIndex].Split('\t')[langIndex];
 
@@ -2217,34 +2370,34 @@ public partial class MainWindow : Form {
             menuSettingsLbR4ControlR.ForeColor = Color.FromArgb(130, 160, 200);
 
 
-        menuSettingsBtBack.Text = texts[5].Split('\t')[langIndex];
+        menuSettingsBtBack.Text = Resources.strBack.Split(';')[langIndex].ToUpper();
 
         // Controlls
-        menuControlsLbTitle.Text = texts[19].Split('\t')[langIndex];
-        menuControlsLbL1.Text = texts[20].Split('\t')[langIndex];
-        menuControlsLbL2.Text = texts[21].Split('\t')[langIndex];
-        menuControlsLbL3.Text = texts[22].Split('\t')[langIndex];
-        menuControlsLbL4.Text = texts[23].Split('\t')[langIndex];
-        menuControlsLbL5.Text = texts[24].Split('\t')[langIndex];
-        menuControlsLbL6.Text = texts[25].Split('\t')[langIndex];
-        lbKeyboard1.Text = texts[26].Split('\t')[langIndex];
-        lbKeyboard2.Text = texts[27].Split('\t')[langIndex];
-        lbKeyboard3.Text = texts[28].Split('\t')[langIndex];
-        lbKeyboard4.Text = texts[29].Split('\t')[langIndex];
-        lbKeyboard5.Text = texts[30].Split('\t')[langIndex];
-        lbKeyboard6.Text = texts[31].Split('\t')[langIndex];
-        menuControlsBtBack.Text = texts[5].Split('\t')[langIndex];
+        menuControlsLbTitle.Text = Resources.strControls.Split(';')[langIndex].ToUpper();
+        menuControlsLbL1.Text = Resources.strLeftRight.Split(';')[langIndex];
+        menuControlsLbL2.Text = Resources.strUpDown.Split(';')[langIndex];
+        menuControlsLbL3.Text = Resources.strJump.Split(';')[langIndex];
+        menuControlsLbL4.Text = Resources.strDash.Split(';')[langIndex];
+        menuControlsLbL5.Text = Resources.strGrab.Split(';')[langIndex];
+        menuControlsLbL6.Text = Resources.strPause.Split(';')[langIndex];
+        lbKeyboard1.Text = Resources.strAD.Split(';')[langIndex];
+        lbKeyboard2.Text = Resources.strWS.Split(';')[langIndex];
+        lbKeyboard3.Text = Resources.strSpace.Split(';')[langIndex];
+        lbKeyboard4.Text = Resources.strAlt.Split(';')[langIndex];
+        lbKeyboard5.Text = Resources.strShift.Split(';')[langIndex];
+        lbKeyboard6.Text = Resources.strEsc.Split(';')[langIndex];
+        menuControlsBtBack.Text = Resources.strBack.Split(';')[langIndex].ToUpper();
 
         // Escape menu
-        menuEscapeLbTitle.Text = texts[33].Split('\t')[langIndex];
-        menuEscapeBtContinue.Text = texts[6].Split('\t')[langIndex];
-        menuEscapeBtScreenReset.Text = texts[7].Split('\t')[langIndex];
-        menuEscapeBtSettings.Text = texts[3].Split('\t')[langIndex];
-        menuEscapeBtControls.Text = texts[8].Split('\t')[langIndex];
-        menuEscapeBtMainMenu.Text = texts[9].Split('\t')[langIndex];
+        menuEscapeLbTitle.Text = Resources.strPaused.Split(';')[langIndex].ToUpper();
+        menuEscapeBtContinue.Text = Resources.strContinue.Split(';')[langIndex].ToUpper();
+        menuEscapeBtScreenReset.Text = Resources.strScreenReset.Split(';')[langIndex].ToUpper();
+        menuEscapeBtSettings.Text = Resources.strSettings.Split(';')[langIndex].ToUpper();
+        menuEscapeBtControls.Text = Resources.strControls.Split(';')[langIndex].ToUpper();
+        menuEscapeBtMainMenu.Text = Resources.strMainMenu.Split(';')[langIndex].ToUpper();
 
         // End
-        lbEndContinue.Text = texts[34].Split('\t')[langIndex];
+        lbEndContinue.Text = Resources.strEndContinue.Split(';')[langIndex];
     }
 
     private void AdjustFontSize(int index) {

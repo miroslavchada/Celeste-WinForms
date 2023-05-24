@@ -130,6 +130,8 @@
             pictureBox4 = new PictureBox();
             pictureBox5 = new PictureBox();
             timerEndAnim = new System.Windows.Forms.Timer(components);
+            timerOneTimePlayerAnimation = new System.Windows.Forms.Timer(components);
+            timerDashCooldown = new System.Windows.Forms.Timer(components);
             gameScreen.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)player).BeginInit();
             tableLPEndscreen.SuspendLayout();
@@ -209,12 +211,12 @@
             // player
             // 
             player.BackColor = Color.Transparent;
-            player.BackgroundImage = Properties.Resources.mario_;
             player.BackgroundImageLayout = ImageLayout.None;
             player.Location = new Point(9, 788);
             player.Margin = new Padding(0);
             player.Name = "player";
             player.Size = new Size(51, 67);
+            player.SizeMode = PictureBoxSizeMode.StretchImage;
             player.TabIndex = 0;
             player.TabStop = false;
             // 
@@ -1623,6 +1625,16 @@
             timerEndAnim.Interval = 1;
             timerEndAnim.Tick += timerEndAnim_Tick;
             // 
+            // timerOneTimePlayerAnimation
+            // 
+            timerOneTimePlayerAnimation.Interval = 300;
+            timerOneTimePlayerAnimation.Tick += timerOneTimePlayerAnimation_Tick;
+            // 
+            // timerDashCooldown
+            // 
+            timerDashCooldown.Interval = 500;
+            timerDashCooldown.Tick += timerDashCooldown_Tick;
+            // 
             // MainWindow
             // 
             AutoScaleMode = AutoScaleMode.Inherit;
@@ -1825,5 +1837,7 @@
         private Panel bigArtContainer;
         private TableLayoutPanel tableLPEndscreen;
         private Label lbEndContinue;
+        private System.Windows.Forms.Timer timerOneTimePlayerAnimation;
+        private System.Windows.Forms.Timer timerDashCooldown;
     }
 }
