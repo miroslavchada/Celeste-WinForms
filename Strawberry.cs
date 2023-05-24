@@ -92,8 +92,11 @@ internal class Strawberry : IDisposable {
         }
 
         // Turn off idle animation
-        if (timerIdleAnimation.Enabled)
+        if (timerIdleAnimation.Enabled) {
+            MainWindow.soundQueue = MainWindow.SoundTypes.StrawberryTouch;
+
             timerIdleAnimation.Enabled = false;
+        }
     }
 
     public void IdleAnimation() // Animation for staying in place
@@ -126,6 +129,8 @@ internal class Strawberry : IDisposable {
     {
         // Start animation
         if (!timerCollectAnimation.Enabled) {
+            MainWindow.soundQueue = MainWindow.SoundTypes.StrawberryGet;
+
             tracking = false;
             timerCollectingTime.Enabled = false;
             timerCollectAnimation.Enabled = true;

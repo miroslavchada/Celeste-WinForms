@@ -163,6 +163,9 @@
   <data name="dash" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\dash.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="death" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\death.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="elevator3_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\elevator3_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -190,23 +193,23 @@
   <data name="elevator5_yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\..\..\..\..\Projekty\Projekt Celeste - WinForms Remake\Textury\Bloky\Elevator\elevator5_yellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="grab_ice_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\grab_ice_01.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="fallingblock_ice_shake" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fallingblock_ice_shake.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="grab_ice_02" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\grab_ice_02.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="grab_dirt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\grab_dirt.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="grab_ice_03" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\grab_ice_03.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="grab_ice_04" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\grab_ice_04.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="grab_ice_05" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\grab_ice_05.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="grab_ice" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\grab_ice.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="grab_letgo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\grab_letgo.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="grab_metal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\grab_metal.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="grab_wood" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\grab_wood.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="grass_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\grass_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -223,20 +226,17 @@
   <data name="jump_wall" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\jump_wall.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="land_ice_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\land_ice_01.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="land_dirt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\land_dirt.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="land_ice_02" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\land_ice_02.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="land_ice" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\land_ice.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="land_ice_03" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\land_ice_03.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="land_metal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\land_metal.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="land_ice_04" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\land_ice_04.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="land_ice_05" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\land_ice_05.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="land_wood" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\land_wood.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="player_climb_dl" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\player_climb_dl.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -417,5 +417,17 @@
   </data>
   <data name="wow_so_secret" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\wow_so_secret.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="zipmover_impact" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zipmover_impact.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="zipmover_reset" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zipmover_reset.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="zipmover_return" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zipmover_return.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="zipmover_touch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zipmover_touch.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

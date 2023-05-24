@@ -10,21 +10,28 @@ internal class SoundManager {
     private readonly string file;
     private WaveFileReader reader;
     public static bool bannedSound = false;
-    public static bool bannedMusic = false;
+    public static float volume = 0.5f;
 
-    public SoundManager(string _file, bool variants) {
+    public SoundManager(string _file) {
         file = _file;
 
-        reader = new WaveFileReader((Stream)rm.GetObject(file + (variants ? "_01" : "")));
+        reader = new WaveFileReader((Stream)rm.GetObject(file));
         waveOut = new WaveOutEvent();
         waveOut.Init(reader);
     }
 
-    public void PlaySound(int variant, float volume) {
+    public void PlaySound() {
         if (!bannedSound) {
             reader.Position = 0;
             waveOut.Volume = volume;
             waveOut.Play();
+        }
+    }
+
+    public void StopSound() {
+        if (waveOut.PlaybackState == PlaybackState.Playing) {
+            reader.Position = 0;
+            waveOut.Stop();
         }
     }
 }

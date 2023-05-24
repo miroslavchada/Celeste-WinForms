@@ -210,6 +210,15 @@ namespace Celeste_WinForms.Properties {
         }
         
         /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream death {
+            get {
+                return ResourceManager.GetStream("death", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap elevator3_green {
@@ -302,45 +311,27 @@ namespace Celeste_WinForms.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream grab_ice_01 {
+        internal static System.IO.UnmanagedMemoryStream fallingblock_ice_shake {
             get {
-                return ResourceManager.GetStream("grab_ice_01", resourceCulture);
+                return ResourceManager.GetStream("fallingblock_ice_shake", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream grab_ice_02 {
+        internal static System.IO.UnmanagedMemoryStream grab_dirt {
             get {
-                return ResourceManager.GetStream("grab_ice_02", resourceCulture);
+                return ResourceManager.GetStream("grab_dirt", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream grab_ice_03 {
+        internal static System.IO.UnmanagedMemoryStream grab_ice {
             get {
-                return ResourceManager.GetStream("grab_ice_03", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream grab_ice_04 {
-            get {
-                return ResourceManager.GetStream("grab_ice_04", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream grab_ice_05 {
-            get {
-                return ResourceManager.GetStream("grab_ice_05", resourceCulture);
+                return ResourceManager.GetStream("grab_ice", resourceCulture);
             }
         }
         
@@ -350,6 +341,24 @@ namespace Celeste_WinForms.Properties {
         internal static System.IO.UnmanagedMemoryStream grab_letgo {
             get {
                 return ResourceManager.GetStream("grab_letgo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream grab_metal {
+            get {
+                return ResourceManager.GetStream("grab_metal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream grab_wood {
+            get {
+                return ResourceManager.GetStream("grab_wood", resourceCulture);
             }
         }
         
@@ -404,45 +413,36 @@ namespace Celeste_WinForms.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream land_ice_01 {
+        internal static System.IO.UnmanagedMemoryStream land_dirt {
             get {
-                return ResourceManager.GetStream("land_ice_01", resourceCulture);
+                return ResourceManager.GetStream("land_dirt", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream land_ice_02 {
+        internal static System.IO.UnmanagedMemoryStream land_ice {
             get {
-                return ResourceManager.GetStream("land_ice_02", resourceCulture);
+                return ResourceManager.GetStream("land_ice", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream land_ice_03 {
+        internal static System.IO.UnmanagedMemoryStream land_metal {
             get {
-                return ResourceManager.GetStream("land_ice_03", resourceCulture);
+                return ResourceManager.GetStream("land_metal", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream land_ice_04 {
+        internal static System.IO.UnmanagedMemoryStream land_wood {
             get {
-                return ResourceManager.GetStream("land_ice_04", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream land_ice_05 {
-            get {
-                return ResourceManager.GetStream("land_ice_05", resourceCulture);
+                return ResourceManager.GetStream("land_wood", resourceCulture);
             }
         }
         
@@ -1012,6 +1012,42 @@ namespace Celeste_WinForms.Properties {
         internal static System.IO.UnmanagedMemoryStream wow_so_secret {
             get {
                 return ResourceManager.GetStream("wow_so_secret", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream zipmover_impact {
+            get {
+                return ResourceManager.GetStream("zipmover_impact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream zipmover_reset {
+            get {
+                return ResourceManager.GetStream("zipmover_reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream zipmover_return {
+            get {
+                return ResourceManager.GetStream("zipmover_return", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream zipmover_touch {
+            get {
+                return ResourceManager.GetStream("zipmover_touch", resourceCulture);
             }
         }
     }

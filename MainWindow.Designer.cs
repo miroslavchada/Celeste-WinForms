@@ -1015,6 +1015,7 @@
             // 
             // timerDashedNonVertical
             // 
+            timerDashedNonVertical.Interval = 20;
             timerDashedNonVertical.Tick += timerDashedNonVertical_Tick;
             // 
             // menuSettingsContainer
@@ -1632,7 +1633,7 @@
             // 
             // timerDashCooldown
             // 
-            timerDashCooldown.Interval = 500;
+            timerDashCooldown.Interval = 380;
             timerDashCooldown.Tick += timerDashCooldown_Tick;
             // 
             // MainWindow

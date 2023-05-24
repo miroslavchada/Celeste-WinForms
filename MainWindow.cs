@@ -1,7 +1,6 @@
 using Celeste_WinForms.Properties;
 using SharpDX.DirectInput;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
 using XInputDotNetPure;
 using ButtonState = XInputDotNetPure.ButtonState;
 
@@ -69,14 +68,16 @@ public partial class MainWindow : Form {
     // For level6 - end
     Stopwatch swEnd = new Stopwatch(); // Stopwatch for end animation
     bool endScreen = false;
+    bool grabbedOn = false;
 
     static Terrain[] terrainArray;
     static Strawberry[] strawberryArray;
 
     /// Sound
+    public enum SoundTypes { Dash, Death, FallingblockShake, Grab, GrabLetgo, Jump, JumpWall, Land, Spring, StrawberryGet, StrawberryTouch, ZipmoverTouch, ZipmoverImpact, ZipmoverReturn, ZipmoverReset }
+    public static SoundTypes? soundQueue;
     public int soundOutputType = 0;
-    float volume = 0.7f;
-    bool grabbedOn = false;
+    bool grabbedBefore; // If was player grabbed last tick - for playing sound only once
     bool touchedGround = true;
 
     /// Camera
@@ -423,6 +424,7 @@ public partial class MainWindow : Form {
                 // Grab activation
                 if ((grabInput || cTrigger) && (onBlockLeft || onBlockRight)) {
                     grab = true;
+                    soundMaterial = block.pb.Tag.ToString();
                     midAir = false;
 
                     // If grabbed, move 1 pixel up (against bugs)
@@ -446,7 +448,6 @@ public partial class MainWindow : Form {
         if ((jumpInput || (cA || cY)) && !midAir && !jumpCooldown && !grabAfterJumpCooldown) {
             jump = true;
             force = 15;
-            PlaySound("jumped");
             PlayerAnimationChanged(PlayerAnim.Jump);
 
             if (((onBlockLeft || onBlockRight) && !onBlockDown) ||  // Touching block mid-air
@@ -455,7 +456,10 @@ public partial class MainWindow : Form {
                 movementSpeed = onBlockLeft ? movementSpeedMax * 2 : onBlockRight ? -movementSpeedMax * 2 : 0;
 
                 force = 11;
-            }
+
+                PlaySound(SoundTypes.JumpWall);
+            } else if (!grab)
+                PlaySound(SoundTypes.Jump);
 
             // Grabbed on block
             if (grab) {
@@ -471,6 +475,8 @@ public partial class MainWindow : Form {
                 grab = false;
                 grabAfterJumpCooldown = true;
                 timerGrabAfterJumpCooldown.Enabled = true;
+
+                PlaySound(SoundTypes.JumpWall);
             }
 
             jumpCooldown = true;
@@ -567,7 +573,7 @@ public partial class MainWindow : Form {
                     break;
             }
 
-            PlaySound("dash");
+            PlaySound(SoundTypes.Dash);
             timerDashCooldown.Enabled = true;
             PlayerAnimationChanged(PlayerAnim.Dash);
             dashed = true;
@@ -575,7 +581,9 @@ public partial class MainWindow : Form {
 
         // Grab ability
         if (grab && !grabAfterJumpCooldown && Math.Abs(movementSpeed) < movementSpeedMax) {
-            PlaySound("grabOn");
+            if (!grabbedBefore)
+                PlaySound(SoundTypes.Grab);
+            grabbedBefore = true;
 
             force = 0;
             movementSpeedTarget = 0;
@@ -599,7 +607,7 @@ public partial class MainWindow : Form {
 
             player.Top -= force;
         } else  // Gravity
-          {
+            {
             if (closeToBlockDown) {
                 player.Top += closeToBlockDownDist - 1;
                 force = 0;
@@ -612,6 +620,8 @@ public partial class MainWindow : Form {
             if (force > (slide ? -2 : -25) && !dashedNonVertical & !closeToBlockDown) {
                 force -= 1;
             }
+
+            grabbedBefore = false;
         }
 
 
@@ -653,8 +663,10 @@ public partial class MainWindow : Form {
                         dashed = false;
 
                     if (!block.Tag.ToString().Contains("spring")) {
-                        if (!touchedGround)
-                            PlaySound("landed");
+                        if (!touchedGround) {
+                            soundMaterial = block.Tag.ToString();
+                            PlaySound(SoundTypes.Land);
+                        }
                         touchedGround = true;
                     }
                 }
@@ -696,7 +708,8 @@ public partial class MainWindow : Form {
                 jump = true;
                 dashed = false;
 
-                PlaySound("spring");
+                PlaySound(SoundTypes.Spring);
+                PlayerAnimationChanged(playerAnimQueue);
             }
         }
 
@@ -789,6 +802,7 @@ public partial class MainWindow : Form {
 
                 if (elevator.playerKill) {
                     elevator.playerKill = false;
+                    PlaySound(SoundTypes.Death);
                     SpawnLevel(currentLevel);
                 }
             }
@@ -854,11 +868,7 @@ public partial class MainWindow : Form {
             if ((player.Bounds.IntersectsWith(fallingBlock.pb.Bounds) || (fallingBlock.onBlockLeftExclusive || fallingBlock.onBlockRightExclusive)) && !fallingBlock.falling && !fallingBlock.fallen)
                 fallingBlock.falling = true;
 
-            fallingBlock.pb.BackColor = Color.Black;
-
             if (fallingBlock.falling) {
-                fallingBlock.pb.BackColor = Color.White;
-
                 if (player.Bounds.IntersectsWith(fallingBlock.pb.Bounds) || (fallingBlock.onBlockLeftExclusive || fallingBlock.onBlockRightExclusive)) {
                     rodeOnFallingBlock = true;
 
@@ -912,6 +922,7 @@ public partial class MainWindow : Form {
 
         foreach (Terrain spike in terrainArray.Where(spike => spike.pb.Tag.ToString().Contains("spike"))) {
             if (player.Bounds.IntersectsWith(spike.pb.Bounds) || spike.onBlockLeftExclusive || spike.onBlockRightExclusive) {
+                PlaySound(SoundTypes.Death);
                 SpawnLevel(currentLevel);
             }
         }
@@ -932,7 +943,7 @@ public partial class MainWindow : Form {
             playerAnimNow = PlayerAnim.Fall;
         }
 
-        if (grabbedOn) {
+        if (grab) {
             if (Math.Abs(force) > 0) {
                 playerAnimNow = PlayerAnim.Climb;
             } else {
@@ -945,6 +956,15 @@ public partial class MainWindow : Form {
             (dashed != dashedBefore && dashed) ||
             lastStraightFacingBefore != lastStraightFacing) {
             PlayerAnimationChanged(playerAnimNow);
+        }
+
+        #endregion
+
+        #region Sound queue from other classes
+
+        if (soundQueue != null) {
+            PlaySound((SoundTypes)soundQueue);
+            soundQueue = null;
         }
 
         #endregion
@@ -987,6 +1007,7 @@ public partial class MainWindow : Form {
 
         // Reset the game if the player gets off the screen
         if (player.Bottom < gameScreen.Top || player.Left > gameScreen.Right || player.Top > gameScreen.Bottom + gameScreen.Height - 864 || player.Right < gameScreen.Left) {
+            PlaySound(SoundTypes.Death);
             SpawnLevel(currentLevel);
         }
     }
@@ -1050,8 +1071,7 @@ public partial class MainWindow : Form {
                             player.Image = Resources.player_walk_nr;
                         break;
                 }
-            }
-            else {
+            } else {
                 switch (animation) {
                     case PlayerAnim.Climb:
                         if (lastGrabbedOn == "Left")
@@ -1367,7 +1387,7 @@ public partial class MainWindow : Form {
 
             case Keys.ShiftKey:
                 grabInput = false;
-                PlaySound("grabOff");
+                PlaySound(SoundTypes.GrabLetgo);
                 break;
 
             case Keys.NumPad0:
@@ -1392,8 +1412,8 @@ public partial class MainWindow : Form {
     }
 
     private void menuSettingsTrackR1_Scroll(object sender, EventArgs e) {
-        volume = (float)(menuSettingsTrackR1.Value * 0.05);
-        menuSettingsLbVolumeR1.Text = Math.Floor(volume * 100).ToString();
+        SoundManager.volume = (float)(menuSettingsTrackR1.Value * 0.05);
+        menuSettingsLbVolumeR1.Text = Math.Floor(SoundManager.volume * 100).ToString();
 
         ConfigFileUpdate(1, menuSettingsLbVolumeR1.Text);
     }
@@ -2200,7 +2220,7 @@ public partial class MainWindow : Form {
 
     private void DestroyAll(PictureBox pb, Panel panel) {
         pb.Bounds = Rectangle.Empty;
-        panel.Controls.Remove(pb);
+        pb.Parent?.Controls.Remove(pb);
         pb.Dispose();
     }
 
@@ -2208,63 +2228,139 @@ public partial class MainWindow : Form {
 
     #region Sound design
 
-    string lastMaterial = "ice";
+    string soundMaterial = "";
 
-    SoundManager soundJumped = new("jump", false);
-    SoundManager soundLandedIce = new("land_ice", true);
-    public int landVariant = 1;
-    SoundManager soundSpring = new("spring", false);
-    SoundManager soundGrabOnIce = new("grab_ice", true);
-    public int grabOnVariant = 1;
-    SoundManager soundGrabOff = new("grab_letgo", false);
-    SoundManager soundDash = new("dash", false);
+    SoundManager sndDash = new("dash");
 
-    public void PlaySound(string sound) {
+    SoundManager sndDeath = new("death");
+
+    SoundManager sndFallingBlockShake = new("fallingblock_ice_shake");
+
+    SoundManager sndGrabDirt = new("grab_dirt");
+    SoundManager sndGrabIce = new("grab_ice");
+    SoundManager sndGrabMetal = new("grab_metal");
+    SoundManager sndGrabWood = new("grab_wood");
+
+    SoundManager sndGrabLetgo = new("grab_letgo");
+
+    SoundManager sndJump = new("jump");
+
+    SoundManager sndJumpWall = new("jump_wall");
+
+    SoundManager sndLandDirt = new("land_dirt");
+    SoundManager sndLandIce = new("land_ice");
+    SoundManager sndLandMetal = new("land_metal");
+    SoundManager sndLandWood = new("land_wood");
+
+    SoundManager sndSpring = new("spring");
+
+    SoundManager sndStrawberryGet = new("strawberry_red_get_1000");
+    SoundManager sndStrawberryTouch = new("strawberry_touch");
+
+    SoundManager sndZipmoverTouch = new("zipmover_touch");
+    SoundManager sndZipmoverImpact = new("zipmover_impact");
+    SoundManager sndZipmoverReturn = new("zipmover_return");
+    SoundManager sndZipmoverReset = new("zipmover_reset");
+
+    public void PlaySound(SoundTypes sound) {
+        if (soundMaterial.Contains("dirt") || soundMaterial.Contains("stone"))
+            soundMaterial = "dirt";
+        else if (soundMaterial.Contains("ice"))
+            soundMaterial = "ice";
+        else if (soundMaterial.Contains("metal"))
+            soundMaterial = "metal";
+        else if (soundMaterial.Contains("wood"))
+            soundMaterial = "wood";
+        else
+            soundMaterial = "dirt";
+
         switch (sound) {
-            case "jumped":
-                soundJumped.PlaySound(0, volume);
+            case SoundTypes.Dash:
+                sndDash.PlaySound();
                 break;
 
-            case "landed":
-                switch (lastMaterial) {
-                    case "ice":
-                        soundLandedIce.PlaySound(landVariant, volume);
+            case SoundTypes.Death:
+                sndDeath.PlaySound();
+                break;
 
-                        if (landVariant >= 5)
-                            landVariant = 1;
-                        else landVariant++;
+            case SoundTypes.FallingblockShake:
+                sndFallingBlockShake.PlaySound();
+                break;
+
+            case SoundTypes.Grab:
+                switch (soundMaterial) {
+                    case "dirt":
+                        sndGrabDirt.PlaySound();
+                        break;
+                    case "ice":
+                        sndGrabIce.PlaySound();
+                        break;
+                    case "metal":
+                        sndGrabMetal.PlaySound();
+                        break;
+                    case "wood":
+                        sndGrabWood.PlaySound();
                         break;
                 }
                 break;
 
-            case "spring":
-                soundSpring.PlaySound(0, volume);
+            case SoundTypes.GrabLetgo:
+                sndGrabLetgo.PlaySound();
                 break;
 
-            case "grabOn":
-                if (!grabbedOn) {
-                    switch (lastMaterial) {
-                        case "ice":
-                            soundGrabOnIce.PlaySound(grabOnVariant, volume);
+            case SoundTypes.Jump:
+                sndJump.PlaySound();
+                break;
 
-                            if (grabOnVariant >= 5)
-                                grabOnVariant = 1;
-                            else grabOnVariant++;
-                            break;
-                    }
+            case SoundTypes.JumpWall:
+                sndJumpWall.PlaySound();
+                break;
+
+            case SoundTypes.Land:
+                switch (soundMaterial) {
+                    case "dirt":
+                        sndLandDirt.PlaySound();
+                        break;
+                    case "ice":
+                        sndLandIce.PlaySound();
+                        break;
+                    case "metal":
+                        sndLandMetal.PlaySound();
+                        break;
+                    case "wood":
+                        sndLandWood.PlaySound();
+                        break;
                 }
-                grabbedOn = true;
                 break;
 
-            case "grabOff":
-                if (grabbedOn) {
-                    soundGrabOff.PlaySound(0, volume);
-                }
-                grabbedOn = false;
+            case SoundTypes.Spring:
+                sndSpring.PlaySound();
                 break;
 
-            case "dash":
-                soundDash.PlaySound(0, volume);
+            case SoundTypes.StrawberryGet:
+                sndStrawberryGet.PlaySound();
+                break;
+
+            case SoundTypes.StrawberryTouch:
+                sndStrawberryTouch.PlaySound();
+                break;
+
+            case SoundTypes.ZipmoverTouch:
+                sndZipmoverTouch.PlaySound();
+                break;
+
+            case SoundTypes.ZipmoverImpact:
+                sndZipmoverImpact.PlaySound();
+                break;
+
+            case SoundTypes.ZipmoverReturn:
+                sndZipmoverReturn.StopSound();
+                sndZipmoverReturn.PlaySound();
+                break;
+
+            case SoundTypes.ZipmoverReset:
+                sndZipmoverReturn.StopSound();
+                sndZipmoverReset.PlaySound();
                 break;
         }
     }
@@ -2281,8 +2377,7 @@ public partial class MainWindow : Form {
 
     List<string> soundOutputTypeList = new List<string>()
     {
-        "Zvuky i hudba\tSounds and music",
-        "Pouze zvuky\tOnly sounds",
+        "Zapnuto\tOn",
         "Vypnuto\tOff"
     };
 
@@ -2333,22 +2428,13 @@ public partial class MainWindow : Form {
             case 0:
                 menuSettingsLbR3ControlL.ForeColor = Color.FromArgb(130, 160, 200);
                 SoundManager.bannedSound = false;
-                SoundManager.bannedMusic = false;
 
-                ConfigFileUpdate(3, "Music");
+                ConfigFileUpdate(3, "On");
                 break;
 
             case 1:
-                SoundManager.bannedSound = false;
-                SoundManager.bannedMusic = true;
-
-                ConfigFileUpdate(3, "Sound");
-                break;
-
-            case 2:
-                menuSettingsLbR3ControlR.ForeColor = Color.FromArgb(130, 160, 200);
                 SoundManager.bannedSound = true;
-                SoundManager.bannedMusic = true;
+                menuSettingsLbR3ControlR.ForeColor = Color.FromArgb(130, 160, 200);
 
                 ConfigFileUpdate(3, "Off");
                 break;
@@ -2462,9 +2548,9 @@ public partial class MainWindow : Form {
             AdjustFontSize(0);
 
             // Load volume
-            volume = (float)(Convert.ToInt32(config[1]) * 0.01);
-            menuSettingsLbVolumeR1.Text = Math.Floor(volume * 100).ToString();
-            menuSettingsTrackR1.Value = (int)(volume * 20);
+            SoundManager.volume = (float)(Convert.ToInt32(config[1]) * 0.01);
+            menuSettingsLbVolumeR1.Text = Math.Floor(SoundManager.volume * 100).ToString();
+            menuSettingsTrackR1.Value = (int)(SoundManager.volume * 20);
 
             // Load language
             switch (config[2]) {
@@ -2479,16 +2565,12 @@ public partial class MainWindow : Form {
 
             // Load output type
             switch (config[3]) {
-                case "Off":
+                case "On":
                     soundOutputType = 0;
                     break;
 
-                case "Sound":
+                case "Off":
                     soundOutputType = 1;
-                    break;
-
-                case "Music":
-                    soundOutputType = 2;
                     break;
             }
 

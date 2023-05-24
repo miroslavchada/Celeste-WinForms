@@ -1,6 +1,4 @@
-﻿using Celeste_WinForms.Properties;
-
-namespace Celeste_WinForms;
+﻿namespace Celeste_WinForms;
 
 class Terrain {
     public bool resetForce;
@@ -11,6 +9,9 @@ class Terrain {
     public bool fallen;
     public int fallingForce = 0;
     int fallingForceMax = 16;
+
+    bool soundPlayed = false;
+    System.Windows.Forms.Timer tmrSoundDelay;
 
     public bool fallingOnGround;
     public int fallingGroundedPos;    // Y coords of falling block' bottom
@@ -31,8 +32,10 @@ class Terrain {
     double elevatorXdouble;
     double elevatorYdouble;
 
+    bool soundPlayedTouch, soundPlayedReturn;
+
     public int elevatorAnimIndex = 0;
-    int elevatorAnimDelay = 50;
+    int elevatorAnimDelay = 20;
     public int elevatorMovementSpeed = 5;
     int elevatorPhase = 0;
     public int elevatorTexturePhase = 0;    // 0 - red, 1 - green, 2 - yellow
@@ -75,6 +78,11 @@ class Terrain {
         multiplierX = Math.Abs(deltaX / distance);
         multiplierY = Math.Abs(deltaY / distance);
 
+        // For falling block
+        tmrSoundDelay = new System.Windows.Forms.Timer();
+        tmrSoundDelay.Interval = 250;
+        tmrSoundDelay.Tick += fallingBlockSound;
+
         panel.Controls.Add(pb);
         pb.BringToFront();
     }
@@ -82,6 +90,11 @@ class Terrain {
     #region Falling block
 
     public void FallingAnimation(PictureBox player) {
+        if (!soundPlayed) {
+            soundPlayed = true;
+            tmrSoundDelay.Enabled = true;
+        }
+
         // Falling
         if (fallAnimIndex > fallAnimDelay && falling) {
             if (fallingForce < fallingForceMax)
@@ -105,6 +118,13 @@ class Terrain {
         fallAnimIndex++;
     }
 
+    private void fallingBlockSound(object sender, EventArgs e) {
+        MainWindow.soundQueue = MainWindow.SoundTypes.FallingblockShake;
+        tmrSoundDelay.Enabled = false;
+        tmrSoundDelay.Tick -= fallingBlockSound;
+        tmrSoundDelay.Dispose();
+    }
+
     #endregion Falling block
 
     #region Elevator
@@ -118,6 +138,11 @@ class Terrain {
             if (!(elevatorMovementSpeed * multiplierX > Math.Abs(toX - pb.Left) ||
                 elevatorMovementSpeed * multiplierY > Math.Abs(toY - pb.Top)))    // If it's not close to the target yet
             {
+                if (!soundPlayedTouch) {
+                    MainWindow.soundQueue = MainWindow.SoundTypes.ZipmoverTouch;
+                    soundPlayedTouch = true;
+                }
+
                 elevatorXdouble += elevatorMovementSpeed * multiplierX * (pb.Left < toX ? 1 : -1);
                 elevatorYdouble += elevatorMovementSpeed * multiplierY * (pb.Top < toY ? 1 : -1);
 
@@ -142,6 +167,8 @@ class Terrain {
                 elevatorMovementSpeed = 0;
                 elevatorAnimIndex = 0;
                 elevatorPhase = 1;
+
+                MainWindow.soundQueue = MainWindow.SoundTypes.ZipmoverImpact;
             }
 
             if (Math.Abs(elevatorMovementSpeed) < 40 && elevatorAnimIndex % 2 == 0) {
@@ -153,6 +180,11 @@ class Terrain {
         if (elevatorAnimIndex > elevatorAnimDelay + 40 && elevatorPhase == 1) {
             elevatorMovementSpeed = 3;
             elevatorTexturePhase = 2;
+
+            if (!soundPlayedReturn) {
+                MainWindow.soundQueue = MainWindow.SoundTypes.ZipmoverReturn;
+                soundPlayedReturn = true;
+            }
 
             if (!(elevatorMovementSpeed * multiplierX > Math.Abs(fromX - pb.Left) ||
                 elevatorMovementSpeed * multiplierY > Math.Abs(fromY - pb.Top)))    // If it's not close to the target yet
@@ -186,6 +218,10 @@ class Terrain {
                 elevatorPhase = 0;
                 elevatorTexturePhase = 0;
                 moving = false;
+
+                MainWindow.soundQueue = MainWindow.SoundTypes.ZipmoverReset;
+                soundPlayedTouch = false;
+                soundPlayedReturn = false;
             }
         }
 
