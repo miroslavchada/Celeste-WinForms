@@ -1,6 +1,7 @@
 using Celeste_WinForms.Properties;
 using SharpDX.DirectInput;
 using System.Diagnostics;
+using System.Drawing;
 using XInputDotNetPure;
 using ButtonState = XInputDotNetPure.ButtonState;
 
@@ -69,16 +70,25 @@ public partial class MainWindow : Form {
     Stopwatch swEnd = new Stopwatch(); // Stopwatch for end animation
     bool endScreen = false;
     bool grabbedOn = false;
+    // For level 9 - Ben
+    int benClickI = 0;
+    int benAnimI = 0;
+    bool benCanClick = true;
+    int benSoundLast;
 
     static Terrain[] terrainArray;
     static Strawberry[] strawberryArray;
 
     /// Sound
-    public enum SoundTypes { Dash, Death, FallingblockShake, Grab, GrabLetgo, Jump, JumpWall, Land, Spring, StrawberryGet, StrawberryTouch, ZipmoverTouch, ZipmoverImpact, ZipmoverReturn, ZipmoverReset }
+    public enum SoundTypes {
+        Dash, Death, FallingblockShake, Grab, GrabLetgo, Jump, JumpWall, Land, Spring, StrawberryGet, StrawberryTouch, ZipmoverTouch, ZipmoverImpact, ZipmoverReturn, ZipmoverReset,
+        BenBen, BenHaha, BenHm, BenKYS, BenMaybe, BenNo, BenPleading, BenYes
+    }
     public static SoundTypes? soundQueue;
     public int soundOutputType = 0;
     bool grabbedBefore; // If was player grabbed last tick - for playing sound only once
     bool touchedGround = true;
+    int activeElevatorsCount = 0;
 
     /// Camera
     int cameraMovementSpeed, cameraMovementSpeedTarget;
@@ -996,7 +1006,8 @@ public partial class MainWindow : Form {
             $"\r\nDashInput: {dashInput}" +
             $"\r\nDashed: {dashed}" +
             $"\r\nGameScreen.Top: {gameScreen.Top}" +
-            $"\r\nPlayingOn: {playingOn}";
+            $"\r\nPlayingOn: {playingOn}" +
+            $"\r\nActiveElevators: {activeElevatorsCount}";
 
         jumpInput = false;
         dashInput = false;
@@ -1148,14 +1159,13 @@ public partial class MainWindow : Form {
         }
 
         if (ts.TotalMilliseconds >= 7000) {
+            lbEndContinue.Visible = true;
+
             KeyDown += endingMainWindow_KeyDown;
 
             if (clickedController) {
-                clickedController = false;
-                endingMainMenu();
+                Close();
             }
-
-            lbEndContinue.Visible = true;
         }
     }
 
@@ -1397,18 +1407,7 @@ public partial class MainWindow : Form {
     }
 
     private void endingMainWindow_KeyDown(object sender, KeyEventArgs e) {
-        endingMainMenu();
-    }
-
-    private void endingMainMenu() {
-        swEnd.Reset();
-        tableLPEndscreen.Visible = false;
-        timerEndAnim.Enabled = false;
-        timer1.Enabled = true;
-        KeyDown -= endingMainWindow_KeyDown;
-        KeyDown += MainWindow_KeyDown;
-        Escape(playingOn);
-        menuEscapeBtMainMenu.PerformClick();
+        Close();
     }
 
     private void menuSettingsTrackR1_Scroll(object sender, EventArgs e) {
@@ -2090,7 +2089,7 @@ public partial class MainWindow : Form {
         Terrain pictureBox107 = new(-12, 392, 40, 160, 0, 0, "", Color.FromArgb(69, 125, 225), null, gameScreen);
         Terrain pictureBox108 = new(-12, 352, 40, 40, 0, 0, "collision metal", Color.FromArgb(112, 128, 144), null, gameScreen);
         Terrain pictureBox109 = new(28, 352, 80, 40, 0, 0, "", Color.FromArgb(112, 128, 144), null, gameScreen);
-        Terrain pictureBox110 = new(108, 472, 80, 15, 0, 0, "collision wood", Color.FromArgb(161, 96, 67), null, gameScreen);
+        Terrain pictureBox110 = new(108, 472, 80, 15, 0, 0, "collision jump-through wood", Color.FromArgb(161, 96, 67), null, gameScreen);
         Terrain pictureBox111 = new(1548, 72, 1, 320, 0, 0, "level6", Color.FromArgb(21, 23, 45), null, gameScreen);
         Terrain pictureBox112 = new(-12, 192, 1, 160, 0, 0, "level9", Color.FromArgb(21, 23, 45), null, gameScreen);
 
@@ -2184,9 +2183,132 @@ public partial class MainWindow : Form {
         spawnLocation = 2;
     }
 
-    private void Level9() {
+    #region Level9 - Ben secret level
 
+    private void Level9() {
+        gameScreen.Height = 864;
+
+        Terrain pictureBox110 = new(0, 729, 1536, 135, 0, 0, "collision wood", Color.FromArgb(113, 9, 14), null, gameScreen);
+        Terrain pictureBox1 = new(0, 0, 1536, 864, 0, 0, "", Color.FromArgb(173, 255, 47), Resources.ben_background, gameScreen);
+        Terrain pictureBox2 = new(265, 480, 220, 280, 0, 0, "ben", Color.FromArgb(113, 9, 14), Resources.ben_back, gameScreen);
+        pictureBox2.pb.BackgroundImageLayout = ImageLayout.Stretch;
+        pictureBox2.pb.SizeMode = PictureBoxSizeMode.StretchImage;
+        pictureBox2.pb.Click += BenClick;
+        Terrain pictureBox3 = new(559, 649, 240, 147, 0, 0, "", Color.FromArgb(113, 9, 14), Resources.ben_table, gameScreen);
+        Terrain teleport1 = new(1270, 495, 177, 250, 0, 0, "level5", Color.FromArgb(181, 230, 29), Resources.ben_door, gameScreen);
+
+        terrainArray = new Terrain[] { teleport1, pictureBox3, pictureBox2, pictureBox1, pictureBox110 };
+        strawberryArray = new Strawberry[] { };
+
+        player.Left = 1140;
+        player.Top = 659;
+
+        CameraFocus("Bottom");
+
+        benClickI = 0;
+        benAnimI = 0;
+        benCanClick = true;
+        spawnLocation = 1;
     }
+
+    private void BenClick(object sender, EventArgs e) {
+        PictureBox pbBen = sender as PictureBox;
+
+        if (benCanClick) {
+            benCanClick = false;
+
+            if (benClickI == 0) {
+                timerBenAnim.Enabled = true;
+            } else {
+                int benSound;
+                do {
+                    benSound = Random.Shared.Next(0, 8);
+                } while (benSound == benSoundLast);
+
+                switch (benSound) {
+                    case 0:
+                        sndBenBen.PlaySound();
+                        break;
+
+                    case 1:
+                        sndBenHaha.PlaySound();
+                        break;
+
+                    case 2:
+                        sndBenHm.PlaySound();
+                        break;
+
+                    case 3:
+                        sndBenKYS.PlaySound();
+                        break;
+
+                    case 4:
+                        sndBenMaybe.PlaySound();
+                        break;
+
+                    case 5:
+                        sndBenNo.PlaySound();
+                        break;
+
+                    case 6:
+                        sndBenPleading.PlaySound();
+                        break;
+
+                    case 7:
+                        sndBenYes.PlaySound();
+                        break;
+                }
+
+                benSoundLast = benSound;
+
+                pbBen.Image = Resources.ben_talking;
+                timerBenSpeak.Enabled = true;
+            }
+
+            benClickI++;
+        }
+    }
+
+    private void timerBenAnim_Tick(object sender, EventArgs e) {
+        if (currentLevel == 9) {
+            PictureBox pbBen = terrainArray[2].pb;
+
+            switch (benAnimI) {
+                case 0:
+                    pbBen.BackgroundImage = Resources.ben_sideL;
+                    break;
+
+                case 1:
+                    pbBen.BackgroundImage = Resources.ben_front;
+                    break;
+
+                case 2:
+                    sndBenBen.PlaySound();
+                    benSoundLast = 0;
+                    pbBen.Image = Resources.ben_talking;
+                    timerBenSpeak.Enabled = true;
+
+                    timerBenAnim.Enabled = false;
+                    benAnimI = 0;
+                    benCanClick = true;
+                    break;
+            }
+        }
+
+        benAnimI++;
+    }
+
+    private void timerBenSpeak_Tick(object sender, EventArgs e) {
+        if (currentLevel == 9) {
+            PictureBox pbBen = terrainArray[2].pb;
+
+            pbBen.Image = null;
+            benCanClick = true;
+            timerBenSpeak.Enabled = false;
+        }
+    }
+
+    #endregion Level9 - Ben secret level
 
     private void SpawnLevel(int level) {
         // Destroy old level
@@ -2200,6 +2322,8 @@ public partial class MainWindow : Form {
 
         force = 0;
         movementSpeed = 0;
+
+        activeElevatorsCount = 0;
 
         // Spawn new level
         switch (level) {
@@ -2261,6 +2385,15 @@ public partial class MainWindow : Form {
     SoundManager sndZipmoverImpact = new("zipmover_impact");
     SoundManager sndZipmoverReturn = new("zipmover_return");
     SoundManager sndZipmoverReset = new("zipmover_reset");
+
+    SoundManager sndBenBen = new("benBen");
+    SoundManager sndBenHaha = new("benHaha");
+    SoundManager sndBenHm = new("benHm");
+    SoundManager sndBenKYS = new("benKys");
+    SoundManager sndBenMaybe = new("benMaybe");
+    SoundManager sndBenNo = new("benNo");
+    SoundManager sndBenPleading = new("benPleading");
+    SoundManager sndBenYes = new("benYes");
 
     public void PlaySound(SoundTypes sound) {
         if (soundMaterial.Contains("dirt") || soundMaterial.Contains("stone"))
@@ -2347,6 +2480,7 @@ public partial class MainWindow : Form {
 
             case SoundTypes.ZipmoverTouch:
                 sndZipmoverTouch.PlaySound();
+                activeElevatorsCount++;
                 break;
 
             case SoundTypes.ZipmoverImpact:
@@ -2354,13 +2488,15 @@ public partial class MainWindow : Form {
                 break;
 
             case SoundTypes.ZipmoverReturn:
-                sndZipmoverReturn.StopSound();
                 sndZipmoverReturn.PlaySound();
                 break;
 
             case SoundTypes.ZipmoverReset:
-                sndZipmoverReturn.StopSound();
+                if (activeElevatorsCount <= 1) {
+                    sndZipmoverReturn.StopSound();
+                }
                 sndZipmoverReset.PlaySound();
+                activeElevatorsCount--;
                 break;
         }
     }
@@ -2483,11 +2619,12 @@ public partial class MainWindow : Form {
         menuEscapeBtMainMenu.Text = Resources.strMainMenu.Split(';')[langIndex].ToUpper();
 
         // End
+        lbEndWin.Text = Resources.strWin.Split(";")[langIndex];
         lbEndContinue.Text = Resources.strEndContinue.Split(';')[langIndex];
     }
 
     private void AdjustFontSize(int index) {
-        Label[] titles = new Label[] { menuSettingsLbTitle, menuControlsLbTitle, menuEscapeLbTitle };
+        Label[] titles = new Label[] { menuSettingsLbTitle, menuControlsLbTitle, menuEscapeLbTitle, lbEndWin };
         Label[] menuText = new Label[] { menuSettingsLbL1, menuSettingsLbL2, menuSettingsLbL3, menuSettingsLbL4, menuSettingsLbVolumeR1, menuSettingsLbR2ControlL, menuSettingsLbR2Language, menuSettingsLbR2ControlR, menuSettingsLbR3ControlL, menuSettingsLbR3Input, menuSettingsLbR3ControlR, menuSettingsLbR4ControlL, menuSettingsLbR4FontSize, menuSettingsLbR4ControlR, menuControlsLbL1, menuControlsLbL2, menuControlsLbL3, menuControlsLbL4, menuControlsLbL5, menuControlsLbL6, lbKeyboard1, lbKeyboard2, lbKeyboard3, lbKeyboard4, lbKeyboard5, lbKeyboard6 };
         Label[] text = new Label[] { menuMainLbAuthor, lbEndContinue };
         Label[] smallText = new Label[] { mainLbInfo };

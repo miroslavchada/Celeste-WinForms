@@ -121,6 +121,54 @@
   <data name="bellflower" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bellflower.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="benBen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\benBen.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="benHaha" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\benHaha.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="benHm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\benHm.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="benKys" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\benKys.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="benMaybe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\benMaybe.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="benNo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\benNo.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="benPleading" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\benPleading.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="benYes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\benYes.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ben_back" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ben_back.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ben_background" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ben_background.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ben_door" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ben_door.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ben_front" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ben_front.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ben_sideL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ben_sideL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ben_sideR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ben_sideR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ben_table" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ben_table.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ben_talking" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ben_talking.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="CelesteLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CelesteLogo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -356,7 +404,7 @@
     <value>Dash;Dash</value>
   </data>
   <data name="strEndContinue" xml:space="preserve">
-    <value>Pro pokračování stiskněte jakékoli tlačítko;Press any button to continue</value>
+    <value>Pro ukončení stiskněte jakékoli tlačítko;Press any button to close</value>
   </data>
   <data name="strEsc" xml:space="preserve">
     <value>Esc;Esc</value>
@@ -411,6 +459,9 @@
   </data>
   <data name="strVolume" xml:space="preserve">
     <value>Hlasitost;Volume</value>
+  </data>
+  <data name="strWin" xml:space="preserve">
+    <value>Vyhrál jsi!;You win!</value>
   </data>
   <data name="strWS" xml:space="preserve">
     <value>W / S;W / S</value>

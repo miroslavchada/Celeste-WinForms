@@ -29,6 +29,7 @@
             lbDeveloperStats = new Label();
             player = new PictureBox();
             tableLPEndscreen = new TableLayoutPanel();
+            lbEndWin = new Label();
             lbEndContinue = new Label();
             menuMainContainer = new Panel();
             menuMainTableLP = new TableLayoutPanel();
@@ -132,6 +133,8 @@
             timerEndAnim = new System.Windows.Forms.Timer(components);
             timerOneTimePlayerAnimation = new System.Windows.Forms.Timer(components);
             timerDashCooldown = new System.Windows.Forms.Timer(components);
+            timerBenAnim = new System.Windows.Forms.Timer(components);
+            timerBenSpeak = new System.Windows.Forms.Timer(components);
             gameScreen.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)player).BeginInit();
             tableLPEndscreen.SuspendLayout();
@@ -186,7 +189,7 @@
             gameScreen.Controls.Add(player);
             gameScreen.Controls.Add(tableLPEndscreen);
             gameScreen.Enabled = false;
-            gameScreen.Location = new Point(0, 900);
+            gameScreen.Location = new Point(0, 0);
             gameScreen.Margin = new Padding(2);
             gameScreen.Name = "gameScreen";
             gameScreen.Size = new Size(1536, 864);
@@ -228,6 +231,7 @@
             tableLPEndscreen.ColumnCount = 1;
             tableLPEndscreen.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLPEndscreen.Controls.Add(lbEndContinue, 0, 1);
+            tableLPEndscreen.Controls.Add(lbEndWin, 0, 0);
             tableLPEndscreen.Location = new Point(0, 0);
             tableLPEndscreen.Name = "tableLPEndscreen";
             tableLPEndscreen.RowCount = 2;
@@ -236,6 +240,20 @@
             tableLPEndscreen.Size = new Size(1536, 864);
             tableLPEndscreen.TabIndex = 1;
             tableLPEndscreen.Visible = false;
+            // 
+            // lbEndWin
+            // 
+            lbEndWin.Anchor = AnchorStyles.Top;
+            lbEndWin.AutoSize = true;
+            lbEndWin.BackColor = Color.Transparent;
+            lbEndWin.Font = new Font("Segoe UI", 28F, FontStyle.Bold, GraphicsUnit.Point);
+            lbEndWin.ForeColor = Color.White;
+            lbEndWin.Location = new Point(622, 140);
+            lbEndWin.Margin = new Padding(3, 140, 3, 0);
+            lbEndWin.Name = "lbEndWin";
+            lbEndWin.Size = new Size(291, 74);
+            lbEndWin.TabIndex = 1;
+            lbEndWin.Text = "Vyhrál jsi!";
             // 
             // lbEndContinue
             // 
@@ -1636,6 +1654,16 @@
             timerDashCooldown.Interval = 380;
             timerDashCooldown.Tick += timerDashCooldown_Tick;
             // 
+            // timerBenAnim
+            // 
+            timerBenAnim.Interval = 300;
+            timerBenAnim.Tick += timerBenAnim_Tick;
+            // 
+            // timerBenSpeak
+            // 
+            timerBenSpeak.Interval = 500;
+            timerBenSpeak.Tick += timerBenSpeak_Tick;
+            // 
             // MainWindow
             // 
             AutoScaleMode = AutoScaleMode.Inherit;
@@ -1840,5 +1868,8 @@
         private Label lbEndContinue;
         private System.Windows.Forms.Timer timerOneTimePlayerAnimation;
         private System.Windows.Forms.Timer timerDashCooldown;
+        private System.Windows.Forms.Timer timerBenAnim;
+        private System.Windows.Forms.Timer timerBenSpeak;
+        private Label lbEndWin;
     }
 }
