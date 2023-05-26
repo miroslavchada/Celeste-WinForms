@@ -8,4 +8,4 @@ I'm glad to have this project behind me and I'm going to look further into Unity
 
 So don't stop and happy coding!
 
-Special thanks to my friend [Simpanzique](https://github.com/Simpanzique) who I worked with in parallel so we were able to be faster in development and also to the team around the original Celeste game, which I was very excited about and decided to remake. Thank you.
+Special thanks to my friend [Simpanzique](https://github.com/Simpanzique), who I worked with in parallel so we were able to be faster in development and also to the team around the original Celeste game, which I was very excited about and decided to remake. Thank you.
