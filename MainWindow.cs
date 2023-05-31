@@ -1,7 +1,6 @@
 using Celeste_WinForms.Properties;
 using SharpDX.DirectInput;
 using System.Diagnostics;
-using System.Drawing;
 using XInputDotNetPure;
 using ButtonState = XInputDotNetPure.ButtonState;
 
@@ -1144,6 +1143,7 @@ public partial class MainWindow : Form {
 
         if (ts.TotalMilliseconds >= 800 && ts.TotalMilliseconds < 1500) {
             KeyDown -= MainWindow_KeyDown;
+            inputEnabled = false;
         }
 
         if (ts.TotalMilliseconds >= 1500 && ts.TotalMilliseconds < 4000) {
