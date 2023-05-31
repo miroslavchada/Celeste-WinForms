@@ -879,6 +879,16 @@ namespace Celeste_WinForms.Properties {
         }
         
         /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SplashArt {
+            get {
+                object obj = ResourceManager.GetObject("SplashArt", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.IO.UnmanagedMemoryStream podobný System.IO.MemoryStream.
         /// </summary>
         internal static System.IO.UnmanagedMemoryStream spring {
@@ -934,6 +944,26 @@ namespace Celeste_WinForms.Properties {
         }
         
         /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Icon podobný (Ikona).
+        /// </summary>
+        internal static System.Drawing.Icon strawberryIcon {
+            get {
+                object obj = ResourceManager.GetObject("strawberryIcon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap strawberryIconTilted {
+            get {
+                object obj = ResourceManager.GetObject("strawberryIconTilted", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Zpět;Back.
         /// </summary>
         internal static string strBack {
@@ -979,7 +1009,7 @@ namespace Celeste_WinForms.Properties {
         }
         
         /// <summary>
-        ///   Vyhledá lokalizovaný řetězec podobný Pro ukončení stiskněte jakékoli tlačítko;Press any button to close.
+        ///   Vyhledá lokalizovaný řetězec podobný Pro ukončení stiskni jakékoli tlačítko;Press any button to close.
         /// </summary>
         internal static string strEndContinue {
             get {

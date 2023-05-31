@@ -259,6 +259,8 @@ class Terrain {
         elevatorAnimIndex++;
     }
 
+    // Kód pokračuje na další straně
+
     // Collision with player when travelling
     private void CheckCollision(double vytahXdouble, double vytahYdouble, PictureBox player, int playerLeftOffset, int playerRightOffset, bool grabbed, int movementSpeed) {
         if ((player.Bottom > pb.Top + 2) && (player.Top < vytahYdouble + pb.Height) && !grabbed) {

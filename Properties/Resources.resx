@@ -233,13 +233,13 @@
     <value>..\Resources\elevator4_yellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="elevator5_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\..\..\..\..\Projekty\Projekt Celeste - WinForms Remake\Textury\Bloky\Elevator\elevator5_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\elevator5_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="elevator5_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\..\..\..\..\Projekty\Projekt Celeste - WinForms Remake\Textury\Bloky\Elevator\elevator5_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\elevator5_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="elevator5_yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\..\..\..\..\Projekty\Projekt Celeste - WinForms Remake\Textury\Bloky\Elevator\elevator5_yellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\elevator5_yellow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="fallingblock_ice_shake" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\fallingblock_ice_shake.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -370,6 +370,9 @@
   <data name="spike_up" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\spike_up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="SplashArt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SplashArt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="spring" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\spring.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -381,6 +384,12 @@
   </data>
   <data name="strawberry" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\strawberry.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="strawberryIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\strawberryIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="strawberryIconTilted" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\strawberryIconTilted.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="strawberry_red_get_1000" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\strawberry_red_get_1000.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -404,7 +413,7 @@
     <value>Dash;Dash</value>
   </data>
   <data name="strEndContinue" xml:space="preserve">
-    <value>Pro ukončení stiskněte jakékoli tlačítko;Press any button to close</value>
+    <value>Pro ukončení stiskni jakékoli tlačítko;Press any button to close</value>
   </data>
   <data name="strEsc" xml:space="preserve">
     <value>Esc;Esc</value>

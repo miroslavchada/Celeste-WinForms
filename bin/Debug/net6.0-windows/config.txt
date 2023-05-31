@@ -1,5 +1,5 @@
 CONFIG - DO NOT EDIT
-40
-English
+70
+Česky
 On
 0

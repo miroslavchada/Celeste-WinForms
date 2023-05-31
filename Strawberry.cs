@@ -2,7 +2,7 @@
 
 namespace Celeste_WinForms;
 
-internal class Strawberry : IDisposable {
+public class Strawberry : IDisposable {
     public bool tracking = false;
     public System.Windows.Forms.Timer timerCollectingTime;
 
@@ -20,7 +20,7 @@ internal class Strawberry : IDisposable {
 
     public PictureBox pb;
 
-    public Strawberry(int posX, int posY, Panel panel) {
+    public Strawberry(int posX, int posY, string tag_, Panel panel) {
         pb = new PictureBox {
             Left = posX,
             Top = posY,
@@ -28,7 +28,8 @@ internal class Strawberry : IDisposable {
             Height = (int)(78 * strawberryScale),
             BackColor = Color.Transparent,
             Image = Resources.strawberry,
-            SizeMode = PictureBoxSizeMode.StretchImage
+            SizeMode = PictureBoxSizeMode.StretchImage,
+            Tag = tag_
         };
 
         #region Idle
@@ -141,6 +142,7 @@ internal class Strawberry : IDisposable {
             pb.Height -= 20;
             pb.Top += 10;
         } else {
+            MainWindow.strawberryCollected.Add(pb.Tag.ToString());
             Dispose();
         }
     }

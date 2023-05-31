@@ -30,7 +30,6 @@ internal class SoundManager {
 
     public void StopSound() {
         if (waveOut.PlaybackState == PlaybackState.Playing) {
-            reader.Position = 0;
             waveOut.Stop();
         }
     }

@@ -31,6 +31,9 @@
             tableLPEndscreen = new TableLayoutPanel();
             lbEndWin = new Label();
             lbEndContinue = new Label();
+            tableLPEndStrawberryCount = new TableLayoutPanel();
+            pictureBox1 = new PictureBox();
+            lbStrawberryCountEnd = new Label();
             menuMainContainer = new Panel();
             menuMainTableLP = new TableLayoutPanel();
             menuMainBtPlay = new Button();
@@ -138,6 +141,8 @@
             gameScreen.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)player).BeginInit();
             tableLPEndscreen.SuspendLayout();
+            tableLPEndStrawberryCount.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuMainContainer.SuspendLayout();
             menuMainTableLP.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbLogo).BeginInit();
@@ -189,7 +194,7 @@
             gameScreen.Controls.Add(player);
             gameScreen.Controls.Add(tableLPEndscreen);
             gameScreen.Enabled = false;
-            gameScreen.Location = new Point(0, 0);
+            gameScreen.Location = new Point(0, 900);
             gameScreen.Margin = new Padding(2);
             gameScreen.Name = "gameScreen";
             gameScreen.Size = new Size(1536, 864);
@@ -226,30 +231,31 @@
             // tableLPEndscreen
             // 
             tableLPEndscreen.BackColor = Color.Black;
-            tableLPEndscreen.BackgroundImage = Properties.Resources.elevator4_green;
+            tableLPEndscreen.BackgroundImage = Properties.Resources.SplashArt;
             tableLPEndscreen.BackgroundImageLayout = ImageLayout.Zoom;
             tableLPEndscreen.ColumnCount = 1;
             tableLPEndscreen.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLPEndscreen.Controls.Add(lbEndContinue, 0, 1);
             tableLPEndscreen.Controls.Add(lbEndWin, 0, 0);
+            tableLPEndscreen.Controls.Add(lbEndContinue, 0, 2);
+            tableLPEndscreen.Controls.Add(tableLPEndStrawberryCount, 0, 1);
             tableLPEndscreen.Location = new Point(0, 0);
             tableLPEndscreen.Name = "tableLPEndscreen";
-            tableLPEndscreen.RowCount = 2;
-            tableLPEndscreen.RowStyles.Add(new RowStyle(SizeType.Percent, 80F));
-            tableLPEndscreen.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            tableLPEndscreen.RowCount = 3;
+            tableLPEndscreen.RowStyles.Add(new RowStyle(SizeType.Percent, 23F));
+            tableLPEndscreen.RowStyles.Add(new RowStyle(SizeType.Percent, 60F));
+            tableLPEndscreen.RowStyles.Add(new RowStyle(SizeType.Percent, 17F));
             tableLPEndscreen.Size = new Size(1536, 864);
             tableLPEndscreen.TabIndex = 1;
             tableLPEndscreen.Visible = false;
             // 
             // lbEndWin
             // 
-            lbEndWin.Anchor = AnchorStyles.Top;
+            lbEndWin.Anchor = AnchorStyles.Bottom;
             lbEndWin.AutoSize = true;
-            lbEndWin.BackColor = Color.Transparent;
+            lbEndWin.BackColor = Color.FromArgb(223, 90, 65);
             lbEndWin.Font = new Font("Segoe UI", 28F, FontStyle.Bold, GraphicsUnit.Point);
-            lbEndWin.ForeColor = Color.White;
-            lbEndWin.Location = new Point(622, 140);
-            lbEndWin.Margin = new Padding(3, 140, 3, 0);
+            lbEndWin.ForeColor = Color.FromArgb(0, 4, 38);
+            lbEndWin.Location = new Point(622, 124);
             lbEndWin.Name = "lbEndWin";
             lbEndWin.Size = new Size(291, 74);
             lbEndWin.TabIndex = 1;
@@ -261,14 +267,56 @@
             lbEndContinue.AutoSize = true;
             lbEndContinue.BackColor = Color.Transparent;
             lbEndContinue.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold, GraphicsUnit.Point);
-            lbEndContinue.ForeColor = Color.White;
-            lbEndContinue.Location = new Point(380, 691);
+            lbEndContinue.ForeColor = Color.FromArgb(235, 246, 251);
+            lbEndContinue.Location = new Point(432, 716);
             lbEndContinue.Margin = new Padding(0);
             lbEndContinue.Name = "lbEndContinue";
-            lbEndContinue.Size = new Size(776, 54);
+            lbEndContinue.Size = new Size(672, 54);
             lbEndContinue.TabIndex = 0;
-            lbEndContinue.Text = "Pro pokračování stiskněte jakékoli tlačítko";
+            lbEndContinue.Text = "Pro ukončení stiskni jakékoli tlačítko";
             lbEndContinue.Visible = false;
+            // 
+            // tableLPEndStrawberryCount
+            // 
+            tableLPEndStrawberryCount.Anchor = AnchorStyles.Top;
+            tableLPEndStrawberryCount.BackColor = Color.Transparent;
+            tableLPEndStrawberryCount.ColumnCount = 2;
+            tableLPEndStrawberryCount.ColumnStyles.Add(new ColumnStyle());
+            tableLPEndStrawberryCount.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLPEndStrawberryCount.Controls.Add(pictureBox1, 0, 0);
+            tableLPEndStrawberryCount.Controls.Add(lbStrawberryCountEnd, 1, 0);
+            tableLPEndStrawberryCount.Location = new Point(704, 210);
+            tableLPEndStrawberryCount.Margin = new Padding(3, 12, 3, 3);
+            tableLPEndStrawberryCount.Name = "tableLPEndStrawberryCount";
+            tableLPEndStrawberryCount.RowCount = 1;
+            tableLPEndStrawberryCount.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLPEndStrawberryCount.Size = new Size(127, 64);
+            tableLPEndStrawberryCount.TabIndex = 2;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Properties.Resources.strawberryIconTilted;
+            pictureBox1.Location = new Point(0, 0);
+            pictureBox1.Margin = new Padding(0);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Padding = new Padding(5);
+            pictureBox1.Size = new Size(58, 64);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            // 
+            // lbStrawberryCountEnd
+            // 
+            lbStrawberryCountEnd.Anchor = AnchorStyles.Right;
+            lbStrawberryCountEnd.AutoSize = true;
+            lbStrawberryCountEnd.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold, GraphicsUnit.Point);
+            lbStrawberryCountEnd.ForeColor = Color.FromArgb(0, 4, 38);
+            lbStrawberryCountEnd.Location = new Point(58, 9);
+            lbStrawberryCountEnd.Margin = new Padding(0);
+            lbStrawberryCountEnd.Name = "lbStrawberryCountEnd";
+            lbStrawberryCountEnd.Size = new Size(69, 45);
+            lbStrawberryCountEnd.TabIndex = 1;
+            lbStrawberryCountEnd.Text = "0/3";
             // 
             // menuMainContainer
             // 
@@ -1692,6 +1740,9 @@
             ((System.ComponentModel.ISupportInitialize)player).EndInit();
             tableLPEndscreen.ResumeLayout(false);
             tableLPEndscreen.PerformLayout();
+            tableLPEndStrawberryCount.ResumeLayout(false);
+            tableLPEndStrawberryCount.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             menuMainContainer.ResumeLayout(false);
             menuMainTableLP.ResumeLayout(false);
             menuMainTableLP.PerformLayout();
@@ -1871,5 +1922,8 @@
         private System.Windows.Forms.Timer timerBenAnim;
         private System.Windows.Forms.Timer timerBenSpeak;
         private Label lbEndWin;
+        private TableLayoutPanel tableLPEndStrawberryCount;
+        private PictureBox pictureBox1;
+        private Label lbStrawberryCountEnd;
     }
 }

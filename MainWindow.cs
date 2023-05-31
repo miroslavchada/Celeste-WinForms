@@ -78,6 +78,7 @@ public partial class MainWindow : Form {
 
     static Terrain[] terrainArray;
     static Strawberry[] strawberryArray;
+    public static List<string> strawberryCollected = new List<string> { };
 
     /// Sound
     public enum SoundTypes {
@@ -227,8 +228,8 @@ public partial class MainWindow : Form {
             if (psControllerConnected) {
                 joystick.Poll();
 
-                var state = joystick.GetCurrentState();
-                var buttons = state.Buttons;
+                JoystickState state = joystick.GetCurrentState();
+                bool[] buttons = state.Buttons;
 
                 if (previousButtonsCleared) {
                     previousButtons = buttons;
@@ -267,7 +268,7 @@ public partial class MainWindow : Form {
 
                 psOptions = buttons[9] && !previousButtons[9];
 
-                #region Input is "xbox" if controller is touched
+                #region Input is "playstation" if controller is touched
 
                 for (int i = 0; i <= 13; i++) {
                     if (buttons[i] != previousButtons[i]) {
@@ -342,6 +343,7 @@ public partial class MainWindow : Form {
         dashedBefore = dashed;
         lastStraightFacingBefore = lastStraightFacing;
 
+        UpdateCamera();
 
         #region Movement
 
@@ -349,8 +351,6 @@ public partial class MainWindow : Form {
             item.onBlockLeftExclusive = false; item.onBlockRightExclusive = false;
             item.onBlockDown = false;
         }
-
-        updateCamera();
 
         // Movement
         /// Inputs
@@ -697,7 +697,7 @@ public partial class MainWindow : Form {
                 }
 
                 // Top collision (bottom of block)
-                if ((player.Top < block.Bottom && player.Bottom > block.Bottom) && !block.Tag.ToString().Contains("jump-through")) /// Zespodu
+                if ((player.Top < block.Bottom && player.Bottom > block.Bottom) && !block.Tag.ToString().Contains("jump-through"))
                 {
                     if (force > 3)
                         force = -3;
@@ -963,7 +963,7 @@ public partial class MainWindow : Form {
 
         // If state changed, change texture
         if (playerAnimBefore != playerAnimNow ||
-            (dashed != dashedBefore && dashed) ||
+            dashed != dashedBefore ||
             lastStraightFacingBefore != lastStraightFacing) {
             PlayerAnimationChanged(playerAnimNow);
         }
@@ -1054,31 +1054,31 @@ public partial class MainWindow : Form {
                     case PlayerAnim.Climb:
                         if (lastGrabbedOn == "Left")
                             player.Image = Resources.player_climb_nl;
-                        else if (lastGrabbedOn == "Right")
+                        else
                             player.Image = Resources.player_climb_nr;
                         break;
                     case PlayerAnim.Dangling:
                         if (lastGrabbedOn == "Left")
                             player.Image = Resources.player_dangling_nl;
-                        else if (lastGrabbedOn == "Right")
+                        else
                             player.Image = Resources.player_dangling_nr;
                         break;
                     case PlayerAnim.Fall:
                         if (lastStraightFacing == "Left")
                             player.Image = Resources.player_fall_nl;
-                        else if (lastStraightFacing == "Right")
+                        else
                             player.Image = Resources.player_fall_nr;
                         break;
                     case PlayerAnim.Idle:
                         if (lastStraightFacing == "Left")
                             player.Image = Resources.player_idle_nl;
-                        else if (lastStraightFacing == "Right")
+                        else
                             player.Image = Resources.player_idle_nr;
                         break;
                     case PlayerAnim.Walk:
                         if (lastStraightFacing == "Left")
                             player.Image = Resources.player_walk_nl;
-                        else if (lastStraightFacing == "Right")
+                        else
                             player.Image = Resources.player_walk_nr;
                         break;
                 }
@@ -1087,31 +1087,31 @@ public partial class MainWindow : Form {
                     case PlayerAnim.Climb:
                         if (lastGrabbedOn == "Left")
                             player.Image = Resources.player_climb_dl;
-                        else if (lastGrabbedOn == "Right")
+                        else
                             player.Image = Resources.player_climb_dr;
                         break;
                     case PlayerAnim.Dangling:
                         if (lastGrabbedOn == "Left")
                             player.Image = Resources.player_dangling_dl;
-                        else if (lastGrabbedOn == "Right")
+                        else
                             player.Image = Resources.player_dangling_dr;
                         break;
                     case PlayerAnim.Fall:
                         if (lastStraightFacing == "Left")
                             player.Image = Resources.player_fall_dl;
-                        else if (lastStraightFacing == "Right")
+                        else
                             player.Image = Resources.player_fall_dr;
                         break;
                     case PlayerAnim.Idle:
                         if (lastStraightFacing == "Left")
                             player.Image = Resources.player_idle_dl;
-                        else if (lastStraightFacing == "Right")
+                        else
                             player.Image = Resources.player_idle_dr;
                         break;
                     case PlayerAnim.Walk:
                         if (lastStraightFacing == "Left")
                             player.Image = Resources.player_walk_dl;
-                        else if (lastStraightFacing == "Right")
+                        else
                             player.Image = Resources.player_walk_dr;
                         break;
                 }
@@ -1142,23 +1142,23 @@ public partial class MainWindow : Form {
 
         TimeSpan ts = swEnd.Elapsed;
 
-        if (ts.TotalMilliseconds >= 1500 && ts.TotalMilliseconds < 2000) {
-            inputEnabled = false;
-        }
-
-        if (ts.TotalMilliseconds >= 2000 && ts.TotalMilliseconds < 5000) {
-            jumpInput = true;
-        }
-
-        if (ts.TotalMilliseconds >= 5000 && ts.TotalMilliseconds < 7000) {
-            timer1.Enabled = false;
-            tableLPEndscreen.Visible = true;
-            lbEndContinue.Visible = false;
-            tableLPEndscreen.BringToFront();
+        if (ts.TotalMilliseconds >= 800 && ts.TotalMilliseconds < 1500) {
             KeyDown -= MainWindow_KeyDown;
         }
 
-        if (ts.TotalMilliseconds >= 7000) {
+        if (ts.TotalMilliseconds >= 1500 && ts.TotalMilliseconds < 4000) {
+            jumpInput = true;
+        }
+
+        if (ts.TotalMilliseconds >= 4000 && ts.TotalMilliseconds < 6000) {
+            timer1.Enabled = false;
+            tableLPEndscreen.Visible = true;
+            lbEndContinue.Visible = false;
+            lbStrawberryCountEnd.Text = $"{strawberryCollected.Count()}/3";
+            tableLPEndscreen.BringToFront();
+        }
+
+        if (ts.TotalMilliseconds >= 6000) {
             lbEndContinue.Visible = true;
 
             KeyDown += endingMainWindow_KeyDown;
@@ -1175,7 +1175,7 @@ public partial class MainWindow : Form {
 
     #region Camera
 
-    private void updateCamera() {
+    private void UpdateCamera() {
         cameraMovementSpeedTarget = (432 - playerCenterY) - gameScreen.Top;
 
         if (gameScreen.Top >= 0 && playerCenterY < 432) {
@@ -1474,8 +1474,11 @@ public partial class MainWindow : Form {
                 break;
 
             case "menuEscapeBtControls":    // Controlls from Escape menu
-                menuEscapeContainer.Enabled = false; menuEscapeContainer.Visible = false;
-                menuControlsContainer.Enabled = true; menuControlsContainer.Visible = true;
+                menuEscapeContainer.Enabled = false;
+                menuEscapeContainer.Visible = false;
+
+                menuControlsContainer.Enabled = true;
+                menuControlsContainer.Visible = true;
 
                 controlsOpenedFrom = "pause";
                 break;
@@ -1490,6 +1493,8 @@ public partial class MainWindow : Form {
                 break;
 
             case "menuEscapeBtMainMenu":    // Start menu from Escape menu
+                strawberryCollected.Clear();
+
                 menuControlsContainer.Enabled = false; menuControlsContainer.Visible = false;
                 menuEscapeContainer.Enabled = false; menuEscapeContainer.Visible = false;
 
@@ -1814,7 +1819,7 @@ public partial class MainWindow : Form {
         Terrain pictureBox80 = new(28, 352, 40, 40, 0, 0, "", Color.FromArgb(84, 94, 99), null, gameScreen);
         Terrain pictureBox81 = new(-12, 672, 40, 40, 0, 0, "", Color.FromArgb(84, 94, 99), null, gameScreen);
         Terrain pictureBox58 = new(1248, 572, 40, 140, 0, 0, "collision ice", Color.FromArgb(90, 149, 255), null, gameScreen);
-        Strawberry strawberry1 = new(479, 219, gameScreen);
+        Strawberry strawberry1 = new(479, 219, "2", gameScreen);
 
         terrainArray = new Terrain[] { pictureBox58, pictureBox81, pictureBox80, pictureBox79, pictureBox78, pictureBox61, pictureBox77, pictureBox76, pictureBox75, pictureBox74, pictureBox73, pictureBox72, pictureBox71, pictureBox70, pictureBox69, pictureBox68, pictureBox67, pictureBox66, pictureBox65, pictureBox64, pictureBox63, pictureBox62, pictureBox60, pictureBox59, pictureBox57, pictureBox56, pictureBox55, pictureBox54, pictureBox53, pictureBox51, pictureBox50, pictureBox49, pictureBox48, pictureBox47, pictureBox90, teleport1, pictureBox46, pictureBox45, pictureBox44, pictureBox43, pictureBox42, pictureBox41, pictureBox40, pictureBox39, pictureBox38, pictureBox37, pictureBox36, pictureBox35, pictureBox34, pictureBox33, pictureBox32, pictureBox31, pictureBox30, pictureBox28, pictureBox27, pictureBox10, pictureBox26, pictureBox25, pictureBox23, pictureBox22, pictureBox18, pictureBox15, pictureBox14, pictureBox13, pictureBox12, pictureBox11, pictureBox9, pictureBox2, pictureBox1, pictureBox8, pictureBox7, pictureBox5, pictureBox4, pictureBox3, pictureBox52, pictureBox29, pictureBox21, pictureBox19, pictureBox20, pictureBox17, pictureBox16, pictureBox6 };
         strawberryArray = new Strawberry[] { strawberry1 };
@@ -1898,7 +1903,7 @@ public partial class MainWindow : Form {
         Terrain pictureBox67 = new(268, 832, 40, 40, 0, 0, "", Color.FromArgb(84, 94, 99), null, gameScreen);
         Terrain pictureBox68 = new(-12, 552, 40, 40, 0, 0, "", Color.FromArgb(84, 94, 99), null, gameScreen);
         Terrain pictureBox69 = new(1268, -8, 160, 1, 0, 0, "level4", Color.FromArgb(21, 23, 45), null, gameScreen);
-        Strawberry strawberry1 = new(1364, 552, gameScreen);
+        Strawberry strawberry1 = new(1364, 552, "3", gameScreen);
 
         terrainArray = new Terrain[] { pictureBox69, pictureBox68, pictureBox67, pictureBox66, pictureBox65, pictureBox64, pictureBox63, pictureBox62, pictureBox61, pictureBox60, pictureBox59, pictureBox57, pictureBox56, pictureBox55, pictureBox54, pictureBox53, pictureBox51, pictureBox50, pictureBox76, pictureBox58, pictureBox49, pictureBox45, pictureBox44, pictureBox43, pictureBox42, pictureBox40, pictureBox39, pictureBox38, pictureBox37, pictureBox8, pictureBox36, pictureBox35, pictureBox33, pictureBox32, pictureBox31, pictureBox30, pictureBox28, pictureBox24, pictureBox23, pictureBox22, pictureBox18, pictureBox27, pictureBox25, pictureBox19, pictureBox17, pictureBox11, pictureBox10, pictureBox9, pictureBox7, pictureBox2, pictureBox48, pictureBox5, pictureBox6, pictureBox47, pictureBox46, pictureBox41, pictureBox34, pictureBox26, pictureBox15, pictureBox14, pictureBox13, pictureBox12, pictureBox1, pictureBox4, pictureBox3, pictureBox52, pictureBox29, pictureBox21, pictureBox20, pictureBox16 };
         strawberryArray = new Strawberry[] { strawberry1 };
@@ -1981,10 +1986,9 @@ public partial class MainWindow : Form {
     private void Level5() {
         gameScreen.Height = 1428;
 
-        Terrain pictureBox113 = new(1085, 867, 100, 1, 0, 0, "collision spikes", Color.FromArgb(21, 23, 45), null, gameScreen);
+        Terrain pictureBox113 = new(1085, 867, 100, 1, 0, 0, "collision spikes", null, null, gameScreen);
         Terrain pictureBox16 = new(548, 272, 40, 280, 0, 0, "collision ice", Color.FromArgb(99, 155, 255), null, gameScreen);
         Terrain pictureBox20 = new(948, 272, 40, 120, 0, 0, "collision ice", Color.FromArgb(110, 162, 255), null, gameScreen);
-        Terrain pictureBox21 = new(708, 472, 40, 120, 0, 0, "collision ice", Color.FromArgb(110, 162, 255), null, gameScreen);
         Terrain pictureBox3 = new(148, 1272, 120, 15, 0, 0, "collision wood", Color.FromArgb(161, 96, 67), null, gameScreen);
         Terrain pictureBox4 = new(68, 1272, 40, 160, 0, 0, "collision stone", Color.FromArgb(155, 173, 183), null, gameScreen);
         Terrain pictureBox1 = new(68, 112, 40, 80, 0, 0, "collision stone", Color.FromArgb(155, 173, 183), null, gameScreen);
@@ -2003,12 +2007,10 @@ public partial class MainWindow : Form {
         Terrain pictureBox49 = new(268, 32, 120, 40, 0, 0, "", Color.FromArgb(79, 135, 235), null, gameScreen);
         Terrain pictureBox47 = new(68, 1272, 80, 40, 0, 0, "", Color.FromArgb(99, 155, 255), null, gameScreen);
         Terrain pictureBox50 = new(-12, 1352, 80, 80, 0, 0, "", Color.FromArgb(40, 43, 46), null, gameScreen);
-        Terrain pictureBox51 = new(808, 472, 100, 40, 0, 0, "collision ice", Color.FromArgb(99, 155, 255), null, gameScreen);
-        Terrain pictureBox53 = new(708, 432, 140, 40, 0, 0, "collision ice", Color.FromArgb(99, 155, 255), null, gameScreen);
         Terrain pictureBox54 = new(428, 152, 40, 40, 0, 0, "collision stone", Color.FromArgb(155, 173, 183), null, gameScreen);
         Terrain pictureBox55 = new(388, 72, 40, 120, 0, 0, "collision stone", Color.FromArgb(142, 161, 171), null, gameScreen);
         Terrain pictureBox56 = new(308, 72, 80, 40, 0, 0, "collision stone", Color.FromArgb(142, 161, 171), null, gameScreen);
-        Terrain pictureBox13 = new(588, 512, 80, 40, 0, 0, "collision ice", Color.FromArgb(99, 155, 255), null, gameScreen);
+        Terrain pictureBox13 = new(588, 512, 80, 40, 0, 0, "collision ice", Color.FromArgb(110, 162, 255), null, gameScreen);
         Terrain pictureBox14 = new(1108, 712, 160, 40, 0, 0, "collision metal", Color.FromArgb(93, 108, 124), null, gameScreen);
         Terrain pictureBox15 = new(108, 32, 40, 120, 0, 0, "collision stone", Color.FromArgb(142, 161, 171), null, gameScreen);
         Terrain pictureBox17 = new(148, 32, 120, 40, 0, 0, "collision ice", Color.FromArgb(90, 149, 255), null, gameScreen);
@@ -2050,14 +2052,11 @@ public partial class MainWindow : Form {
         Terrain pictureBox69 = new(508, 952, 30, 80, 0, 0, "collision spikes", null, Resources.spike_left, gameScreen);
         Terrain pictureBox70 = new(468, 922, 40, 30, 0, 0, "collision spikes", null, Resources.spike_down, gameScreen);
         Terrain pictureBox71 = new(468, 1032, 40, 30, 0, 0, "collision spikes", null, Resources.spike_up, gameScreen);
-        Terrain pictureBox72 = new(737, 392, 80, 40, 0, 0, "", Color.FromArgb(69, 125, 225), null, gameScreen);
-        Terrain pictureBox73 = new(848, 432, 60, 40, 0, 0, "", Color.FromArgb(69, 125, 225), null, gameScreen);
         Terrain pictureBox74 = new(748, 312, 200, 40, 0, 0, "", Color.FromArgb(69, 125, 225), null, gameScreen);
         Terrain pictureBox75 = new(878, 352, 30, 80, 0, 0, "", Color.FromArgb(69, 125, 225), null, gameScreen);
         Terrain pictureBox76 = new(668, 152, 40, 120, 0, 0, "", Color.FromArgb(69, 125, 225), null, gameScreen);
-        Terrain pictureBox77 = new(737, 72, 50, 40, 0, 0, "", Color.FromArgb(69, 125, 225), null, gameScreen);
+        Terrain pictureBox77 = new(738, 72, 50, 40, 0, 0, "", Color.FromArgb(69, 125, 225), null, gameScreen);
         Terrain pictureBox78 = new(828, 32, 80, 40, 0, 0, "", Color.FromArgb(69, 125, 225), null, gameScreen);
-        Terrain pictureBox79 = new(668, 472, 40, 80, 0, 0, "", Color.FromArgb(69, 125, 225), null, gameScreen);
         Terrain pictureBox80 = new(588, 312, 40, 160, 0, 0, "", Color.FromArgb(69, 125, 225), null, gameScreen);
         Terrain pictureBox81 = new(948, -8, 80, 40, 0, 0, "", Color.FromArgb(69, 125, 225), null, gameScreen);
         Terrain pictureBox82 = new(1308, 32, 40, 40, 0, 0, "", Color.FromArgb(69, 125, 225), null, gameScreen);
@@ -2089,12 +2088,19 @@ public partial class MainWindow : Form {
         Terrain pictureBox107 = new(-12, 392, 40, 160, 0, 0, "", Color.FromArgb(69, 125, 225), null, gameScreen);
         Terrain pictureBox108 = new(-12, 352, 40, 40, 0, 0, "collision metal", Color.FromArgb(112, 128, 144), null, gameScreen);
         Terrain pictureBox109 = new(28, 352, 80, 40, 0, 0, "", Color.FromArgb(112, 128, 144), null, gameScreen);
-        Terrain pictureBox110 = new(108, 472, 80, 15, 0, 0, "collision jump-through wood", Color.FromArgb(161, 96, 67), null, gameScreen);
+        Terrain pictureBox110 = new(108, 472, 80, 15, 0, 0, "collision wood", Color.FromArgb(161, 96, 67), null, gameScreen);
         Terrain pictureBox111 = new(1548, 72, 1, 320, 0, 0, "level6", Color.FromArgb(21, 23, 45), null, gameScreen);
         Terrain pictureBox112 = new(-12, 192, 1, 160, 0, 0, "level9", Color.FromArgb(21, 23, 45), null, gameScreen);
+        Terrain pictureBox21 = new(668, 432, 40, 120, 0, 0, "collision ice", Color.FromArgb(99, 155, 255), null, gameScreen);
+        Terrain pictureBox51 = new(707, 432, 80, 40, 0, 0, "collision ice", Color.FromArgb(99, 155, 255), null, gameScreen);
+        Terrain pictureBox53 = new(748, 392, 130, 40, 0, 0, "collision ice", Color.FromArgb(90, 149, 255), null, gameScreen);
+        Terrain pictureBox72 = new(848, 432, 60, 40, 0, 0, "collision ice", Color.FromArgb(90, 149, 255), null, gameScreen);
+        Terrain pictureBox73 = new(688, 392, 60, 40, 0, 0, "", Color.FromArgb(69, 125, 225), null, gameScreen);
+        Terrain pictureBox79 = new(768, 352, 110, 40, 0, 0, "", Color.FromArgb(69, 125, 225), null, gameScreen);
+        Strawberry strawberry1 = new(787, 536, "5", gameScreen);
 
-        terrainArray = new Terrain[] { pictureBox113, pictureBox112, pictureBox111, pictureBox110, pictureBox109, pictureBox108, pictureBox107, pictureBox106, pictureBox105, pictureBox104, pictureBox103, pictureBox102, pictureBox101, pictureBox8, pictureBox100, pictureBox99, pictureBox98, pictureBox97, pictureBox96, pictureBox95, pictureBox94, pictureBox93, pictureBox92, pictureBox91, pictureBox90, pictureBox89, pictureBox88, pictureBox87, pictureBox86, pictureBox85, pictureBox84, pictureBox83, pictureBox82, pictureBox81, pictureBox80, pictureBox79, pictureBox78, pictureBox77, pictureBox76, pictureBox75, pictureBox74, pictureBox73, pictureBox72, pictureBox71, pictureBox70, pictureBox69, pictureBox68, pictureBox67, pictureBox66, pictureBox65, pictureBox64, pictureBox62, pictureBox60, pictureBox59, pictureBox58, pictureBox57, pictureBox52, pictureBox46, pictureBox45, pictureBox44, pictureBox43, pictureBox41, pictureBox40, pictureBox39, pictureBox38, pictureBox34, pictureBox32, pictureBox31, pictureBox30, pictureBox29, pictureBox26, pictureBox25, pictureBox24, pictureBox23, pictureBox22, pictureBox19, pictureBox11, pictureBox10, pictureBox9, pictureBox7, pictureBox18, pictureBox17, pictureBox15, pictureBox14, pictureBox13, pictureBox56, pictureBox55, pictureBox54, pictureBox53, pictureBox51, pictureBox50, pictureBox47, pictureBox49, pictureBox42, pictureBox37, pictureBox36, pictureBox35, pictureBox33, pictureBox28, pictureBox27, pictureBox2, pictureBox48, pictureBox5, pictureBox6, pictureBox12, pictureBox1, pictureBox4, pictureBox3, pictureBox21, pictureBox20, pictureBox16 };
-        strawberryArray = new Strawberry[] { };
+        terrainArray = new Terrain[] { pictureBox79, pictureBox73, pictureBox72, pictureBox53, pictureBox51, pictureBox21, pictureBox113, pictureBox112, pictureBox111, pictureBox110, pictureBox109, pictureBox108, pictureBox107, pictureBox106, pictureBox105, pictureBox104, pictureBox103, pictureBox102, pictureBox101, pictureBox8, pictureBox100, pictureBox99, pictureBox98, pictureBox97, pictureBox96, pictureBox95, pictureBox94, pictureBox93, pictureBox92, pictureBox91, pictureBox90, pictureBox89, pictureBox88, pictureBox87, pictureBox86, pictureBox85, pictureBox84, pictureBox83, pictureBox82, pictureBox81, pictureBox80, pictureBox78, pictureBox77, pictureBox76, pictureBox75, pictureBox74, pictureBox71, pictureBox70, pictureBox69, pictureBox68, pictureBox67, pictureBox66, pictureBox65, pictureBox64, pictureBox62, pictureBox60, pictureBox59, pictureBox58, pictureBox57, pictureBox52, pictureBox46, pictureBox45, pictureBox44, pictureBox43, pictureBox41, pictureBox40, pictureBox39, pictureBox38, pictureBox34, pictureBox32, pictureBox31, pictureBox30, pictureBox29, pictureBox26, pictureBox25, pictureBox24, pictureBox23, pictureBox22, pictureBox19, pictureBox11, pictureBox10, pictureBox9, pictureBox7, pictureBox18, pictureBox17, pictureBox15, pictureBox14, pictureBox13, pictureBox56, pictureBox55, pictureBox54, pictureBox50, pictureBox47, pictureBox49, pictureBox42, pictureBox37, pictureBox36, pictureBox35, pictureBox33, pictureBox28, pictureBox27, pictureBox2, pictureBox48, pictureBox5, pictureBox6, pictureBox12, pictureBox1, pictureBox4, pictureBox3, pictureBox20, pictureBox16 };
+        strawberryArray = new Strawberry[] { strawberry1 };
 
         switch (spawnLocation) {
             case 0:
@@ -2195,7 +2201,7 @@ public partial class MainWindow : Form {
         pictureBox2.pb.SizeMode = PictureBoxSizeMode.StretchImage;
         pictureBox2.pb.Click += BenClick;
         Terrain pictureBox3 = new(559, 649, 240, 147, 0, 0, "", Color.FromArgb(113, 9, 14), Resources.ben_table, gameScreen);
-        Terrain teleport1 = new(1270, 495, 177, 250, 0, 0, "level5", Color.FromArgb(181, 230, 29), Resources.ben_door, gameScreen);
+        Terrain teleport1 = new(1270, 495, 177, 250, 0, 0, "level5 wood", Color.FromArgb(181, 230, 29), Resources.ben_door, gameScreen);
 
         terrainArray = new Terrain[] { teleport1, pictureBox3, pictureBox2, pictureBox1, pictureBox110 };
         strawberryArray = new Strawberry[] { };
@@ -2334,6 +2340,12 @@ public partial class MainWindow : Form {
             case 5: Level5(); break;
             case 6: Level6(); break;
             case 9: Level9(); break;
+        }
+
+        // Check collected strawberries
+        foreach (Strawberry strawberry in strawberryArray) {
+            if (strawberryCollected.Contains(strawberry.pb.Tag.ToString()))
+                strawberry.Dispose();
         }
 
         player.BringToFront();
@@ -2630,6 +2642,7 @@ public partial class MainWindow : Form {
         Label[] smallText = new Label[] { mainLbInfo };
         Button[] buttons = new Button[] { menuMainBtPlay, menuMainBtSettings, menuMainBtControls, menuMainBtClose, menuSettingsBtBack, menuControlsBtBack, menuEscapeBtContinue, menuEscapeBtScreenReset, menuEscapeBtSettings, menuEscapeBtControls, menuEscapeBtMainMenu };
 
+        // Kód navazuje na pøedchozí kód
         foreach (Label item in titles)
             item.Font = new Font("Segoe UI", (index == 0 ? 28 : 36), FontStyle.Bold);
 
