@@ -2667,12 +2667,9 @@ public partial class MainWindow : Form {
         try {
             config = File.ReadAllLines("config.txt");
         } catch (Exception) {
-            DialogResult dialogResult = MessageBox.Show("Nebylo možné uložit zmìny", "Chyba", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
-            if (dialogResult == DialogResult.Retry) {
-                ConfigFileUpdate(record, data);
-            } else {
-                ConfigFileUpdate(0, "load");
-            }
+            string[] defaultConfig = new[] { "AUTOMATIC CONFIG - DO NOT EDIT", "70", "English", "On", "1" };
+            File.WriteAllLines("config.txt", defaultConfig);
+            config = File.ReadAllLines("config.txt");
         }
 
         // 1 - Volume change
@@ -2687,7 +2684,7 @@ public partial class MainWindow : Form {
             try {
                 File.WriteAllLines("config.txt", config);
             } catch (Exception) {
-                DialogResult dialogResult = MessageBox.Show("Nebylo možné uložit zmìny", "Chyba", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                DialogResult dialogResult = MessageBox.Show("Changes couldn't be saved", "Chyba", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                 if (dialogResult == DialogResult.Retry) {
                     ConfigFileUpdate(record, data);
                 } else {

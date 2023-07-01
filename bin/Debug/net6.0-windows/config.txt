@@ -1,5 +1,5 @@
-CONFIG - DO NOT EDIT
+AUTOMATIC CONFIG - DO NOT EDIT
 70
-Česky
+English
 On
-1
+0
