@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Celeste_WinForms", "Celeste_WinForms.csproj", "{766B1E87-816A-47E2-9302-3882A4FC422D}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Celeste_WinForms_Remake", "..\Celeste_WinForms_Remake\Celeste_WinForms_Remake.vdproj", "{979A2723-7566-41B5-AC99-22DCA820DD90}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{766B1E87-816A-47E2-9302-3882A4FC422D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{766B1E87-816A-47E2-9302-3882A4FC422D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{766B1E87-816A-47E2-9302-3882A4FC422D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{979A2723-7566-41B5-AC99-22DCA820DD90}.Debug|Any CPU.ActiveCfg = Release
+		{979A2723-7566-41B5-AC99-22DCA820DD90}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

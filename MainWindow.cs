@@ -2603,7 +2603,6 @@ public partial class MainWindow : Form {
         if (textScaleIndex >= fontSizeList.Count() - 1)
             menuSettingsLbR4ControlR.ForeColor = Color.FromArgb(130, 160, 200);
 
-
         menuSettingsBtBack.Text = Resources.strBack.Split(';')[langIndex].ToUpper();
 
         // Controlls
@@ -2663,13 +2662,12 @@ public partial class MainWindow : Form {
 
     private void ConfigFileUpdate(int record, string data) {
         string[] config = new string[0];
+        string configPath = Path.Combine(Application.StartupPath, "config.txt");
 
         try {
-            config = File.ReadAllLines("config.txt");
+            config = File.ReadAllLines(configPath);
         } catch (Exception) {
-            string[] defaultConfig = new[] { "AUTOMATIC CONFIG - DO NOT EDIT", "70", "English", "On", "1" };
-            File.WriteAllLines("config.txt", defaultConfig);
-            config = File.ReadAllLines("config.txt");
+            config = CreateDefaultConfig(configPath);
         }
 
         // 1 - Volume change
@@ -2677,19 +2675,14 @@ public partial class MainWindow : Form {
         // 3 - Sound type (music & sounds, sounds, off)
         // 4 - Text scale
 
-
-        if (record != 0) {
+        if (record != 0 && data != "load") {
             config[record] = data;
 
             try {
-                File.WriteAllLines("config.txt", config);
+                File.WriteAllLines(configPath, config);
             } catch (Exception) {
-                DialogResult dialogResult = MessageBox.Show("Changes couldn't be saved", "Chyba", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
-                if (dialogResult == DialogResult.Retry) {
-                    ConfigFileUpdate(record, data);
-                } else {
-                    ConfigFileUpdate(0, "load");
-                }
+                config = CreateDefaultConfig(configPath);
+                ConfigFileUpdate(0, "load");
             }
         } else if (data == "load") {
             AdjustFontSize(0);
@@ -2756,6 +2749,12 @@ public partial class MainWindow : Form {
                 tTimerGrabAfterJumpCooldown = false;
                 break;
         }
+    }
+
+    private string[] CreateDefaultConfig(string configPath) {
+        string[] defaultConfig = new[] { "AUTOMATIC CONFIG - DO NOT EDIT", "70", "English", "On", "1" };
+        File.WriteAllLines(configPath, defaultConfig);
+        return File.ReadAllLines(configPath);
     }
 
     #endregion Config
