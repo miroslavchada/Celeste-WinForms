@@ -1,6 +1,6 @@
 # Celeste: Fan-made WinForms Remake
 
-Warning: very terrible code, not recommended to replicate. It serves as a time capsule of my high school years :)
+Disclaimer: very terrible code, not recommended to replicate. It serves as a time capsule of my high school years :)
 
 ### The original readme after the project was completed:
 
