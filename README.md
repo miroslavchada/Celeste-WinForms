@@ -1,6 +1,6 @@
 # Celeste: Fan-made WinForms Remake
 
-Disclaimer: very terrible code, not recommended to replicate. It serves as a time capsule of my high school years :)
+⚠️ Disclaimer: Very terrible code, not recommended to replicate. It serves as a time capsule of my high school years :)
 
 ### The original readme after the project was completed:
 
@@ -11,3 +11,4 @@ I'm leaving the code as opensource, so you can get inspired or solve a problem w
 I'm glad to have this project behind me and I'm going to look further into Unity and game development, it's something that really got me interested.
 
 Special thanks to my friend [Simpanzique](https://github.com/Simpanzique), who I worked with in parallel (on a similar school assignment) so we were able to be faster in development, and also to the team around the original Celeste game, which I was very excited about and decided to remake. Thank you.
+
